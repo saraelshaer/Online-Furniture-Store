@@ -1,6 +1,6 @@
 using FurnitureStore.Data;
-//using FurnitureStore.IRepository;
-//using FurnitureStore.Repository;
+using FurnitureStore.IRepository;
+using FurnitureStore.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -19,8 +19,8 @@ namespace FurnitureStore
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
             var app = builder.Build();
