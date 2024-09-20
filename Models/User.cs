@@ -33,7 +33,7 @@ namespace FurnitureStore.Models
 
         [Required(ErrorMessage = "Email Address is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address (e.g., example@example.com).")]
-        //[Remote(action: "CheckEmail", controller: "Account", ErrorMessage = "Email already exists.")]
+        [Remote(action: "CheckEmail", controller: "Account", ErrorMessage = "Email already exists.")]
         public string Email { get; set; }
 
 

@@ -1,4 +1,5 @@
 ﻿using FurnitureStore.Data;
+using FurnitureStore.IRepository;
 using FurnitureStore.Models;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,13 @@ namespace FurnitureStore.Controllers
 {
     public class AccountController : Controller
     {
-        AppDbContext _context =new AppDbContext();
-        
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AccountController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -25,8 +31,8 @@ namespace FurnitureStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
-                _context.SaveChanges();
+                _unitOfWork.UserRepository.Add(user);
+                _unitOfWork.Save();
                 return Content("Added : )))");
             }
             else
@@ -60,15 +66,16 @@ namespace FurnitureStore.Controllers
             return View();
         }
 
-        //public JsonResult CheckEmail(string email)
-        //{
-        //    var user = _context.Users.SingleOrDefault(u => u.Email == email);
-        //    if (user != null)
-        //    {
-        //        return Json(false);  // Email is already in use
-        //    }
-        //    return Json(true);  // Email is available
-        //}
+        [HttpGet]
+        public JsonResult CheckEmail(string email)
+        {
+            var user = _unitOfWork.UserRepository.Find(u => u.Email == email);
+            if (user != null)
+            {
+                return Json(false);  // Email is already in use
+            }
+            return Json(true);  // Email is available
+        }
 
 
     }
