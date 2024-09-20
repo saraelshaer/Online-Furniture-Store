@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FurnitureStore.Models
@@ -7,43 +8,34 @@ namespace FurnitureStore.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(3)]
-        [MaxLength(15)]
+        [Required(ErrorMessage = "First name is required.")]
+        [MaxLength(15, ErrorMessage = "First name cannot exceed 15 characters.")]
+        [MinLength(3, ErrorMessage = "First name  must be at least 3 characters long.")]
         public string FirstName { get; set; }
 
-        [Required]
-        [MinLength(3)]
-        [MaxLength(15)]
+        [Required(ErrorMessage = "Last name is required.")]
+        [MaxLength(15, ErrorMessage = "Last name cannot exceed 15 characters.")]
+        [MinLength(3, ErrorMessage = "Last name  must be at least 3 characters long.")]
         public string LastName { get; set; }
 
-        [Required]
-        [MinLength(5)]
-        [MaxLength(15)]
-        public string UserName { get; set; }
 
-        [Required]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
-            ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [NotMapped]
-        [Required]
+        [Required(ErrorMessage = "Please confirm your password.")]
         [Compare("Password")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
-            ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
+        [MinLength(8, ErrorMessage = "Confirm password must be at least 8 characters long.")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email Address is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address (e.g., example@example.com).")]
+        //[Remote(action: "CheckEmail", controller: "Account", ErrorMessage = "Email already exists.")]
         public string Email { get; set; }
 
-
-        [StringLength(255, ErrorMessage = "Image file name cannot be longer than 255 characters.")]
-        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
-        public string ImageFileName { get; set; }
 
         [Required]
         [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Invalid phone number format.")]
@@ -51,19 +43,24 @@ namespace FurnitureStore.Models
         [MaxLength(15, ErrorMessage = "Phone number cannot be longer than 15 digits.")]
         public string Phone { get; set; }
 
-        [Required]
+
+        [StringLength(255, ErrorMessage = "Image file name cannot be longer than 255 characters.")]
+        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
+        public string ImageFileName { get; set; }
+
+        
         [MaxLength(15)]
         public string Country { get; set; }
 
-        [Required]
+       
         [MaxLength(15)]
         public string State { get; set; }
 
-        [Required]
+       
         [MaxLength(15)]
         public string City { get; set; }
 
-        [Required]
+       
         [MaxLength(15)]
         public string ZipCode { get; set; }
 

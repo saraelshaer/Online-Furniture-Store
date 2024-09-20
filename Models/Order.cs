@@ -14,7 +14,7 @@ namespace FurnitureStore.Models
         public OrderStatus OrderStatus { get; set; }
 
         [Required]
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
 
         [Required]
         public int TotalAmount { get; set; }

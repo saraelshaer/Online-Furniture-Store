@@ -18,6 +18,7 @@ namespace FurnitureStore.Models
         public bool IsActive { get; set; } = true;
 
 
+
         public virtual ICollection<Product> Products { get; set; }
     }
 }

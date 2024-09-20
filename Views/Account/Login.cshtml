@@ -1,0 +1,49 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign In Page";
+    Layout = "_layout2";
+   
+}
+<div class="login-container">
+    
+    <div class="logo">
+        <h6 style="color:#b32400;">WElECOM BACK</h6>
+        <br />
+        <h5>
+            <i class="fa-regular fa-face-smile-beam fa-bounce fa-2xl" style="color: #b32400;"></i>
+        </h5>
+        <h1>Sign In to Your Account</h1>
+    </div>
+
+
+    <form asp-action="Login" method="post">
+       
+        <div class="mb-3">
+            
+            <input asp-for="Email" class="form-control" placeholder="Email Address">
+            
+        </div>
+        <div class="mb-3">
+          
+            <input asp-for="Password" class="form-control input-group-lg" placeholder="Password">
+        </div>
+        <div class="mb-3 form-check ">
+            <input asp-for="RememberMe" type="checkbox" class="form-check-input btn-outline-dark ">
+            <label class="form-check-label" asp-for="RememberMe">Remember me</label>
+            <a href="#" class="float-end text-color ">Forgot password?</a>
+        </div>
+        <br />
+        <div class="d-grid">
+            <button type="submit" class="btn btn-outline-dark mb-2">SIGN IN</button>
+        </div>
+    </form>
+     
+    <div class="small-text">
+        <p style="color:#52527a;">Don't have an account yet? <a asp-action="Register">Sign Up</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

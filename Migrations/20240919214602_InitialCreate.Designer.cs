@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurnitureStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240917202526_InitialCreate")]
+    [Migration("20240919214602_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace FurnitureStore.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartProduct");
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Category", b =>
@@ -225,6 +225,11 @@ namespace FurnitureStore.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -243,7 +248,7 @@ namespace FurnitureStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Role", b =>
@@ -285,12 +290,10 @@ namespace FurnitureStore.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -327,17 +330,10 @@ namespace FurnitureStore.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("ZipCode")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -358,7 +354,6 @@ namespace FurnitureStore.Migrations
                             Password = "Sara123456??",
                             Phone = "+201235444441",
                             State = "Damietta",
-                            UserName = "saraelshaer",
                             ZipCode = "1234"
                         },
                         new
@@ -373,7 +368,6 @@ namespace FurnitureStore.Migrations
                             Password = "Sara123456??",
                             Phone = "+201235444441",
                             State = "Damietta",
-                            UserName = "saraelazb",
                             ZipCode = "1234"
                         });
                 });

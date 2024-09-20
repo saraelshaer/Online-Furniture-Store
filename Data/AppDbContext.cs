@@ -9,7 +9,14 @@ namespace FurnitureStore.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-
+        public AppDbContext()
+        {
+            
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=RAVE;Initial Catalog=FurnitureStore2;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CartProduct>()
@@ -60,7 +67,6 @@ namespace FurnitureStore.Data
                       LastName = "Elshaer",
                       Email = "elshaer@gmail.com",
                       Password = "Sara123456??",
-                      UserName = "saraelshaer",
                       Phone = "+201235444441",
                       Country = "Egypt",
                       State = "Damietta",
@@ -74,7 +80,6 @@ namespace FurnitureStore.Data
                       LastName = "Elazb",
                       Email = "Elazb@gmail.com",
                       Password = "Sara123456??",
-                      UserName = "saraelazb",
                       Phone = "+201235444441",
                       Country = "Egypt",
                       State = "Damietta",
@@ -109,6 +114,8 @@ namespace FurnitureStore.Data
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Review>Reviews { get; set; }
+        public DbSet<CartProduct> CartProducts { get; set; }
 
 
 

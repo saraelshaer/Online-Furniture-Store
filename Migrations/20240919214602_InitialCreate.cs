@@ -49,15 +49,14 @@ namespace FurnitureStore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageFileName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ZipCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -135,7 +134,7 @@ namespace FurnitureStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Review",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -143,20 +142,21 @@ namespace FurnitureStore.Migrations
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_Products_ProductId",
+                        name: "FK_Reviews_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_Review_Users_UserId",
+                        name: "FK_Reviews_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -164,7 +164,7 @@ namespace FurnitureStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartProduct",
+                name: "CartProducts",
                 columns: table => new
                 {
                     CartId = table.Column<int>(type: "int", nullable: false),
@@ -173,19 +173,19 @@ namespace FurnitureStore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartProduct", x => new { x.ProductId, x.CartId });
+                    table.PrimaryKey("PK_CartProducts", x => new { x.ProductId, x.CartId });
                     table.ForeignKey(
-                        name: "FK_CartProduct_Carts_CartId",
+                        name: "FK_CartProducts_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_CartProduct_Products_ProductId",
+                        name: "FK_CartProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,16 +282,16 @@ namespace FurnitureStore.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "City", "Country", "Email", "FirstName", "ImageFileName", "IsActive", "LastName", "Password", "Phone", "State", "UserName", "ZipCode" },
+                columns: new[] { "Id", "City", "Country", "Email", "FirstName", "ImageFileName", "IsActive", "LastName", "Password", "Phone", "State", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, "Damietta", "Egypt", "elshaer@gmail.com", "Sara", null, true, "Elshaer", "Sara123456??", "+201235444441", "Damietta", "saraelshaer", "1234" },
-                    { 2, "Damietta", "Egypt", "Elazb@gmail.com", "Sara", null, true, "Elazb", "Sara123456??", "+201235444441", "Damietta", "saraelazb", "1234" }
+                    { 1, "Damietta", "Egypt", "elshaer@gmail.com", "Sara", null, true, "Elshaer", "Sara123456??", "+201235444441", "Damietta", "1234" },
+                    { 2, "Damietta", "Egypt", "Elazb@gmail.com", "Sara", null, true, "Elazb", "Sara123456??", "+201235444441", "Damietta", "1234" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartProduct_CartId",
-                table: "CartProduct",
+                name: "IX_CartProducts_CartId",
+                table: "CartProducts",
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
@@ -333,13 +333,13 @@ namespace FurnitureStore.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_ProductId",
-                table: "Review",
+                name: "IX_Reviews_ProductId",
+                table: "Reviews",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_UserId",
-                table: "Review",
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -352,7 +352,7 @@ namespace FurnitureStore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CartProduct");
+                name: "CartProducts");
 
             migrationBuilder.DropTable(
                 name: "OrderProduct");
@@ -361,7 +361,7 @@ namespace FurnitureStore.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Review");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "RoleUser");

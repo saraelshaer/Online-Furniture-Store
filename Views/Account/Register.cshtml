@@ -1,0 +1,79 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Sign Up Page";
+    Layout = "_layout2";
+}
+
+<div class="login-container">
+
+    <div class="logo">
+        
+        <h5>
+            <i class="fa-solid fa-rocket fa-beat fa-2xl" style="color: #b32400;"></i>
+        </h5>
+        <br />
+        <h1>Sign Up And Get Started!</h1>
+    </div>
+  
+
+    <form asp-action="Register" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+
+            <input asp-for="FirstName" class="form-control" placeholder="First Name"> 
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <input asp-for="LastName" class="form-control" placeholder="Last Name">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <input asp-for="Phone" class="form-control" placeholder="Phone Number">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <input asp-for="Email" class="form-control" placeholder="Email Address">
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+
+            <input asp-for="Password" class="form-control input-group-lg" placeholder="Password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+
+            <input asp-for="ConfirmPassword" class="form-control input-group-lg" placeholder="Confirm Password">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        
+        <br />
+        <div class="d-grid">
+            <input type="submit" class="btn btn-outline-dark mb-2" value="SIGN UP" />
+        </div>
+
+        <div class="small-text">
+            <p style="color:#52527a;">Already have an account? <a asp-action="Login">Sign In</a></p>
+        </div>
+
+    </form>
+
+
+</div>
+
+@section Scripts {
+    <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+
