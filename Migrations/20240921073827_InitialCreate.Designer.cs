@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurnitureStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240919214602_InitialCreate")]
+    [Migration("20240921073827_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -372,6 +372,21 @@ namespace FurnitureStore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FurnitureStore.Models.UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("OrderProduct", b =>
                 {
                     b.Property<int>("OrdersId")
@@ -385,21 +400,6 @@ namespace FurnitureStore.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Cart", b =>
@@ -500,6 +500,25 @@ namespace FurnitureStore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FurnitureStore.Models.UserRole", b =>
+                {
+                    b.HasOne("FurnitureStore.Models.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FurnitureStore.Models.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OrderProduct", b =>
                 {
                     b.HasOne("FurnitureStore.Models.Order", null)
@@ -511,21 +530,6 @@ namespace FurnitureStore.Migrations
                     b.HasOne("FurnitureStore.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.HasOne("FurnitureStore.Models.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FurnitureStore.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -554,6 +558,11 @@ namespace FurnitureStore.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("FurnitureStore.Models.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("FurnitureStore.Models.User", b =>
                 {
                     b.Navigation("Cart");
@@ -563,6 +572,8 @@ namespace FurnitureStore.Migrations
                     b.Navigation("Payments");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

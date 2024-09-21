@@ -17,21 +17,23 @@
 
 
     <form asp-action="Login" method="post">
-       
+        <div asp-validation-summary="ModelOnly" class="text-danger alert alert-danger" style="list-style:none;"></div>
         <div class="mb-3">
-            
             <input asp-for="Email" class="form-control" placeholder="Email Address">
-            
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
+
         <div class="mb-3">
-          
             <input asp-for="Password" class="form-control input-group-lg" placeholder="Password">
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
+
         <div class="mb-3 form-check ">
             <input asp-for="RememberMe" type="checkbox" class="form-check-input btn-outline-dark ">
             <label class="form-check-label" asp-for="RememberMe">Remember me</label>
-            <a href="#" class="float-end text-color ">Forgot password?</a>
+            <a asp-action="Reset" class="float-end text-color ">Forgot password?</a>
         </div>
+
         <br />
         <div class="d-grid">
             <button type="submit" class="btn btn-outline-dark mb-2">SIGN IN</button>

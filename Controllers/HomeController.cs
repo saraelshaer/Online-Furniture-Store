@@ -1,4 +1,5 @@
 using FurnitureStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace FurnitureStore.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -22,7 +24,7 @@ namespace FurnitureStore.Controllers
         {
             return View();
         }
-
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

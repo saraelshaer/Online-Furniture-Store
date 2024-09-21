@@ -51,8 +51,8 @@ namespace FurnitureStore.Migrations
                     LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageFileName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    ImageFileName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     State = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     City = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
@@ -110,24 +110,24 @@ namespace FurnitureStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleUser",
+                name: "UserRoles",
                 columns: table => new
                 {
-                    RolesId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleUser", x => new { x.RolesId, x.UsersId });
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_RoleUser_Roles_RolesId",
-                        column: x => x.RolesId,
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_RoleUser_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
@@ -343,9 +343,9 @@ namespace FurnitureStore.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleUser_UsersId",
-                table: "RoleUser",
-                column: "UsersId");
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
@@ -364,7 +364,7 @@ namespace FurnitureStore.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "RoleUser");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Orders");

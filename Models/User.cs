@@ -69,7 +69,7 @@ namespace FurnitureStore.Models
 
         public virtual Cart Cart { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
 

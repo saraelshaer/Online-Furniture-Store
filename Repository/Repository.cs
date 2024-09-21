@@ -34,7 +34,7 @@ namespace FurnitureStore.Repository
         public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _dbSet;
-            if(query != null)
+            if(includes != null)
             {
                 foreach(var include in includes)
                 {
@@ -42,6 +42,13 @@ namespace FurnitureStore.Repository
                 }
             }
             return query.SingleOrDefault(criteria);
+        }
+
+        public IEnumerable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T,U>> expression)
+        {
+            var lst= _dbSet.Where(criteria).Select(expression);
+
+            return lst;
         }
     }
 }
