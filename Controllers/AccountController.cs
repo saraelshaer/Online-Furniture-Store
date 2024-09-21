@@ -1,9 +1,11 @@
 ﻿using FurnitureStore.Data;
 using FurnitureStore.IRepository;
 using FurnitureStore.Models;
+using FurnitureStore.Repository;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
 
 namespace FurnitureStore.Controllers
 {
@@ -76,7 +78,6 @@ namespace FurnitureStore.Controllers
             }
             return Json(true);  // Email is available
         }
-
 
     }
 }

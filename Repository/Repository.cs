@@ -17,7 +17,7 @@ namespace FurnitureStore.Repository
         }
         public void Add(T entity) => _dbSet.Add(entity);
 
-        public IEnumerable<T> GetAll() { return _dbSet.ToList(); }
+        public IQueryable<T> GetAll() { return _dbSet.AsQueryable(); }
 
         public T GetById(int id) { return _dbSet.Find(id); }
 
@@ -34,7 +34,7 @@ namespace FurnitureStore.Repository
         public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _dbSet;
-            if(query != null)
+            if(includes != null)
             {
                 foreach(var include in includes)
                 {

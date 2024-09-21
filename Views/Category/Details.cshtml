@@ -1,0 +1,22 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Category Details";
+    Layout = "layout3";
+}
+
+<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+<h2 style="color: #b32400 ; padding: 10px">Category Details</h2>
+
+<div class="form-group">
+    <label>Name:</label>
+    <p class="form-control-static">@Model.Name</p>
+</div>
+
+<div class="form-group">
+    <label>Description:</label>
+    <p class="form-control-static">@Model.Description</p>
+</div>
+
+<a asp-action="Index" class="btn btn-sm btn-danger">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary">Edit</a>

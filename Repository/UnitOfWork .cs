@@ -7,18 +7,21 @@ namespace FurnitureStore.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        private IRepository<Product> _productRepository;
+        //private IRepository<Product> _productRepository;
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            _productRepository = new Repository<Product>(_context);
+            ProductRepository = new Repository<Product>(_context);
             UserRepository = new Repository<User>(_context);
+            CategoryRepository = new Repository<Category>(_context);
         }
 
         public IRepository<Product> ProductRepository { get; }
 
         public IRepository<User> UserRepository { get; }
+
+        public IRepository<Category> CategoryRepository { get; }
 
         public void Save()
         {
