@@ -35,7 +35,7 @@ namespace FurnitureStore.Controllers
             {
                 _unitOfWork.UserRepository.Add(user);
                 _unitOfWork.Save();
-                return Content("Added : )))");
+                return RedirectToAction("Login");
             }
             else
             {
@@ -132,7 +132,7 @@ namespace FurnitureStore.Controllers
             var user = _unitOfWork.UserRepository.Find(u => u.Email == email);
             if (user != null)
             {
-                return Json(false);  // Email is already in use
+                return Json($"Email {email} is already in use.");  // Email is already in use
             }
             return Json(true);  // Email is available
         }
