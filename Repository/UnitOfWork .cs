@@ -15,6 +15,8 @@ namespace FurnitureStore.Repository
             ProductRepository = new Repository<Product>(_context);
             UserRepository = new Repository<User>(_context);
             CategoryRepository = new Repository<Category>(_context);
+            ReviewRepository = new Repository<Review>(_context);
+
         }
 
         public IRepository<Product> ProductRepository { get; }
@@ -22,6 +24,9 @@ namespace FurnitureStore.Repository
         public IRepository<User> UserRepository { get; }
 
         public IRepository<Category> CategoryRepository { get; }
+
+        public IRepository<Review> ReviewRepository { get; }
+
 
         public void Save()
         {
