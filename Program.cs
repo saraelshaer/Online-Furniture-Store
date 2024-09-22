@@ -1,6 +1,7 @@
 using FurnitureStore.Data;
 using FurnitureStore.IRepository;
 using FurnitureStore.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -20,6 +21,13 @@ namespace FurnitureStore
                 options.UseSqlServer(builder.Configuration.GetConnectionString("con2"));
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/account/login";
+                    options.SlidingExpiration= true;
+                });
+
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
@@ -37,7 +45,7 @@ namespace FurnitureStore
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

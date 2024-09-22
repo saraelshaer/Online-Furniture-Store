@@ -11,6 +11,7 @@ namespace FurnitureStore.IRepository
 
 
 
+        IRepository<UserRole> UserRoleRepo { get; }
         void Save();
     }
 }

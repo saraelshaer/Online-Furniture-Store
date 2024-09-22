@@ -19,6 +19,9 @@ namespace FurnitureStore.Data
             modelBuilder.Entity<CartProduct>()
                 .HasKey(k => new { k.ProductId, k.CartId });
 
+            modelBuilder.Entity<UserRole>()
+               .HasKey(k => new { k.UserId, k.RoleId });
+
             modelBuilder.Entity<User>()
                .Property(c => c.IsActive)
                .HasDefaultValue(true);
@@ -106,6 +109,7 @@ namespace FurnitureStore.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
