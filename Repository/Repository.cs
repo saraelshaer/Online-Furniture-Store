@@ -44,11 +44,19 @@ namespace FurnitureStore.Repository
             return query.SingleOrDefault(criteria);
         }
 
-        public IEnumerable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T,U>> expression)
+        public IQueryable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T,U>> expression, string[] includes = null)
         {
-            var lst= _dbSet.Where(criteria).Select(expression);
-
-            return lst;
+            IQueryable<T> query = _dbSet;
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query.Where(criteria).Select(expression);
         }
+       
+        
     }
 }

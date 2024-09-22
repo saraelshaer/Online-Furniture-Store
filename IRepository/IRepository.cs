@@ -11,6 +11,6 @@ namespace FurnitureStore.IRepository
         void SoftDelete(T entity);
         void HardDelete(T entity);
         T Find(Expression<Func<T, bool>> criteria , string[] includes = null);
-        IEnumerable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T, U>> expression);
+        IQueryable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T, U>> expression, string[] includes = null);
     }
 }

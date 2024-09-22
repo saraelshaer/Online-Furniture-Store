@@ -1,0 +1,148 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewBag.Title</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <style>
+        /* Ensure the body and html take full height */
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Use flexbox on the body to allow the footer to stay pinned */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* The main content should take up remaining space */
+        .content {
+            flex-grow: 1; /* Allows content to grow and push the footer down */
+            padding-bottom: 20px; /* Optional: Add space before footer */
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #E7CBCB;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        height: 100%;
+            margin: 0;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" asp-controller="home" asp-action="index">
+                <strong>
+                    <h3>
+                        <i class="fa-solid fa-couch fa-bounce" style="color: #99627A;"></i>&nbsp;FunStore
+                    </h3>
+                    
+                </strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="home" asp-action="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="index">Products</a></li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="index">Dashboard</a></li>
+                    }
+               
+
+                    @* <li class="nav-item"><a class="nav-link" href="#!">About</a></li> *@
+                 @*    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        </ul>
+                    </li> *@
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://via.placeholder.com/30" alt="User" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-user" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-truck-fast" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Orders</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-gear" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-circle-question" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Help</a></li>                                
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </ul>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="account" asp-action="login" class="btn btn-outline-dark me-3">
+                        <i class="fa fa-sign-in-alt"></i> Sign In
+                    </a>
+                }
+                
+                <!-- Wishlist Icon -->
+                <a href="#" class="btn btn-outline-dark me-3">
+                    <i class="fa fa-heart"></i> Wishlist
+                </a>
+
+                <a href="#" class="btn btn-outline-dark me-3">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </a>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header-->
+
+
+    <!-- Main Content Section-->
+    <div class="content">
+        <section class="py-5">
+            @RenderBody()
+        </section>
+    </div>
+
+    <!-- Footer-->
+    <footer style="background-color:#99627A;" class="py-5 ">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy;<strong> FunStore 2024</strong></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

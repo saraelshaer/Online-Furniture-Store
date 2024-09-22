@@ -35,6 +35,8 @@ namespace FurnitureStore.Controllers
             {
                 _unitOfWork.UserRepository.Add(user);
                 _unitOfWork.Save();
+                _unitOfWork.UserRoleRepo.Add(new UserRole { RoleId=2 , UserId= user.Id});
+                _unitOfWork.Save();
                 return RedirectToAction("Login");
             }
             else
@@ -63,7 +65,7 @@ namespace FurnitureStore.Controllers
                         new Claim(ClaimTypes.Email, loginUser.Email),
                         new Claim(ClaimTypes.NameIdentifier, loginUser.Id.ToString()),
                     };
-                    var roles = _unitOfWork.UserRoleRepo.FindAll<string>(ur => ur.UserId == loginUser.Id, ur => ur.Role.Name);
+                    var roles = _unitOfWork.UserRoleRepo.FindAll<string>(ur => ur.UserId == loginUser.Id, ur => ur.Role.Name, new[] {"Role"});
 
                     foreach (var role in roles)
                     {
@@ -100,30 +102,6 @@ namespace FurnitureStore.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index","home");
         }
-
-        public IActionResult Reset()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Reset(string Email)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("ConfirmReset" , new { Email });
-            }
-            else
-            {
-                return View(Email);
-            }
-        }
-        public IActionResult ConfirmReset(string Email)
-        {
-            ViewData["Email"] = Email;
-            return View();
-        }
-
 
 
         [HttpGet]
