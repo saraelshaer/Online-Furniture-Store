@@ -1,5 +1,34 @@
 ﻿@model User
 @{
-    Layout = null;
+    ViewData["Title"] = "User Details";
 }
+
+<div class="card shadow-lg w-75 mx-auto mt-5">
+    <div class="row g-0">
+        <!-- Image Section -->
+        <div class="col-md-4 d-flex align-items-center justify-content-center bg-light">
+            <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()"
+                 class="img-thumbnail"
+                 alt="Profile Image">
+        </div>
+        <!-- Student Details Section -->
+        <div class="col-md-8">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Student Details</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> @Model.FirstName @Model.LastName</li>
+                    <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                    <li class="list-group-item"><strong>Phone:</strong> @Model.Phone</li>
+                    <li class="list-group-item"><strong>Country:</strong> @Model.Country</li>
+                    <li class="list-group-item"><strong>State:</strong> @Model.State</li>
+                    <li class="list-group-item"><strong>City:</strong> @Model.City</li>
+                    <li class="list-group-item"><strong>Zip Code:</strong> @Model.ZipCode</li>
+                </ul>
+                <div class="text-center mt-4">
+                    <a href="/student/index" class="btn btn-primary">Back To List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
