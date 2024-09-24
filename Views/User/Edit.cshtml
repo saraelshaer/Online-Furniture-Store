@@ -1,0 +1,106 @@
+﻿@model ProfileViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Image Section -->
+       
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Profile Image</h5>
+                    @if (@Model.ImageFileName != null)
+                    {
+                        <img src="/userImages/@Model.ImageFileName" class="img-thumbnail" alt="Profile Image" style="width: 350px; height: 450px;">
+                    }
+                    else
+                    {
+                        <img src="/userImages/defaultUserImage.jpg" class="img-thumbnail" alt="Profile Image" style="width: 350px; height: 450px;" >
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Details Section -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Account Details</h5>
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        @if (TempData["Message"] != null)
+                        {
+
+                            <div class="alert alert-success text-center ">@TempData["Message"]</div>
+
+
+                        }
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label">First Name</label>
+                                <input asp-for="FirstName" class="form-control" >
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label">Last Name</label>
+                                <input asp-for="LastName" class="form-control" >
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>                              
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label">Phone Number</label>
+                                <input asp-for="Phone" class="form-control" placeholder="+20 1253458971">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <input asp-for="Email" class="form-control" placeholder="name@example.com">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+        
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Country" class="form-label">Country </label>
+                                <input asp-for="Country" class="form-control" >
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="State" class="form-label">State</label>
+                                <input asp-for="State" class="form-control" >
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="City" class="form-label">City </label>
+                                <input asp-for="City" class="form-control" >
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ZipCode" class="form-label">Zip Code</label>
+                                <input asp-for="ZipCode" class="form-control" >
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="ProfileImage" class="form-label">Profile Image</label>
+                                <input type="file" asp-for="ProfileImage" class="form-control">
+                                <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="ImageFileName" value="@Model.ImageFileName" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

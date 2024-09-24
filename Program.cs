@@ -28,7 +28,7 @@ namespace FurnitureStore
                     options.SlidingExpiration= true;
                 });
 
-
+           
 
             var app = builder.Build();
 
