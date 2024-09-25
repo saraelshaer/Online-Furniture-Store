@@ -41,7 +41,7 @@
                             <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-info">
                                 <i class="fas fa-eye"></i> View
                             </a>
-                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">
+                            <a href="javascript:void(0)" class="btn btn-danger" onclick="confirmDelete('@user.Id', '@Url.Action("Delete", new { id = user.Id })')">
                                 <i class="fas fa-trash-alt"></i> Delete
                             </a>
                         </td>
@@ -52,39 +52,27 @@
     </div>
 </div>
 
-@* <h2 class="text-center" style="color: #0a5d5d ; padding: 10px">Customers List</h2>
-
-
-<table class="table table-bordered   table-striped">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Operations</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Count()== 0)
-        {
-            <tr>
-                <td colspan="6" class="text-center alert alert-warning">No Users Exist! <img src="thinking-face.png" /></td>
-            </tr>
+@section Scripts
+{
+    <script>
+        // Function to handle delete confirmation with SweetAlert
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Customer",
+                text: "Are you sure about deleting this customer ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to the delete action
+                    window.location.href = deleteUrl;
+                }
+            });
         }
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
-                <td>@user.Phone</td>
-                <td>
-                    @*< a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-primary">Edit</a> *@
-@*                     <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-outline-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@ 
+    </script>
+
+}

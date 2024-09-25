@@ -83,15 +83,12 @@ namespace FurnitureStore.Controllers
             return View(model);
         }
 
-        public IActionResult ConfirmDelete(int id)
-        {
-            return View();
-        }
-
+       
         public IActionResult Delete(int id)
         {
             var entity= _unitOfWork.UserRepository.GetById(id);
             _unitOfWork.UserRepository.SoftDelete(entity);
+            _unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
