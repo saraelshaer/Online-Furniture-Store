@@ -17,7 +17,15 @@ namespace FurnitureStore.Repository
         }
         public void Add(T entity) => _dbSet.Add(entity);
 
-        public IQueryable<T> GetAll() { return _dbSet.AsQueryable(); }
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null) 
+        {
+            IQueryable<T> query = _dbSet.AsQueryable(); ;
+            if (criteria != null) 
+            {
+                query = query.Where(criteria);
+            }
+            return query;
+        }
 
         public T GetById(int id) { return _dbSet.Find(id); }
 
@@ -56,7 +64,12 @@ namespace FurnitureStore.Repository
             }
             return query.Where(criteria).Select(expression);
         }
-       
-        
+
+        public object GetCartByUserId(int userId)
+        {
+            return _context.Carts
+           .Include(c => c.CartProducts)
+           .FirstOrDefault(c => c.UserId == userId);
+        }
     }
 }

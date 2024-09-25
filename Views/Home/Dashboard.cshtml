@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = "AdminLayout";
+    ViewBag.Title = "Admin Dashboard";
+
+}
+
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Dashboard Heading -->
+            <h2 class="mb-4">Dashboard</h2>
+
+            <!-- Stats Section -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Sales</h5>
+                            <p class="card-text">$10,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Orders</h5>
+                            <p class="card-text">120</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">New Customers</h5>
+                            <p class="card-text">45</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Pending Orders</h5>
+                            <p class="card-text">5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <h4 class="mt-5">Recent Orders</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#12345</td>
+                        <td>John Doe</td>
+                        <td>2024-09-22</td>
+                        <td>$250</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>#12346</td>
+                        <td>Jane Smith</td>
+                        <td>2024-09-23</td>
+                        <td>$120</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>#12347</td>
+                        <td>Alex Johnson</td>
+                        <td>2024-09-24</td>
+                        <td>$350</td>
+                        <td><span class="badge bg-danger">Cancelled</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Product Management Table -->
+            <h4 class="mt-5">Products</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#001</td>
+                        <td>Product A</td>
+                        <td>Category 1</td>
+                        <td>120</td>
+                        <td>$25</td>
+                    </tr>
+                    <tr>
+                        <td>#002</td>
+                        <td>Product B</td>
+                        <td>Category 2</td>
+                        <td>85</td>
+                        <td>$35</td>
+                    </tr>
+                    <tr>
+                        <td>#003</td>
+                        <td>Product C</td>
+                        <td>Category 3</td>
+                        <td>60</td>
+                        <td>$45</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+

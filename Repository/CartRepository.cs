@@ -13,10 +13,12 @@ namespace FurnitureStore.Repository
         {
             _context = context;
         }
-        public Cart GetCartByUserId(int userId)
+
+
+        Cart ICartRepository.GetCartByUserId(int userId)
         {
             return _context.Carts
-            .Include(c => c.CartProducts) 
+            .Include(c => c.CartProducts)
             .FirstOrDefault(c => c.UserId == userId);
         }
     }

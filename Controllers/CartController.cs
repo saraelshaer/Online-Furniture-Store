@@ -12,67 +12,67 @@ public class CartController : Controller
         _unitOfWork = unitOfWork;
     }
 
-    // View the cart for the current user
-    public ActionResult Index()
-    {
-        var userId = GetUserId(); // Fetch the logged-in user ID
-        var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
+    //// View the cart for the current user
+    //public ActionResult Index()
+    //{
+    //    var userId = GetUserId(); // Fetch the logged-in user ID
+    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
 
-        if (cart == null || !cart.CartProducts.Any())
-        {
-            return View(new List<CartProduct>());
-        }
+    //    if (cart == null || !_unitOfWork.CartProducts.Any())
+    //    {
+    //        return View(new List<CartProduct>());
+    //    }
 
-        return View(cart.CartProducts.ToList());
-    }
+    //    return View(cart.CartProducts.ToList());
+    //}
 
-    // Add product to cart
-    public ActionResult AddToCart(int productId, int quantity)
-    {
-        var userId = GetUserId(); // Fetch the logged-in user ID
-        var cart = _unitOfWork.CartRepository.GetCartByUserId(userId) ?? CreateNewCart(userId);
+    ////Add product to cart
+    //public ActionResult AddToCart(int productId, int quantity)
+    //{
+    //    var userId = GetUserId(); // Fetch the logged-in user ID
+    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId) ?? CreateNewCart(userId);
 
-        var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
-        if (cartProduct == null)
-        {
-            cartProduct = new CartProduct
-            {
-                CartId = cart.Id,
-                ProductId = productId,
-                Quantity = quantity
-            };
-            cart.CartProducts.Add(cartProduct);
-        }
-        else
-        {
-            cartProduct.Quantity += quantity;
-        }
+    //    var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
+    //    if (cartProduct == null)
+    //    {
+    //        cartProduct = new CartProduct
+    //        {
+    //            CartId = cart.Id,
+    //            ProductId = productId,
+    //            Quantity = quantity
+    //        };
+    //        cart.CartProducts.Add(cartProduct);
+    //    }
+    //    else
+    //    {
+    //        cartProduct.Quantity += quantity;
+    //    }
 
-        _unitOfWork.CartRepository.Update(cart);
-        _unitOfWork.Save();
+    //    _unitOfWork.CartRepository.Update(cart);
+    //    _unitOfWork.Save();
 
-        return RedirectToAction("Index");
-    }
+    //    return RedirectToAction("Index");
+    //}
 
-    // Remove product from cart
-    public ActionResult RemoveFromCart(int productId)
-    {
-        var userId = GetUserId(); // Fetch the logged-in user ID
-        var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
+    //// Remove product from cart
+    //public ActionResult RemoveFromCart(int productId)
+    //{
+    //    var userId = GetUserId(); // Fetch the logged-in user ID
+    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
 
-        if (cart != null)
-        {
-            var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
-            if (cartProduct != null)
-            {
-                cart.CartProducts.Remove(cartProduct);
-                _unitOfWork.CartRepository.Update(cart);
-                _unitOfWork.Save();
-            }
-        }
+    //    if (cart != null)
+    //    {
+    //        var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
+    //        if (cartProduct != null)
+    //        {
+    //            cart.CartProducts.Remove(cartProduct);
+    //            _unitOfWork.CartRepository.Update(cart);
+    //            _unitOfWork.Save();
+    //        }
+    //    }
 
-        return RedirectToAction("Index");
-    }
+    //    return RedirectToAction("Index");
+    //}
 
     // Helper to get logged-in user ID
     private int GetUserId()

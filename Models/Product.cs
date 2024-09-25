@@ -45,5 +45,7 @@ namespace FurnitureStore.Models
 
         public virtual ICollection<Order> Orders { get; set; }
 
+        public virtual ICollection<WishListProduct> WishListProducts { get; set; }
+
     }
 }

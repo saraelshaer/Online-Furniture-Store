@@ -74,31 +74,11 @@ namespace FurnitureStore.Controllers
             ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
             return View(product);
         }
+
         public IActionResult Delete(int id)
         {
-            var product = _unitOfWork.ProductRepository.GetAll()
-                .Include(p => p.Category)
-                .FirstOrDefault(p => p.Id == id);
-            if (product == null)
-            {
-                return NotFound(); 
-            }
-            return View(product);
-
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var product = _unitOfWork.ProductRepository.GetAll()
-                .Include(p => p.Category)
-                .FirstOrDefault(p => p.Id == id);
-
-            if (product == null)
-            {
-                return NotFound("Product not found");
-            }
-
-            _unitOfWork.ProductRepository.SoftDelete(product);
+            var entity = _unitOfWork.ProductRepository.GetById(id);
+            _unitOfWork.ProductRepository.SoftDelete(entity);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

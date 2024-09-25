@@ -28,8 +28,7 @@ namespace FurnitureStore
                     options.SlidingExpiration= true;
                 });
 
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
+           
 
             var app = builder.Build();
 

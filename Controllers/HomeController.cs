@@ -14,7 +14,7 @@ namespace FurnitureStore.Controllers
             _logger = logger;
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
             return View();
@@ -29,6 +29,12 @@ namespace FurnitureStore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult Dashboard()
+        {
+            return View();
         }
     }
 }

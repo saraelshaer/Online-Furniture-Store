@@ -384,6 +384,40 @@ namespace FurnitureStore.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("FurnitureStore.Models.WishList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("WishLists");
+                });
+
+            modelBuilder.Entity("FurnitureStore.Models.WishListProduct", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "WishListId");
+
+                    b.HasIndex("WishListId");
+
+                    b.ToTable("WishListProducts");
+                });
+
             modelBuilder.Entity("OrderProduct", b =>
                 {
                     b.Property<int>("OrdersId")
@@ -516,6 +550,36 @@ namespace FurnitureStore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FurnitureStore.Models.WishList", b =>
+                {
+                    b.HasOne("FurnitureStore.Models.User", "User")
+                        .WithOne("WishList")
+                        .HasForeignKey("FurnitureStore.Models.WishList", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FurnitureStore.Models.WishListProduct", b =>
+                {
+                    b.HasOne("FurnitureStore.Models.Product", "Product")
+                        .WithMany("WishListProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FurnitureStore.Models.WishList", "WishList")
+                        .WithMany("WishListProducts")
+                        .HasForeignKey("WishListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("WishList");
+                });
+
             modelBuilder.Entity("OrderProduct", b =>
                 {
                     b.HasOne("FurnitureStore.Models.Order", null)
@@ -553,6 +617,8 @@ namespace FurnitureStore.Migrations
                     b.Navigation("CartProducts");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("WishListProducts");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Role", b =>
@@ -571,6 +637,13 @@ namespace FurnitureStore.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("UserRoles");
+
+                    b.Navigation("WishList");
+                });
+
+            modelBuilder.Entity("FurnitureStore.Models.WishList", b =>
+                {
+                    b.Navigation("WishListProducts");
                 });
 #pragma warning restore 612, 618
         }

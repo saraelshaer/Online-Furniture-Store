@@ -68,6 +68,8 @@ namespace FurnitureStore.Controllers
                         new Claim(ClaimTypes.Email, loginUser.Email),
                         new Claim(ClaimTypes.NameIdentifier, loginUser.Id.ToString()),
                     };
+
+                    TempData["ImageProfile"] = "defaultUserImage.jpg";
                     var roles = _unitOfWork.UserRoleRepo.FindAll<string>(ur => ur.UserId == loginUser.Id, ur => ur.Role.Name, new[] {"Role"});
 
                     foreach (var role in roles)
