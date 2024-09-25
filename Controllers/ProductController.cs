@@ -1,7 +1,13 @@
 ﻿using FurnitureStore.IRepository;
 using FurnitureStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Runtime.Intrinsics.Arm;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+
 
 namespace FurnitureStore.Controllers
 {
@@ -16,13 +22,13 @@ namespace FurnitureStore.Controllers
 
         public IActionResult Index()
         {
-            var products = _unitOfWork.ProductRepository.GetAll();
-            return View(products);
+            var products = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).Where(p => p.IsActive == true);
+            return View(products.ToList());
         }
 
         public IActionResult Details(int id)
         {
-            var product = _unitOfWork.ProductRepository.GetById(id);
+            var product = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -31,6 +37,7 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult Create()
         {
+            ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -52,6 +59,7 @@ namespace FurnitureStore.Controllers
             {
                 return NotFound();  
             }
+            ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
             return View(product);
         }
         [HttpPost , ActionName("Edit")]
@@ -63,11 +71,14 @@ namespace FurnitureStore.Controllers
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+            ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
             return View(product);
         }
         public IActionResult Delete(int id)
         {
-            var product = _unitOfWork.ProductRepository.GetById(id);
+            var product = _unitOfWork.ProductRepository.GetAll()
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound(); 
@@ -78,7 +89,9 @@ namespace FurnitureStore.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var product = _unitOfWork.ProductRepository.GetById(id);
+            var product = _unitOfWork.ProductRepository.GetAll()
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
 
             if (product == null)
             {

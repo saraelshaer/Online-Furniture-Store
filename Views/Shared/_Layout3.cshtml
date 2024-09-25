@@ -14,41 +14,9 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/assets/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link href="/assets/css/myStyle.css" rel="stylesheet" />
 
-    <style>
-        /* Ensure the body and html take full height */
-        
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
 
-        /* Use flexbox on the body to allow the footer to stay pinned */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* The main content should take up remaining space */
-        .content {
-            flex-grow: 1; /* Allows content to grow and push the footer down */
-            padding-bottom: 20px; /* Optional: Add space before footer */
-        }
-
-        /* Footer styling */
-        footer {
-            background-color: #E7CBCB;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        height: 100%;
-            margin: 0;
-        }
-
-    </style>
 
 </head>
 <body>
@@ -58,7 +26,7 @@
             <a class="navbar-brand" asp-controller="home" asp-action="index">
                 <strong>
                     <h3>
-                        <i class="fa-solid fa-couch fa-bounce" style="color: #99627A;"></i>&nbsp;FunStore
+                        <i class="fa-solid fa-couch fa-bounce" style="color: #0a5d5d;"></i>&nbsp;FunStore
                     </h3>
                     
                 </strong>
@@ -70,7 +38,7 @@
                     <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="index">Products</a></li>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="index">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="home" asp-action="dashboard">Dashboard</a></li>
                     }
                
 
@@ -84,44 +52,52 @@
                             <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                         </ul>
                     </li> *@
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()" class="rounded-circle img-fluid" style="width: 30px; height: 25px;">
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" asp-controller="user" asp-action="Edit" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value"><i class="fa fa-user" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-truck-fast" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Orders</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-gear" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fa fa-circle-question" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        
-                    }
+
          
                 </ul>
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="account" asp-action="login" class="btn btn-outline-dark me-3">
-                        <i class="fa fa-sign-in-alt"></i> Sign In
-                    </a>
-                }
-                
-                <!-- Wishlist Icon -->
-                <a href="#" class="btn btn-outline-dark me-3">
-                    <i class="fa fa-heart"></i> Wishlist
-                </a>
 
-                <a href="#" class="btn btn-outline-dark me-3">
-                    <i class="fa fa-shopping-cart"></i> Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </a>
+
+
+
+                <div class="nav-icons">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="account" asp-action="login" class="btn btn-outline-dark me-3">
+                            <i class="fa fa-sign-in-alt"></i> Sign In
+                        </a>
+                    }
+                    @* <a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #1c1e21;"></i></a> *@
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Dropdown for User Icon -->
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user" style="color: #1c1e21;"></i>
+                            </a>
+
+                            <!-- Dropdown Menu -->
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="user" asp-action="Edit" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value">
+                                        <i class="fa fa-user" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Profile
+                                    </a>
+                                </li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-truck-fast" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Orders</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-gear" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-circle-question" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
+                            </ul>
+                        </div>
+                    }
+
+
+                    <!-- Icons for Wishlist and Cart -->
+                    <a href="#"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge">0</span></a>
+                    <a href="#"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i> <span class="badge">1</span></a>
+                </div>
+
+        
 
 
             </div>
@@ -132,16 +108,19 @@
 
 
     <!-- Main Content Section-->
-    <div class="content">
-        <section class="py-5">
-            @RenderBody()
-        </section>
-    </div>
+
+    @RenderBody()
+
+
+    <br />
+    <br />
+    <br />
+    <br />
 
     <!-- Footer-->
-    <footer style="background-color:#99627A;" class="py-5 ">
+    <footer style="background-color:#f5f5f5;" class="py-5 ">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy;<strong> FunStore 2024</strong></p>
+            <p class="m-0 text-center ">Copyright &copy;<strong> FunStore 2024</strong></p>
         </div>
     </footer>
 

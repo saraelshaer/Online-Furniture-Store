@@ -17,7 +17,15 @@ namespace FurnitureStore.Repository
         }
         public void Add(T entity) => _dbSet.Add(entity);
 
-        public IEnumerable<T> GetAll() { return _dbSet.ToList(); }
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null) 
+        {
+            IQueryable<T> query = _dbSet.AsQueryable(); ;
+            if (criteria != null) 
+            {
+                query = query.Where(criteria);
+            }
+            return query;
+        }
 
         public T GetById(int id) { return _dbSet.Find(id); }
 

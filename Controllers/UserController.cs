@@ -19,7 +19,7 @@ namespace FurnitureStore.Controllers
 
         public IActionResult Index()
         {
-            var users =_unitOfWork.UserRepository.GetAll();
+            var users =_unitOfWork.UserRepository.GetAll(ur=>ur.IsActive);
             return View(users);
         }
 
@@ -82,5 +82,19 @@ namespace FurnitureStore.Controllers
             }
             return View(model);
         }
+
+        public IActionResult ConfirmDelete(int id)
+        {
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var entity= _unitOfWork.UserRepository.GetById(id);
+            _unitOfWork.UserRepository.SoftDelete(entity);
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

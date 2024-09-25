@@ -1,10 +1,13 @@
 ﻿using FurnitureStore.Data;
 using FurnitureStore.IRepository;
 using FurnitureStore.Models;
+using FurnitureStore.Repository;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 
 namespace FurnitureStore.Controllers
@@ -116,7 +119,6 @@ namespace FurnitureStore.Controllers
             }
             return Json(true);  // Email is available
         }
-
 
 
     }

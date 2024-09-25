@@ -2,20 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
-<header style="background-color:#99627A;" class=" text-white py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder" >Discover And Find<br /> Your New Product</h1>
-           <br />
-           <form asp-controller="product">
-                <div >
+<section class="hero">
+    <div class="hero-content">
+        <h1>Discover And Find<br /> Your New Product</h1>
 
-                    <button type="submit" class="btn btn-info btn-dark mb-5 w-25 "><i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now</button>
-                </div>
-        
-           </form>
-        </div>
+        <form asp-controller="product">
+            <div>
+
+                <button type="submit" class="btn  btn-outline-light mb-5 w-50 "><i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now</button>
+            </div>
+
+        </form>
     </div>
-</header>
+</section>
+
+
 
 

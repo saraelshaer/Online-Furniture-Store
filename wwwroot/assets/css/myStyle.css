@@ -1,0 +1,185 @@
+html, body {
+	height: 100%;
+	margin: 0;
+}
+
+/* Use flexbox on the body to allow the footer to stay pinned */
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* The main content should take up remaining space */
+.content {
+	flex-grow: 1; /* Allows content to grow and push the footer down */
+	padding-bottom: 20px; /* Optional: Add space before footer */
+}
+
+/* Footer styling */
+footer {
+	background-color: #f5f5f5;
+	color: #0a1010;
+	text-align: center;
+	padding: 20px 0;
+}
+
+nav{
+	position:fixed;
+}
+
+.navbar-nav {
+	display: flex; /* Ensure items are aligned horizontally */
+	justify-content: center; /* Center the links */
+	list-style: none; /* Remove default bullets */
+	padding: 0; /* Remove default padding */
+}
+
+	.navbar-nav .nav-item  {
+		margin: 0 20px; /* Add space between nav links */
+	}
+
+	.navbar-nav .nav-link {
+		color: #000; /* Customize link color */
+		text-decoration: none; /* Remove underline */
+		font-size: 16px; /* Customize font size */
+		transition: color 0.3s ease, border-bottom 0.3s ease; /* Smooth transition for hover effects */
+	}
+
+		.navbar-nav .nav-link:hover {
+			color: #0a5d5d; /* Change color on hover */
+			border-bottom: 2px solid #0a5d5d; /* Add a bottom border on hover */
+		}
+
+	.navbar-nav  {
+		right: 0; /* Ensure dropdown aligns to the right */
+	}
+
+
+.nav-icons {
+	display: flex;
+	align-items: center;
+	margin-left: 20px;
+}
+
+	.nav-icons a {
+		text-decoration: none;
+		position: relative;
+		margin-left: 40px;
+	}
+
+	.nav-icons i {
+		font-size: 20px;
+		color: black;
+	   
+	}
+
+
+.badge {
+	position: absolute;
+	top: -5px;
+	right: -10px;
+	background-color: #005f5f;
+	color: white;
+	border-radius: 50%;
+	padding: 3px 6px;
+	font-size: 12px;
+}
+
+/* Hover effect */
+.nav-links a:hover {
+	color: #005f5f;
+}
+
+
+/* Dropdown menu styling */
+.dropdown-menu {
+	padding: 0;
+	min-width: 200px; /* Adjust the dropdown width as needed */
+	border-radius: 4px; /* Rounded corners for a modern look */
+	border: none; /* Remove default border */
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Dropdown items styling */
+.dropdown-item {
+	padding: 10px 15px; /* Adjust the padding for dropdown items */
+	display: flex;
+	align-items: center;
+	gap: 10px; /* Add space between icon and text */
+	font-size: 16px; /* Adjust text size */
+	color: #3b3f44; /* Text color */
+	border: none; /* Remove default border */
+	transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+	/* Remove the default hover outline and add a custom hover effect */
+	.dropdown-item:focus, .dropdown-item:hover {
+		background-color: #f8f9fa; /* Light background on hover */
+		color: #0a5d5d; /* Optional: change text color on hover */
+		box-shadow: none !important; /* Prevent any outlines or focus rings */
+		outline: none !important; /* Remove default focus outline */
+	}
+
+	/* Styling for icons inside the dropdown */
+	.dropdown-item i {
+		color: #3b3f44; /* Icon color */
+		font-size: 18px; /* Adjust icon size */
+	}
+
+	/* Hover effect for icons inside dropdown */
+	.dropdown-item:hover i {
+		color: #0a5d5d; /* Change icon color on hover */
+	}
+
+/* Optional: Adjust dropdown positioning for better alignment */
+.dropdown-menu-end {
+	right: 0;
+}
+
+/* Remove focus outline from the user icon dropdown toggle */
+.dropdown-toggle:focus {
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+.hero {
+	min-height: 100vh;
+	background-image: url("/productImages/sofaHomePage.webp"); /* Add your image here */
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start; /* Align content at the top */
+	padding-top: 100px; /* Adjust this value to position the content vertically */
+}
+
+.hero-content {
+	text-align: center;
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	max-width: 600px;
+}
+
+.hero h1 {
+	font-size: 3rem;
+	margin-bottom: 20px;
+}
+
+.hero p {
+	font-size: 1.2rem;
+	margin-bottom: 20px;
+}
+
+.btn-outline-light:hover {
+	background-color: #0a5d5d !important;
+	color: white; /* Optional: Change text color to white when hovering */
+	border-color: #0a5d5d !important; /* Optional: Adjust border color */
+}
+
+.btn-outline-dark:hover {
+	background-color: #0a5d5d !important;
+	color: white; /* Optional: Change text color to white when hovering */
+	border-color: #0a5d5d !important; /* Optional: Adjust border color */
+}

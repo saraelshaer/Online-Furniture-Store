@@ -4,7 +4,7 @@ namespace FurnitureStore.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null);
         T GetById(int id);
         void Add(T entity);
         void Update(T entity);

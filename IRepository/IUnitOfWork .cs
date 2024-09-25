@@ -6,6 +6,11 @@ namespace FurnitureStore.IRepository
     {
         IRepository<Product> ProductRepository { get; }
         IRepository<User> UserRepository { get; }
+        IRepository<Category> CategoryRepository { get; }
+        IRepository<Review> ReviewRepository { get; }
+
+
+
         IRepository<UserRole> UserRoleRepo { get; }
         void Save();
     }

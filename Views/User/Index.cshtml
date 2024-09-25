@@ -1,0 +1,90 @@
+﻿@model IQueryable<User>
+@{
+    ViewBag.Title = "Customers List";
+    Layout = "AdminLayout";
+
+}
+
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- Dashboard Heading -->
+        <h2 class="mb-4">Customers</h2>
+        <br />
+        <br />
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="6" class="text-center alert alert-warning">No Users Exist! <img src="thinking-face.png" /></td>
+                    </tr>
+                }
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>
+                            @*< a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-primary">Edit</a> *@
+                            <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-info">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* <h2 class="text-center" style="color: #0a5d5d ; padding: 10px">Customers List</h2>
+
+
+<table class="table table-bordered   table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count()== 0)
+        {
+            <tr>
+                <td colspan="6" class="text-center alert alert-warning">No Users Exist! <img src="thinking-face.png" /></td>
+            </tr>
+        }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>@user.Phone</td>
+                <td>
+                    @*< a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-primary">Edit</a> *@
+@*                     <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@ 

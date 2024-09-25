@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> @ViewBag.Title</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <!-- Custom CSS -->
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+        }
+
+        .sidebar {
+          height: 100vh;
+          position: fixed;
+          background-color: #343a40;
+          padding: 20px;
+          width: 250px;
+        }
+
+        .sidebar a {
+          color: #fff;
+          text-decoration: none;
+          display: block;
+          padding: 10px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+          background-color: #007bff;
+        }
+
+        .main-content {
+          margin-left: 270px;
+          padding: 20px;
+        }
+
+        .card {
+          margin-bottom: 20px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Bootstrap default */
+            border: none;
+            padding: 8px 15px;
+            color: white;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+                color:black;
+            }
+
+        .btn-warning {
+            background-color: #ffc107; /* Bootstrap default */
+            border: none;
+            padding: 8px 15px;
+            color: white;
+        }
+
+            .btn-warning:hover {
+                background-color: #e0a800;
+            }
+
+        .btn-info {
+            background-color: #17a2b8; /* Bootstrap default */
+            border: none;
+            padding: 8px 15px;
+            color: white;
+        }
+
+            .btn-info:hover {
+                background-color: #138496;
+            }
+
+        .btn-success {
+            background-color: #28a745; /* Bootstrap default */
+            border: none;
+            padding: 8px 15px;
+            color: white;
+        }
+
+            .btn-success:hover {
+                background-color: #218838;
+            }
+
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-white mb-4">Admin Dashboard</h4>
+        <a asp-action="dashboard">Dashboard</a>
+        <a asp-action="index" asp-controller="order">Orders</a>
+        <a asp-action="index" asp-controller="product">Products</a>
+        <a asp-action="index" asp-controller="category">Categories</a>
+        <a asp-action="index" asp-controller="user">Customers</a>
+        <a asp-action="index" asp-controller="home">Website</a>
+
+    </div>
+
+    <!-- Main Content -->
+   @RenderBody()
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
