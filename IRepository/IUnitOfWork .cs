@@ -8,10 +8,9 @@ namespace FurnitureStore.IRepository
         IRepository<User> UserRepository { get; }
         IRepository<Category> CategoryRepository { get; }
         IRepository<Review> ReviewRepository { get; }
-
-
-
         IRepository<UserRole> UserRoleRepo { get; }
+        IRepository<Cart> CartRepository { get; }
+
         void Save();
     }
 }

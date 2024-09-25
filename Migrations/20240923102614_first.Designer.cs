@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurnitureStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:Migrations/20240920095351_first.Designer.cs
-    [Migration("20240920095351_first")]
+    [Migration("20240923102614_first")]
     partial class first
-========
-    [Migration("20240921073827_InitialCreate")]
-    partial class InitialCreate
->>>>>>>> 358fba0cba2a072c1a1c2d86a035fec3374de952:Migrations/20240921073827_InitialCreate.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
