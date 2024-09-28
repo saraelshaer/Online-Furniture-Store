@@ -9,7 +9,7 @@
 
 <h2 style="color: #b32400 ; padding: 10px">Edit Product</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Name" class="form-label text-black"></label>
         <input asp-for="Name" class="form-control" />
@@ -34,10 +34,18 @@
         <span asp-validation-for="StockQuantity" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+@*     <div class="form-group">
         <label asp-for="ImageFileName" class=" form-label text-black"></label>
         <input asp-for="ImageFileName" class="form-control" />
         <span asp-validation-for="ImageFileName" class="text-danger"></span>
+    </div> *@
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="ProductImage" class="form-label">Product Image</label>
+            <input type="file" asp-for="ProductImage" class="form-control">
+            <span asp-validation-for="ProductImage" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="ImageFileName" value="@Model.ImageFileName" class="form-control">
     </div>
 
     <div class="form-group">
@@ -49,7 +57,7 @@
     <input type="hidden" asp-for="Id" />
 
     <button type="submit" class="btn btn-sm btn-danger">Save Changes</button>
-    <a asp-action="Index" class="btn btn-sm btn-secondary">Cancel</a>
+    <a asp-action="AdminIndex" class="btn btn-sm btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {

@@ -36,8 +36,9 @@ namespace FurnitureStore.Models
         [ForeignKey("Category")]
         public int CategoryID { get; set; }
         public virtual  Category Category { get; set; }
+        [NotMapped]
+        public IFormFile ProductImage { get; set; }
 
-     
 
         public virtual ICollection<CartProduct> CartProducts { get; set; }
 
