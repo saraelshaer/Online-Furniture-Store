@@ -1,0 +1,29 @@
+﻿@model UserRole
+@{
+    ViewBag.Title = "Manage Roles";
+    Layout = "AdminLayout";
+}
+
+<br />
+<br />
+<br />
+
+<div class="border border-primary rounded p-4">
+    <div class="text-center mb-4">
+        <h1>Manage Roles</h1>
+    </div>
+
+    <form asp-action="ManageRoles" asp-route-id="@Model.UserId" method="post" class="row g-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="@Model.Role.Name" id="check1">
+            <label class="form-check-label" for="check1">
+                
+            </label>
+        </div>
+
+        <div class="col-12 text-center mt-4">
+            <button type="submit" class="btn btn-primary m-2">Save</button>
+            <a asp-action="Index" class="btn btn-danger m-2">Cancel</a>
+        </div>
+    </form>
+</div>

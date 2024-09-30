@@ -3,19 +3,13 @@
     ViewData["Title"] = "Customer Details";
     Layout = "AdminLayout";
 }
-<div class="main-content">
-    <div class="container-fluid">
-        <!-- Dashboard Heading -->
-        <h2 class="mb-4">Customers -> View </h2>
-        <br />
-        <br>
+
+
         <div class="card shadow-lg w-75 mx-auto mt-5">
             <div class="row g-0">
                 <!-- Image Section -->
                 <div class="col-md-4 d-flex align-items-center justify-content-center bg-light">
-                    <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()"
-                         class="img-thumbnail"
-                         alt="Profile Image">
+            <img src="/userImages/@Model.ImageFileName" class="img-thumbnail" alt="Profile Image" style="width: 350px; height: 450px;">
                 </div>
                 <!-- Student Details Section -->
                 <div class="col-md-8">
@@ -31,13 +25,15 @@
                             <li class="list-group-item"><strong>Zip Code:</strong> @Model.ZipCode</li>
                         </ul>
                         <div class="text-center mt-4">
-                            <a asp-controller="user" asp-action="index" class="btn btn-outline-dark">Back To List</a>
+                            <a asp-controller="user" asp-action="index" class="btn btn-dark">Back To List</a>
+
+                            <a asp-action="edit" asp-route-id="@Model.Id" class="btn btn-danger">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
 
-
-    </div>
-</div>

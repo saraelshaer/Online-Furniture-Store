@@ -38,8 +38,13 @@ namespace FurnitureStore.Controllers
             {
                 _unitOfWork.UserRepository.Add(user);
                 _unitOfWork.Save();
-                _unitOfWork.UserRoleRepo.Add(new UserRole { RoleId=2 , UserId= user.Id});
-                _unitOfWork.Save();
+                var role = _unitOfWork.RoleRepository.Find(r=>r.Name == "Regular user");
+                if(role != null)
+                {
+                    _unitOfWork.UserRoleRepo.Add(new UserRole { RoleId = role.Id, UserId = user.Id });
+                    _unitOfWork.Save();
+                }
+
                 return RedirectToAction("Login");
             }
             else
@@ -69,7 +74,7 @@ namespace FurnitureStore.Controllers
                         new Claim(ClaimTypes.NameIdentifier, loginUser.Id.ToString()),
                     };
 
-                    TempData["ImageProfile"] = "defaultUserImage.jpg";
+                    TempData["ImageProfile"] = loginUser.ImageFileName;
                     var roles = _unitOfWork.UserRoleRepo.FindAll<string>(ur => ur.UserId == loginUser.Id, ur => ur.Role.Name, new[] {"Role"});
 
                     foreach (var role in roles)
@@ -94,7 +99,7 @@ namespace FurnitureStore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect email or password");
+                    ModelState.AddModelError(string.Empty, "❗Incorrect email or password");
                     return  View(model);
                 }
             }
@@ -110,12 +115,12 @@ namespace FurnitureStore.Controllers
 
 
         [HttpGet]
-        public JsonResult CheckEmail(string email)
+        public JsonResult CheckEmail(string Email)
         {
-            var user = _unitOfWork.UserRepository.Find(u => u.Email == email);
+            var user = _unitOfWork.UserRepository.Find(u => u.Email == Email);
             if (user != null)
             {
-                return Json($"Email {email} is already in use.");  // Email is already in use
+                return Json($"Email {Email} is already in use.");  // Email is already in use
             }
             return Json(true);  // Email is available
         }

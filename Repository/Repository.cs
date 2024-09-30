@@ -17,12 +17,19 @@ namespace FurnitureStore.Repository
         }
         public void Add(T entity) => _dbSet.Add(entity);
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null) 
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null, string[] includes = null) 
         {
             IQueryable<T> query = _dbSet.AsQueryable(); ;
             if (criteria != null) 
             {
                 query = query.Where(criteria);
+            }
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
             }
             return query;
         }
@@ -64,7 +71,9 @@ namespace FurnitureStore.Repository
             }
             return query.Where(criteria).Select(expression);
         }
-       
+
+        public bool Exists(Expression<Func<T, bool>> criteria) => _dbSet.Any(criteria);
+
         
     }
 }

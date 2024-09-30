@@ -104,17 +104,22 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-white mb-4">Admin Dashboard</h4>
-        <a asp-action="dashboard">Dashboard</a>
+        <a asp-action="dashboard" asp-controller="home">Dashboard</a>
         <a asp-action="index" asp-controller="order">Orders</a>
         <a asp-action="index" asp-controller="product">Products</a>
         <a asp-action="index" asp-controller="category">Categories</a>
-        <a asp-action="index" asp-controller="user">Customers</a>
+        <a asp-action="index" asp-controller="user">Users</a>
+        <a asp-action="index" asp-controller="role">Roles</a>
         <a asp-action="index" asp-controller="home">Website</a>
 
     </div>
 
     <!-- Main Content -->
-   @RenderBody()
+    <div class="main-content">
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

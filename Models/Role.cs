@@ -11,6 +11,6 @@ namespace FurnitureStore.Models
         [MaxLength(15)]
         public string Name { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

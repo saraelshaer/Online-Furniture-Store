@@ -6,10 +6,10 @@ namespace FurnitureStore.Models
     {
         [ForeignKey("WishList")]
         public int WishListId { get; set; }
-        public WishList WishList { get; set; }
+        public virtual WishList WishList { get; set; }
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

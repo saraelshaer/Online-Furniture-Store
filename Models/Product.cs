@@ -16,7 +16,7 @@ namespace FurnitureStore.Models
         public string Description { get; set; }
 
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be a positive number.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "❗Price must be a positive number.")]
         public decimal Price { get; set; }
 
         [Required]

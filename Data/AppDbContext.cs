@@ -18,12 +18,15 @@ namespace FurnitureStore.Data
             modelBuilder.Entity<CartProduct>()
                 .HasKey(k => new { k.ProductId, k.CartId });
 
-            modelBuilder.Entity<UserRole>()
-               .HasKey(k => new { k.UserId, k.RoleId });
+            modelBuilder.Entity<User>(config =>
+            {
+                config.Property(c => c.IsActive)
+                   .HasDefaultValue(true);
 
-            modelBuilder.Entity<User>()
-               .Property(c => c.IsActive)
-               .HasDefaultValue(true);
+                config.Property(c => c.ImageFileName)
+                .HasDefaultValue("defaultUserImage.jpg");
+            });
+             
 
             modelBuilder.Entity<Review>()
               .Property(c => c.IsActive)
@@ -55,6 +58,12 @@ namespace FurnitureStore.Data
                       .HasConversion<string>();
 
             });
+
+            modelBuilder.Entity<Role>()
+              .HasMany(r=>r.UserRoles)
+              .WithOne(r => r.Role)
+              .OnDelete(DeleteBehavior.SetNull);
+               
 
             modelBuilder.Entity<User>()
                 .HasData
@@ -100,9 +109,11 @@ namespace FurnitureStore.Data
                   new Role
                   {
                       Id = 2,
-                      Name = "Customer"
+                      Name = "Regular User"
                   }
                 );
+
+
 
             base.OnModelCreating(modelBuilder);
         }
