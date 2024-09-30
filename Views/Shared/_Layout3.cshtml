@@ -21,7 +21,7 @@
 </head>
 <body>
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" asp-controller="home" asp-action="index">
                 <strong>
@@ -60,12 +60,7 @@
 
 
                 <div class="nav-icons">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="account" asp-action="login" class="btn btn-outline-dark me-3">
-                            <i class="fa fa-sign-in-alt"></i> Sign In
-                        </a>
-                    }
+               
                     @* <a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #1c1e21;"></i></a> *@
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -89,12 +84,21 @@
                                 <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
                             </ul>
                         </div>
+
+                        <!-- Icons for Wishlist and Cart -->
+                        <a href="#"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge">0</span></a>
+                        <a href="#"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i> <span class="badge">1</span></a>
+                    }
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="account" asp-action="login" >
+                            <i class="fa fa-sign-in-alt"></i> 
+                        </a>
                     }
 
 
-                    <!-- Icons for Wishlist and Cart -->
-                    <a href="#"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge">0</span></a>
-                    <a href="#"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i> <span class="badge">1</span></a>
+                
                 </div>
 
         

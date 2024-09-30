@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"  />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +17,6 @@
             justify-content: center;
             align-items: center;
         }
-     
 
         .login-container {
             background-color: white;
@@ -71,7 +69,7 @@
                     text-decoration: underline;
                 }
 
-        a{
+        a {
             color: #0a5d5d;
             text-decoration: none;
         }
@@ -80,16 +78,42 @@
                 text-decoration: underline;
             }
 
+        /* Fix navbar to the top */
+        nav.navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
 
+        nav a:hover {
+            text-decoration: none;
+        }
+
+        /* Adjust body padding to account for the fixed navbar */
+        body {
+            padding-top: 70px; /* Adjust based on your navbar height */
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" asp-controller="home" asp-action="index">
+                <strong>
+                    <h3>
+                        <i class="fa-solid fa-couch " style="color: #0a5d5d;"></i>&nbsp;FunStore
+                    </h3>
+                </strong>
+            </a>
+        </div>
+    </nav>
 
-  @RenderBody()
+    @RenderBody()
 
     <!-- Bootstrap JS and dependencies -->
-   @*  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> *@
-
     <script src="/lib/jquery/dist/jquery.js"></script>
     @RenderSection("Scripts", false)
 </body>
