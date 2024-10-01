@@ -25,11 +25,11 @@ namespace FurnitureStore.Models
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         [Required]
         [ForeignKey("Order")]
         public int OrderId { get; set; }
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
     }
 }
