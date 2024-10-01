@@ -1,35 +1,62 @@
 ﻿@model IEnumerable<Category>
 @{
     ViewData["Title"] = "Category List";
-    Layout = "layout3";
+    Layout = "AdminLayout";
 }
 
 <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 
-<h2 style="color: #b32400 ; padding: 10px">Category List</h2>
+        <h2 class="mb-4">Category List</h2>
+<br />
+<br />
+<a asp-action="Create" class="btn btn-outline-dark">Create New Category</a>
+        <br />
+        <br />
+        <table class="table table-bordered  table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>@category.Description</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-success"> <i class="fas fa-edit"></i> Edit</a>
+                            <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-info"> <i class="fas fa-eye"></i> View</a>
+                            <a href="javascript:void(0)" class="btn btn-danger" onclick="confirmDelete('@category.Id', '@Url.Action("Delete", new { id = category.Id })')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<a asp-action="Create" class="btn btn-outline-dark mb-2" style="margin:0 100px">Create New Category</a>
-
-<table class="table table-bordered  table-hover">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Operations</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model)
-        {
-            <tr>
-                <td>@category.Name</td>
-                <td>@category.Description</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
+@section Scripts
+{
+    <script>
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Category",
+                text: "Are you sure about deleting this category ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = deleteUrl;
+                }
+            });
         }
-    </tbody>
-</table>
+    </script>
+
+}

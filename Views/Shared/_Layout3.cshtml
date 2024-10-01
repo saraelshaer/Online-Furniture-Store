@@ -15,6 +15,7 @@
     <link href="/assets/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link href="/assets/css/myStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans">
 
 
 
@@ -35,7 +36,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="home" asp-action="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="index">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="product" asp-action="UserIndex">Products</a></li>
+
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="home" asp-action="dashboard">Dashboard</a></li>
@@ -86,7 +88,7 @@
                         </div>
 
                         <!-- Icons for Wishlist and Cart -->
-                        <a href="#"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge">0</span></a>
+                        <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge" id="wishlist-count">@Convert.ToInt32(TempData.Peek("NoOfItemsInWishlist"))</span></a>
                         <a href="#"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i> <span class="badge">1</span></a>
                     }
 
@@ -110,12 +112,18 @@
 
     <!-- Header-->
 
-
+   
     <!-- Main Content Section-->
+    <div class="content">
+        @RenderBody()
+    </div>
 
-    @RenderBody()
 
 
+    <br />
+    <br />
+    <br />
+    <br />
     <br />
     <br />
     <br />
@@ -127,11 +135,12 @@
             <p class="m-0 text-center ">Copyright &copy;<strong> FunStore 2024</strong></p>
         </div>
     </footer>
-
+   @*  <script src="/lib/jquery/dist/jquery.js"></script> *@
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="/assets/js/scripts.js"></script>
-    <script src="/lib/jquery/dist/jquery.js"></script>
+
     @RenderSection("Scripts", false)
 </body>
 

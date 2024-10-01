@@ -68,25 +68,8 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult Delete(int id)
         {
-            var category = _unitOfWork.CategoryRepository.GetById(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var category = _unitOfWork.CategoryRepository.GetById(id);
-
-            if (category == null)
-            {
-                return NotFound("Category not found");
-            }
-
-            _unitOfWork.CategoryRepository.SoftDelete(category);
+            var entity = _unitOfWork.CategoryRepository.GetById(id);
+            _unitOfWork.CategoryRepository.SoftDelete(entity);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

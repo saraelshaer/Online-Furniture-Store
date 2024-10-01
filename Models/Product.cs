@@ -22,10 +22,10 @@ namespace FurnitureStore.Models
         [Required]
         public int StockQuantity { get; set; }
 
-        [Required]
+      
         [StringLength(255, ErrorMessage = "Image file name cannot be longer than 255 characters.")]
         [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
-        public string ImageFileName { get; set; }
+        public string ImageFileName { get; set; } 
 
         [Required]
         public DateTime CreatedAt { get; set; }
@@ -36,16 +36,17 @@ namespace FurnitureStore.Models
         [ForeignKey("Category")]
         public int CategoryID { get; set; }
         public virtual  Category Category { get; set; }
+        [NotMapped]
+        public IFormFile ProductImage { get; set; }
 
-     
-
+        public bool IsInWishlist { get; set; }=false;
         public virtual ICollection<CartProduct> CartProducts { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
 
-        public virtual ICollection<WishListProduct> WishListProducts { get; set; }
+        public virtual ICollection<WishListProduct> WishListProducts { get; set; } = new List<WishListProduct>();
 
     }
 }

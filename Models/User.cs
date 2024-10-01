@@ -69,7 +69,7 @@ namespace FurnitureStore.Models
 
         public virtual Cart Cart { get; set; }
 
-        public virtual WishList WishList { get; set; }
+        public virtual WishList WishList { get; set; } 
 
         public virtual ICollection<UserRole> UserRoles { get; set; }
 

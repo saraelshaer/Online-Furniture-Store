@@ -1,0 +1,20 @@
+﻿@model Role
+
+
+<form asp-action="Create" method="post" class="p-4 shadow-sm rounded bg-light">
+    <div class="mb-3">
+      
+        <label asp-for="Name" class="form-label font-weight-bold">Role Name</label>
+        <div class="input-group">
+            <input asp-for="Name" class="form-control" placeholder="Enter role name">
+            <div class="input-group-append m-2">
+               
+                <button type="submit" class="btn btn-primary ">Add New Role</button>
+            </div>
+        </div>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+</form>
+
+
+

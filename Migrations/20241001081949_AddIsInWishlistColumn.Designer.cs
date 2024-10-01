@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurnitureStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240923020426_AddWishListandWishListProductModels")]
-    partial class AddWishListandWishListProductModels
+    [Migration("20241001081949_AddIsInWishlistColumn")]
+    partial class AddIsInWishlistColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,9 @@ namespace FurnitureStore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -185,7 +188,6 @@ namespace FurnitureStore.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ImageFileName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -193,6 +195,9 @@ namespace FurnitureStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
+
+                    b.Property<bool>("IsInWishlist")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -277,7 +282,7 @@ namespace FurnitureStore.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Customer"
+                            Name = "Regular User"
                         });
                 });
 
@@ -307,8 +312,10 @@ namespace FurnitureStore.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("ImageFileName")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasDefaultValue("defaultUserImage.jpg");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -349,6 +356,7 @@ namespace FurnitureStore.Migrations
                             Country = "Egypt",
                             Email = "elshaer@gmail.com",
                             FirstName = "Sara",
+                            ImageFileName = "defaultUserImage.jpg",
                             IsActive = true,
                             LastName = "Elshaer",
                             Password = "Sara123456??",
@@ -363,6 +371,7 @@ namespace FurnitureStore.Migrations
                             Country = "Egypt",
                             Email = "Elazb@gmail.com",
                             FirstName = "Sara",
+                            ImageFileName = "defaultUserImage.jpg",
                             IsActive = true,
                             LastName = "Elazb",
                             Password = "Sara123456??",
@@ -374,15 +383,23 @@ namespace FurnitureStore.Migrations
 
             modelBuilder.Entity("FurnitureStore.Models.UserRole", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
                 });
@@ -539,14 +556,11 @@ namespace FurnitureStore.Migrations
                     b.HasOne("FurnitureStore.Models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("FurnitureStore.Models.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Role");
 

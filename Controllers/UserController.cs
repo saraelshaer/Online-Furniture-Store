@@ -2,6 +2,7 @@
 using FurnitureStore.Models;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace FurnitureStore.Controllers
@@ -20,13 +21,6 @@ namespace FurnitureStore.Controllers
         {
             var users =_unitOfWork.UserRepository.GetAll(ur=>ur.IsActive);
             return View(users);
-        }
-
-        [HttpPost]
-        public IActionResult Create(User user)
-        {
-
-            return RedirectToAction("Index");
         }
 
         public IActionResult Details(int id)
@@ -153,8 +147,9 @@ namespace FurnitureStore.Controllers
 
         public IActionResult ManageRoles(int id)
         {
-            var model = _unitOfWork.UserRoleRepo.GetAll(r=>r.UserId == id);
-            return View(model);
+            var entity = _unitOfWork.UserRepository.GetById(id);
+            ViewBag.Roles =_unitOfWork.RoleRepository.GetAll();
+            return View(entity);
         }
 
         [HttpPost]

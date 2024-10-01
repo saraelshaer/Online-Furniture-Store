@@ -72,6 +72,13 @@ namespace FurnitureStore.Repository
             return query.Where(criteria).Select(expression);
         }
 
+        public object GetCartByUserId(int userId)
+        {
+            return _context.Carts
+           .Include(c => c.CartProducts)
+           .FirstOrDefault(c => c.UserId == userId);
+        }
+
         public bool Exists(Expression<Func<T, bool>> criteria) => _dbSet.Any(criteria);
 
         

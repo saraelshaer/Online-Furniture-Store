@@ -1,9 +1,11 @@
 ﻿using FurnitureStore.IRepository;
 using FurnitureStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureStore.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class RoleController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -18,10 +20,7 @@ namespace FurnitureStore.Controllers
             var roles = _unitOfWork.RoleRepository.GetAll();
             return View(roles);
         }
-        public IActionResult Create() 
-        {
-            return View();
-        }
+     
 
         [HttpPost]
         public IActionResult Create(Role role)
@@ -31,13 +30,13 @@ namespace FurnitureStore.Controllers
                 if (_unitOfWork.RoleRepository.Exists(r=>r.Name.ToLower().Trim() == role.Name.ToLower().Trim()))
                 {
                     ModelState.AddModelError("Name", "❗Role is already exists!");
-                    return View(role);
+                    return View("Index", _unitOfWork.RoleRepository.GetAll());
                 }
                 _unitOfWork.RoleRepository.Add(role);
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            return View(role);
+            return View("Index", _unitOfWork.RoleRepository.GetAll());
         }
 
         public IActionResult Delete(int id)

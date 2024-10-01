@@ -7,7 +7,6 @@ namespace FurnitureStore.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        //private IRepository<Product> _productRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -17,7 +16,10 @@ namespace FurnitureStore.Repository
             UserRoleRepo= new Repository<UserRole>(_context);
             CategoryRepository = new Repository<Category>(_context);
             ReviewRepository = new Repository<Review>(_context);
+            CartRepository = new Repository<Cart>(_context);
+
             RoleRepository= new Repository<Role>(_context);
+            WishListRepo = new Repository<WishList>(_context);
         }
 
         public IRepository<Product> ProductRepository { get; }
@@ -31,8 +33,10 @@ namespace FurnitureStore.Repository
 
         public IRepository<UserRole> UserRoleRepo { get; }
         public IRepository<Role> RoleRepository { get; }
+        public IRepository<WishList> WishListRepo { get; }
 
-       
+        public IRepository<Cart> CartRepository { get; private set; }
+
 
         public void Save()
         {

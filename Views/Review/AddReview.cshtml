@@ -1,0 +1,57 @@
+﻿@model FurnitureStore.Models.Review
+
+@{
+    // ViewBag.Title = "Add a Review";
+    // Layout = null;
+}
+
+<h2>Reviews for @ViewBag.Product.Name</h2>
+<p>Your review is awaiting approval</p>
+
+<div>
+    <form asp-action="AddReview" method="post">
+        <!-- Rating -->
+        <div class="form-group">
+            <label for="Rating">Your rating *</label>
+            <select asp-for="Rating" class="form-control" id="Rating" required>
+                <option value="">Select rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+
+        <!-- Comment -->
+        <div class="form-group">
+            <label for="Comment">Your review *</label>
+            <textarea asp-for="Comment" class="form-control" id="Comment" required></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+        <!-- Name (User) -->
+        <div class="form-group">
+            <label for="User.Name">Name *</label>
+            <input asp-for="User.FirstName" class="form-control" id="User.User.FirstName" required />
+            <span asp-validation-for="User.FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Email (User) -->
+        <div class="form-group">
+            <label for="User.Email">Email *</label>
+            <input asp-for="User.Email" class="form-control" id="User.Email" type="email" required />
+            <span asp-validation-for="User.Email" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+}
+

@@ -5,11 +5,9 @@
 }
 
 <h2 class="mb-4">Roles</h2>
-<br />
-<br />
-<a asp-action="Create" class="btn btn-outline-dark mb-2" >Add New Role</a>
-<br />
-<br />
+
+<partial name="_AddRole" model="new Role()"/>
+
 <table class="table table-hover table-bordered">
     <thead class="table-dark">
         <tr>
@@ -64,5 +62,12 @@
             });
         }
     </script>
+
+
+    <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+
 
 }
