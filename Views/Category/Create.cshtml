@@ -3,27 +3,33 @@
     ViewData["Title"] = "Create Category";
     Layout = "AdminLayout";
 }
-<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 
 
-<h2>Create Category</h2>
+<br />
+<br />
+<br />
+<h2 class="text-center my-4">Create Category</h2>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<div class="container p-4 border rounded shadow-sm bg-light">
+    <form asp-action="Create" method="post">
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label fw-bold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="form-label fw-bold"></label>
+            <textarea asp-for="Description" class="form-control" placeholder="Enter category description" rows="4" maxlength="100"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-sm btn-danger">Create</button>
-</form>
-<a asp-action="Index">Back to List</a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-4">Create</button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg px-4 ms-2">Back to List</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>

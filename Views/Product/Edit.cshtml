@@ -4,65 +4,92 @@
     ViewData["Title"] = "Edit Product";
     Layout = "AdminLayout";
 }
+<br />
+<br />
+<br />
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Image Section -->
 
-<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Product Image</h5>
 
-<h2 style="color: #b32400 ; padding: 10px">Edit Product</h2>
-
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Name" class="form-label text-black"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Description" class="form-label text-black"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Price" class="form-label text-black"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="StockQuantity" class="form-label text-black"></label>
-        <input asp-for="StockQuantity" class="form-control" />
-        <span asp-validation-for="StockQuantity" class="text-danger"></span>
-    </div>
-
-@*     <div class="form-group">
-        <label asp-for="ImageFileName" class=" form-label text-black"></label>
-        <input asp-for="ImageFileName" class="form-control" />
-        <span asp-validation-for="ImageFileName" class="text-danger"></span>
-    </div> *@
-    <div class="row mb-3">
-        <div class="col">
-            <label asp-for="ProductImage" class="form-label">Product Image</label>
-            <input type="file" asp-for="ProductImage" class="form-control">
-            <span asp-validation-for="ProductImage" class="text-danger"></span>
+                    <img src="/productImages/@Model.ImageFileName" class="img-thumbnail" alt="Product Image" style="width: 350px; height: 450px;">
+                 
+                </div>
+            </div>
         </div>
-        <input type="hidden" asp-for="ImageFileName" value="@Model.ImageFileName" class="form-control">
-    </div>
 
-    <div class="form-group">
-        <label asp-for="CategoryID" class="form-label text-black">Category</label>
-        <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control"></select>
-        <span asp-validation-for="CategoryID" class="text-danger"></span>
-    </div>
-    <br />
-    <input type="hidden" asp-for="Id" />
+        <!-- product Details Section -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product Details</h5>
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data" >
 
-    <button type="submit" class="btn btn-sm btn-danger">Save Changes</button>
-    <a asp-action="AdminIndex" class="btn btn-sm btn-secondary">Cancel</a>
-</form>
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ImageFileName" value="@Model.ImageFileName" />
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label text-black fw-bold"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label text-black fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Price" class="form-label text-black fw-bold"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="StockQuantity" class="form-label text-black fw-bold"></label>
+                            <input asp-for="StockQuantity" class="form-control" />
+                            <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                        </div>
+
+
+
+                        <!-- Section to Upload New Image -->
+                        <div class="form-group mb-3">
+                            <label asp-for="ProductImage" class="form-label fw-bold">Change Product Image</label>
+                            <input type="file" asp-for="ProductImage" class="form-control" />
+                            <span asp-validation-for="ProductImage" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="CategoryID" class="form-label text-black fw-bold">Category</label>
+                            <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-select"></select>
+                            <span asp-validation-for="CategoryID" class="text-danger"></span>
+                        </div>
+
+
+                        <br />
+                        <br />
+                        <div >
+                            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                            <a asp-action="AdminIndex" class="btn btn-secondary btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
+
     <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
 }
 
 

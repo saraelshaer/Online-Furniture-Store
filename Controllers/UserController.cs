@@ -148,14 +148,20 @@ namespace FurnitureStore.Controllers
         public IActionResult ManageRoles(int id)
         {
             var entity = _unitOfWork.UserRepository.GetById(id);
-            ViewBag.Roles =_unitOfWork.RoleRepository.GetAll();
+            ViewData["roles"] =_unitOfWork.RoleRepository.GetAll();
             return View(entity);
         }
 
         [HttpPost]
-        public IActionResult ManageRoles(UserRole userRole)
+        public IActionResult ManageRoles(int id, List<int> SelectedRoles)
         {
-             _unitOfWork.UserRoleRepo.Update(userRole);
+            var user = _unitOfWork.UserRepository.GetById(id);
+            user.UserRoles.Clear();
+           
+            foreach (var item in SelectedRoles) 
+            {
+                user.UserRoles.Add(new UserRole{ UserId = id, RoleId = item });
+            }
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

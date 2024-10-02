@@ -7,11 +7,11 @@ namespace FurnitureStore.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(3)]
+        [Required(ErrorMessage = "❗Name is required.")]
+        [MinLength(3 , ErrorMessage = "❗Name must be at least 3 characters long.")]
         [MaxLength(15)]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "❗Description is required.")]
         [MaxLength(100)]
         public string Description { get; set; }
 

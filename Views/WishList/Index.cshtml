@@ -264,7 +264,7 @@
                     }
                     else
                     {
-                        <div id="empty-wishlist-message" class="container text-center" style=" display: none;">
+                        <div id="empty-wishlist-message" class="container text-center" style="display:none;" >
                             <h3>Your wishlist is empty!</h3>
                         </div>
                     }
@@ -293,10 +293,10 @@
                             var currentCount = parseInt($('#wishlist-count').text());
                             $('#wishlist-count').text(currentCount - 1);
 
-                            // Check if the wishlist is now empty
-                            if ($('#wishlist-container .col-sm-3').length === 0) {
-                                // Show the empty wishlist message
-                                $('#empty-wishlist-message').show();
+                            
+                            if (currentCount - 1 <= 0) {
+                                $('#wishlist-container').hide();  // Hide the wishlist items container
+                                $('#empty-wishlist-message').show();  // Show the "wishlist is empty" message
                             }
                         } 
                     },
