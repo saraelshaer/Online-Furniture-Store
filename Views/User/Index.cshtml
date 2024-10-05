@@ -13,12 +13,12 @@
         <table class="table table-hover table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Roles</th>
-                    <th>Actions</th>
+                    <th class="text-center" >First Name</th>
+                    <th class="text-center">Last Name</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Phone</th>
+                    <th class="text-center">Roles</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,11 +31,11 @@
                 @foreach (var user in Model)
                 {
                     <tr>
-                        <td>@user.FirstName</td>
-                        <td>@user.LastName</td>
-                        <td>@user.Email</td>
-                        <td>@user.Phone</td>
-                        <td>
+                        <td class="text-center">@user.FirstName</td>
+                        <td class="text-center">@user.LastName</td>
+                        <td class="text-center">@user.Email</td>
+                        <td class="text-center">@user.Phone</td>
+                        <td class="text-center">
                             @foreach(var userRole in user.UserRoles)
                             {
                         
@@ -45,7 +45,7 @@
                         }
                     }
                          </td>
-                        <td>
+                         <td class="text-center">
                              <a asp-action="ManageRoles" asp-route-id="@user.Id" class="btn btn-primary">
                                 Manage Roles
                             </a>

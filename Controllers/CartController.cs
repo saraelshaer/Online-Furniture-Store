@@ -60,21 +60,21 @@ namespace FurnitureStore.Controllers
                     };
 
                     cart.CartProducts.Add(item);
-                    product.StockQuantity -= quantity;  // Decrease stock
+                    product.StockQuantity -= quantity;  
 
                     response = new { isInCart = true, cartCount = cart.CartProducts.Sum(ci => ci.Quantity) };
                 }
                 else
                 {
-                    cartItem.Quantity += quantity;  // Update quantity if already in cart
-                    product.StockQuantity -= quantity;  // Decrease stock accordingly
+                    cartItem.Quantity += quantity;
+                    product.StockQuantity -= quantity;
                 }
 
                 _unitOfWork.ProductRepository.Update(product);
                 _unitOfWork.Save();
                 TempData["NoOfItemsInCart"] = cart.CartProducts?.Sum(ci => ci.Quantity) ?? 0;
 
-                // Update the cart count in the response
+                
                 response = new { isInCart = true, cartCount = cart.CartProducts.Sum(ci => ci.Quantity) };
             }
 
@@ -84,11 +84,13 @@ namespace FurnitureStore.Controllers
 
 
 
+
         [HttpPost]
         public IActionResult RemoveFromCart(int productId)
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+            var response = new { success = false, cartCount = 0 };
 
             if (cart != null)
             {
@@ -96,18 +98,19 @@ namespace FurnitureStore.Controllers
                 if (cartItem != null)
                 {
                     var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
-                    product.StockQuantity += cartItem.Quantity;  // Restore stock
+                    product.StockQuantity += cartItem.Quantity; 
                     cart.CartProducts.Remove(cartItem);
 
                     _unitOfWork.ProductRepository.Update(product);
                     _unitOfWork.Save();
 
-                    return Json(new { success = true });
+                    response = new { success = true, cartCount = cart.CartProducts.Sum(ci => ci.Quantity) };
                 }
             }
 
-            return Json(new { success = false });
+            return Json(response);
         }
+
 
         [HttpPost]
         public IActionResult UpdateQuantity(int productId, int quantity)
@@ -123,18 +126,21 @@ namespace FurnitureStore.Controllers
                     var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
                     if (product != null && quantity > 0 && quantity <= product.StockQuantity)
                     {
-                        product.StockQuantity += cartItem.Quantity - quantity; // Adjust stock
-                        cartItem.Quantity = quantity;  // Update quantity
+                        product.StockQuantity += cartItem.Quantity - quantity;  
+                        cartItem.Quantity = quantity; 
+
                         _unitOfWork.ProductRepository.Update(product);
                         _unitOfWork.Save();
 
-                        return Json(new { success = true });
+                        var cartCount = cart.CartProducts.Sum(ci => ci.Quantity);
+                        return Json(new { success = true, cartCount = cartCount });
                     }
                 }
             }
 
             return Json(new { success = false });
         }
+
 
     }
 }

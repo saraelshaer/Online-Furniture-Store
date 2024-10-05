@@ -1,20 +1,64 @@
-﻿@{
+﻿@model IQueryable<Product>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <section class="hero">
     <div class="hero-content">
-        <h1>Discover And Find<br /> Your New Product</h1>
-
-        <form asp-controller="product">
+      <br>
+        <h1 style="letter-spacing:1px;">Discover And Find<br /><span style="display:inline-block; margin-top:10px;">Your New Product</span> </h1>
+     
+        <form asp-controller="product" asp-action="UserIndex">
             <div>
 
-                <button type="submit" class="btn  btn-outline-light mb-5 w-50 "><i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now</button>
+                <button type="submit" class="btn  btn-outline-light mb-1 w-50 " 
+                style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;border:2px solid white;"><i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now</button>
             </div>
 
         </form>
     </div>
 </section>
+
+<partial name="_NewArrival" model="Model.Where(p=>p.IsActive).OrderByDescending(p=>p.CreatedAt).Take(4)" />
+
+ @section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.toggle-wishlist').on('click', function () {
+                var productId = $(this).data('product-id');
+                var icon = $('#wishlist-icon-' + productId);
+
+                $.ajax({
+                    url: '@Url.Action("ToggleWishlist", "WishList")',
+                    type: 'POST',
+                    data: { productId: productId },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.isInWishlist) {
+                            icon.removeClass('fa-regular').addClass('fa-solid');
+                            icon.css('color', '#ff6161');  // Red color for heart
+                            var currentCount = parseInt($('#wishlist-count').text());
+                            $('#wishlist-count').text(currentCount + 1);
+                        } else {
+                            icon.removeClass('fa-solid').addClass('fa-regular');
+                            icon.css('color', '#23533c');  // Reset to default
+                            var currentCount = parseInt($('#wishlist-count').text());
+                            $('#wishlist-count').text(currentCount - 1);
+                        }
+                    },
+                    error: function () {
+                        alert('Error toggling wishlist!');
+                    }
+                });
+            });
+        });
+    </script>
+ }
 
 
 

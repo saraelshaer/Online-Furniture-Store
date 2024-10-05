@@ -4,19 +4,24 @@
     Layout = "AdminLayout";
 }
 
-<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<br />
+<br />
+<br />
+<h2 style=" padding: 10px; text-align: center;">Category Details</h2>
 
-<h2 style="color: #b32400 ; padding: 10px">Category Details</h2>
+<div class="container p-4 border rounded shadow-sm bg-light">
+    <div class="form-group mb-3">
+        <label class="fw-bold">Name:</label>
+        <p class="form-control-plaintext">@Model.Name</p>
+    </div>
 
-<div class="form-group">
-    <label>Name:</label>
-    <p class="form-control-static">@Model.Name</p>
+    <div class="form-group mb-3">
+        <label class="fw-bold">Description:</label>
+        <p class="form-control-plaintext">@Model.Description</p>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-primary btn-lg px-4">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary btn-lg px-4 ms-2">Edit</a>
+    </div>
 </div>
-
-<div class="form-group">
-    <label>Description:</label>
-    <p class="form-control-static">@Model.Description</p>
-</div>
-
-<a asp-action="Index" class="btn btn-sm btn-danger">Back to List</a>
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary">Edit</a>

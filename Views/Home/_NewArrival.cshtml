@@ -1,0 +1,51 @@
+﻿@model IQueryable<Product>
+@{
+}
+
+
+
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2><b>New Arrival</b></h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+           
+            @foreach (var product in Model)
+            {
+                <div class="col mb-md-5">
+                    <div class="card h-100 w-100">
+
+                        <span class="wish-icon">
+                            <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
+                                <i class="fa-heart @(product.IsInWishlist ? "fa-solid" : "fa-regular")" id="wishlist-icon-@product.Id"></i> 
+                           
+                            </a>
+                        </span>
+                        <!-- Product image-->
+                        <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h4 class="fw-bolder product-name">@product.Name</h4>
+                                <!-- Product price-->
+                                <p class="item-price" ><strong> $@product.Price</strong></p>
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+    
+        </div>
+        <div class="text-center">
+            <a class="btn btn-outline-dark  w-25 " asp-action="UserIndex" asp-controller="product"
+               style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;display:inline-block; margin-top:30px;">View All</a>
+        </div>
+    </div>
+
+</section>

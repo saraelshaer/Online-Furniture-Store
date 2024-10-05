@@ -5,27 +5,34 @@
     Layout = "AdminLayout";
 }
 
-<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<br />
+<br />
+<br />
 
-<h2 style="color: #b32400 ; padding: 10px">Edit Category</h2>
+<h2 style=" padding: 10px; text-align: center;">Edit Category</h2>
 
-<form asp-action="Edit" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="form-label text-black"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<div class="container p-4 border rounded shadow-sm bg-light">
+    <form asp-action="Edit" method="post">
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label text-black fw-bold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="form-label text-black"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="Id" />
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="form-label text-black fw-bold"></label>
+            <textarea asp-for="Description" class="form-control" placeholder="Enter category description" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-sm btn-danger">Save Changes</button>
-    <a asp-action="Index" class="btn btn-sm btn-secondary">Cancel</a>
-</form>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg px-4">Save Changes</button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg px-4 ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>

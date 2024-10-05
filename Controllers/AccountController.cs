@@ -32,7 +32,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public async Task<IActionResult> Register(User user)
         {
             if (ModelState.IsValid)
             {
@@ -44,8 +44,9 @@ namespace FurnitureStore.Controllers
                     _unitOfWork.UserRoleRepo.Add(new UserRole { RoleId = role.Id, UserId = user.Id });
                     _unitOfWork.Save();
                 }
+                await Login(new LoginViewModel { Email = user.Email, Password = user.Password });
 
-                return RedirectToAction("Login");
+                return RedirectToAction("Index","home");
             }
             else
             {
@@ -88,7 +89,7 @@ namespace FurnitureStore.Controllers
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = model.RememberMe, 
-                        ExpiresUtc = model.RememberMe ? DateTime.UtcNow.AddDays(10) : DateTime.UtcNow.AddHours(1) 
+                        ExpiresUtc = model.RememberMe ? DateTime.UtcNow.AddDays(4) : DateTime.UtcNow.AddHours(1) 
                     };
 
                    

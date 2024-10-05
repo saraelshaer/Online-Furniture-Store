@@ -3,55 +3,60 @@
     ViewData["Title"] = "Create product";
     Layout = "AdminLayout";
 }
-<link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 
 
-<h2>Create Product</h2>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<h2 class="text-center my-4">Create Product</h2>
 
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+<div class="container p-4 border rounded shadow-sm bg-light">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="CreatedAt" value="@DateTime.Now" />
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label fw-bold">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="form-label fw-bold">Product Description</label>
+            <textarea asp-for="Description" class="form-control" placeholder="Enter product description" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="StockQuantity"></label>
-        <input asp-for="StockQuantity" class="form-control" />
-        <span asp-validation-for="StockQuantity" class="text-danger"></span>
-    </div>
+        <div class="form-group mb-3">
+            <label asp-for="Price" class="form-label fw-bold">Price</label>
+            <input asp-for="Price" class="form-control" placeholder="Enter price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-       
-        <label asp-for="ProductImage" class="form-label"></label>
-        <input type="file" asp-for="ProductImage" class="form-control" />
-        <span asp-validation-for="ProductImage" class="text-danger"></span>
+        <div class="form-group mb-3">
+            <label asp-for="StockQuantity" class="form-label fw-bold">Stock Quantity</label>
+            <input asp-for="StockQuantity" class="form-control" placeholder="Enter stock quantity" />
+            <span asp-validation-for="StockQuantity" class="text-danger"></span>
+        </div>
 
-    </div>
+        <div class="form-group mb-3">
+            <label asp-for="ProductImage" class="form-label fw-bold">Product Image</label>
+            <input type="file" asp-for="ProductImage" class="form-control" />
+            <span asp-validation-for="ProductImage" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="CategoryID">Category</label>
-        <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control"></select>
-        <span asp-validation-for="CategoryID" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-sm btn-danger">Create</button>
-</form>
-<a asp-action="AdminIndex">Back to List</a>
+        <div class="form-group mb-3">
+            <label asp-for="CategoryID" class="form-label fw-bold">Category</label>
+            <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control">
+                <option value="">Select a Category</option>
+            </select>
+            <span asp-validation-for="CategoryID" class="text-danger"></span>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg px-4 ms-2">Create</button>
+            <a asp-action="AdminIndex" class="btn btn-secondary btn-lg px-4 ms-2">Back to List</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 }
-
