@@ -153,6 +153,7 @@ nav {
 .hero {
 	min-height: 100vh;
 	background-image: url("/productImages/sofaHomePage.webp"); /* Add your image here */
+	/*background-attachment:fixed;*/
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -189,4 +190,60 @@ nav {
 	background-color: #0a5d5d !important;
 	color: white; /* Optional: Change text color to white when hovering */
 	border-color: #0a5d5d !important; /* Optional: Adjust border color */
+}
+
+ h2 {
+        color: #000;
+        font-size: 40px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: capitalize;
+        position: relative;
+        margin: 30px 40px 60px;
+        margin-top:30px;
+    }
+
+    h2::after {
+        content: "";
+        width: 100px;
+        position: absolute;
+        margin: 0 auto;
+        height: 4px;
+        border-radius: 1px;
+        background: #0a5d5d;
+        left: 0;
+        right: 0;
+        bottom: -20px;
+    }
+
+
+.wish-icon {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	z-index: 99;
+	cursor: pointer;
+	font-size: 16px;
+	color: #abb0b8;
+}
+
+	.wish-icon .fa-solid {
+		color: #ff6161;
+	}
+
+	.wish-icon .fa-regular {
+		color: #23533c;
+	}
+
+.item-price {
+	font-size: 16px;
+	letter-spacing: 1px;
+	padding: 2px 0;
+}
+	.item-price strike {
+		opacity: 0.7;
+		margin-right: 5px;
+	}
+.product-name {
+	color: #0a5d5d;
 }

@@ -1,3 +1,4 @@
+using FurnitureStore.IRepository;
 using FurnitureStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,16 +9,18 @@ namespace FurnitureStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+        public HomeController(IUnitOfWork unitOfWork, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         //[Authorize]
         public IActionResult Index()
         {
-            return View();
+            var products=_unitOfWork.ProductRepository.GetAll();
+            return View(products);
         }
 
         public IActionResult Privacy()
@@ -36,5 +39,7 @@ namespace FurnitureStore.Controllers
         {
             return View();
         }
+
+   
     }
 }
