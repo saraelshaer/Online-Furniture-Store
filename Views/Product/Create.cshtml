@@ -1,7 +1,7 @@
 ﻿@model Product
 @{
     ViewData["Title"] = "Create product";
-    Layout = "layout3";
+    Layout = "AdminLayout";
 }
 <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 
@@ -34,12 +34,11 @@
     </div>
 
     <div class="form-group">
-        <div>
+       
         <label asp-for="ProductImage" class="form-label"></label>
         <input type="file" asp-for="ProductImage" class="form-control" />
         <span asp-validation-for="ProductImage" class="text-danger"></span>
-        </div>
-        @* <input type="hidden" asp-for="ImageFileName" value="@Model.ImageFileName" class="form-control"> *@
+
     </div>
 
     <div class="form-group">
@@ -47,7 +46,6 @@
         <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control"></select>
         <span asp-validation-for="CategoryID" class="text-danger"></span>
     </div>
-
     <button type="submit" class="btn btn-sm btn-danger">Create</button>
 </form>
 <a asp-action="AdminIndex">Back to List</a>

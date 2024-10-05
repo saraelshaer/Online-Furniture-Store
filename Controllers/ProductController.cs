@@ -57,8 +57,8 @@ namespace FurnitureStore.Controllers
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 string fileName = string.Empty;
                 if (product.ProductImage != null)
                 {
@@ -81,7 +81,7 @@ namespace FurnitureStore.Controllers
                 _unitOfWork.ProductRepository.Add(product);
                 _unitOfWork.Save();
                 return RedirectToAction("AdminIndex");
-            //}
+            }
 
             ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
             return View(product);

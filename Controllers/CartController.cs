@@ -2,98 +2,141 @@
 using FurnitureStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using FurnitureStore.Repository;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
-
-public class CartController : Controller
+namespace FurnitureStore.Controllers
 {
-    private readonly IUnitOfWork _unitOfWork; // Assuming you're using UnitOfWork
-    public CartController(IUnitOfWork unitOfWork)
+    public class CartController : Controller
     {
-        _unitOfWork = unitOfWork;
-    }
+        private readonly IUnitOfWork _unitOfWork;
 
-    //// View the cart for the current user
-    //public ActionResult Index()
-    //{
-    //    var userId = GetUserId(); // Fetch the logged-in user ID
-    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
-
-    //    if (cart == null || !_unitOfWork.CartProducts.Any())
-    //    {
-    //        return View(new List<CartProduct>());
-    //    }
-
-    //    return View(cart.CartProducts.ToList());
-    //}
-
-    ////Add product to cart
-    //public ActionResult AddToCart(int productId, int quantity)
-    //{
-    //    var userId = GetUserId(); // Fetch the logged-in user ID
-    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId) ?? CreateNewCart(userId);
-
-    //    var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
-    //    if (cartProduct == null)
-    //    {
-    //        cartProduct = new CartProduct
-    //        {
-    //            CartId = cart.Id,
-    //            ProductId = productId,
-    //            Quantity = quantity
-    //        };
-    //        cart.CartProducts.Add(cartProduct);
-    //    }
-    //    else
-    //    {
-    //        cartProduct.Quantity += quantity;
-    //    }
-
-    //    _unitOfWork.CartRepository.Update(cart);
-    //    _unitOfWork.Save();
-
-    //    return RedirectToAction("Index");
-    //}
-
-    //// Remove product from cart
-    //public ActionResult RemoveFromCart(int productId)
-    //{
-    //    var userId = GetUserId(); // Fetch the logged-in user ID
-    //    var cart = _unitOfWork.CartRepository.GetCartByUserId(userId);
-
-    //    if (cart != null)
-    //    {
-    //        var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == productId);
-    //        if (cartProduct != null)
-    //        {
-    //            cart.CartProducts.Remove(cartProduct);
-    //            _unitOfWork.CartRepository.Update(cart);
-    //            _unitOfWork.Save();
-    //        }
-    //    }
-
-    //    return RedirectToAction("Index");
-    //}
-
-    // Helper to get logged-in user ID
-    private int GetUserId()
-    {
-        return int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
-    }
-
-
-    // Helper to create a new cart
-    private Cart CreateNewCart(int userId)
-    {
-        var cart = new Cart
+        public CartController(IUnitOfWork unitOfWork)
         {
-            UserId = userId,
-            CartProducts = new List<CartProduct>()
-        };
+            _unitOfWork = unitOfWork;
+        }
 
-        _unitOfWork.CartRepository.Add(cart);
-        _unitOfWork.Save();
+        public IActionResult Index()
+        {
+            var user = _unitOfWork.UserRepository.GetById(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
 
-        return cart;
+            if (user.Cart == null)
+            {
+                return View(new List<CartProduct>());
+            }
+
+            var cartItems = user.Cart.CartProducts?.ToList() ?? new List<CartProduct>();
+            return View(cartItems);
+        }
+
+        [HttpPost]
+        public IActionResult AddToCart(int productId, int quantity)
+        {
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+            var response = new { isInCart = false, cartCount = 0 };
+
+            if (cart == null)
+            {
+                cart = new Cart
+                {
+                    UserId = userId,
+                    CartProducts = new List<CartProduct>()
+                };
+                _unitOfWork.CartRepository.Add(cart);
+            }
+
+            var cartItem = cart.CartProducts.FirstOrDefault(ci => ci.ProductId == productId);
+            var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
+            if (product != null)
+            {
+                if (cartItem == null)
+                {
+                    var item = new CartProduct
+                    {
+                        ProductId = productId,
+                        CartId = cart.Id,
+                        Quantity = quantity
+                    };
+
+                    cart.CartProducts.Add(item);
+                    product.StockQuantity -= quantity;  // Decrease stock
+
+                    response = new { isInCart = true, cartCount = cart.CartProducts.Sum(ci => ci.Quantity) };
+                }
+                else
+                {
+                    cartItem.Quantity += quantity;  // Update quantity if already in cart
+                    product.StockQuantity -= quantity;  // Decrease stock accordingly
+                }
+
+                _unitOfWork.ProductRepository.Update(product);
+                _unitOfWork.Save();
+                TempData["NoOfItemsInCart"] = cart.CartProducts?.Sum(ci => ci.Quantity) ?? 0;
+
+                // Update the cart count in the response
+                response = new { isInCart = true, cartCount = cart.CartProducts.Sum(ci => ci.Quantity) };
+            }
+
+            return Json(response);
+        }
+
+
+
+
+        [HttpPost]
+        public IActionResult RemoveFromCart(int productId)
+        {
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+
+            if (cart != null)
+            {
+                var cartItem = cart.CartProducts.FirstOrDefault(ci => ci.ProductId == productId);
+                if (cartItem != null)
+                {
+                    var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
+                    product.StockQuantity += cartItem.Quantity;  // Restore stock
+                    cart.CartProducts.Remove(cartItem);
+
+                    _unitOfWork.ProductRepository.Update(product);
+                    _unitOfWork.Save();
+
+                    return Json(new { success = true });
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public IActionResult UpdateQuantity(int productId, int quantity)
+        {
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+
+            if (cart != null)
+            {
+                var cartItem = cart.CartProducts.FirstOrDefault(ci => ci.ProductId == productId);
+                if (cartItem != null)
+                {
+                    var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
+                    if (product != null && quantity > 0 && quantity <= product.StockQuantity)
+                    {
+                        product.StockQuantity += cartItem.Quantity - quantity; // Adjust stock
+                        cartItem.Quantity = quantity;  // Update quantity
+                        _unitOfWork.ProductRepository.Update(product);
+                        _unitOfWork.Save();
+
+                        return Json(new { success = true });
+                    }
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
     }
 }
+
 

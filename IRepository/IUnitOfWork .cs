@@ -10,7 +10,8 @@ namespace FurnitureStore.IRepository
         IRepository<Review> ReviewRepository { get; }
         IRepository<UserRole> UserRoleRepo { get; }
         IRepository<Cart> CartRepository { get; }
-
+        IRepository<Role> RoleRepository { get; }
+        IRepository<WishList> WishListRepo{ get; }
         void Save();
     }
 }

@@ -10,7 +10,7 @@ namespace FurnitureStore.Models
 
         [Required]
         [StringLength(50)]
-        [EnumDataType(typeof(OrderStatus), ErrorMessage = "Invalid order status value.")]
+        [EnumDataType(typeof(OrderStatus), ErrorMessage = "❗Invalid order status value.")]
         public OrderStatus OrderStatus { get; set; }
 
         [Required]

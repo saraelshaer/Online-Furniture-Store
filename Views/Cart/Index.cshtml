@@ -1,0 +1,86 @@
+﻿@model IEnumerable<FurnitureStore.Models.CartProduct>
+
+@{
+    Layout = "_Layout3";
+    ViewBag.Title = "Shopping Cart";
+    var totalPrice = 0m;
+}
+
+<h2>Your Cart</h2>
+
+@if (!Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartProduct in Model)
+            {
+                var product = cartProduct.Product;
+                var totalItemPrice = product.Price * cartProduct.Quantity;
+                totalPrice += totalItemPrice;
+
+                <tr>
+                    <td>
+                        <img src="~/images/@product.ImageFileName" alt="@product.Name" style="width: 50px; height: 50px;" />
+                        @product.Name
+                    </td>
+                    <td>
+                        <input type="number" min="1" value="@cartProduct.Quantity" class="form-control quantity-input" data-product-id="@product.Id" />
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@totalItemPrice.ToString("C")</td>
+                    <td>
+                        <button class="btn btn-danger btn-remove" data-product-id="@product.Id">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="cart-summary">
+        <h4>Total Price: @totalPrice.ToString("C")</h4>
+        <button class="btn btn-primary">Proceed to Checkout</button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Handle quantity change
+            $('.quantity-input').on('change', function () {
+                var productId = $(this).data('product-id');
+                var newQuantity = $(this).val();
+
+                $.post('/Cart/UpdateQuantity', { productId: productId, quantity: newQuantity }, function (response) {
+                    if (response.success) {
+                        location.reload(); // Reload the page to reflect changes
+                    }
+                });
+            });
+
+            // Handle remove from cart
+            $('.btn-remove').on('click', function () {
+                var productId = $(this).data('product-id');
+
+                $.post('/Cart/RemoveFromCart', { productId: productId }, function (response) {
+                    if (response.success) {
+                        location.reload(); // Reload the page to reflect changes
+                    }
+                });
+            });
+        });
+    </script>
+}
+

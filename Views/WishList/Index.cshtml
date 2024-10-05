@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Product>
+﻿@model IEnumerable<WishListProduct>
 @{
-    ViewData["Title"] = "Product List";
+    Layout = "_Layout3";
+    ViewBag.Title = "Wishlist";
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,7 +203,6 @@
             font-size: 14px;
             color: #ffc000;
         }
-
     </style>
 
 </head>
@@ -213,7 +214,7 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-md-12">
-                <h2><b>All Products </b></h2>
+                <h2><b>WISHLIST </b></h2>
                 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
                     <!-- Carousel indicators -->
                     <ol class="carousel-indicators">
@@ -222,52 +223,61 @@
                         <li data-target="#myCarousel" data-slide-to="2"></li>
                     </ol>
                     <!-- Wrapper for carousel items -->
-
+                    @if (Model.Count() > 0)
+                   {
                     <div class="carousel-inner">
                         <div class="item carousel-item active">
-                            <div class="row">
-                                @foreach (var product in Model)
-                                {
-                                    <div class="col-sm-3">
-                                        <div class="thumb-wrapper">
-                                            <span class="wish-icon">
-                                                <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
-                                                    <i class="fa @(product.IsInWishlist ? "fa-heart" : "fa-heart-o")" id="wishlist-icon-@product.Id"></i>
-                                                </a>
-                                            </span>
-                                            <div class="img-box">
-                                                <img src="~/productImages/@product.ImageFileName" class="img-thumbnail" alt="@product.Name">
-                                            </div>
-                                            <div class="thumb-content">
-                                                <h4>@product.Name</h4>
-                                                <p class="item-price"><b>@product.Price</b></p>
-                                                <button class="btn btn-primary add-to-cart" data-product-id="@product.Id" data-quantity="1">Add to Cart</button>
-
+                                <div class="row" id="wishlist-container">
+                                    
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="col-sm-3" id="wishlist-item-@item.Product.Id">
+                                            <div class="thumb-wrapper">
+                                                <span class="wish-icon">
+                                                    <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@item.Product.Id">
+                                                        <i class="fa fa-heart" id="wishlist-icon-@item.Product.Id"></i>
+                                                    </a>
+                                                </span>
+                                                <div class="img-box">
+                                                    <img src="~/productImages/@item.Product.ImageFileName" class="img-thumbnail" alt="@item.Product.Name">
+                                                </div>
+                                                <div class="thumb-content">
+                                                    <h4>@item.Product.Name</h4>
+                                                    <p class="item-price"><b>@item.Product.Price</b></p>
+                                                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                                                </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                }
+                                    }
+                                  
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Carousel controls -->
-                    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+                        <!-- Carousel controls -->
+                        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+
+                    }
+                    else
+                    {
+                        <div id="empty-wishlist-message" class="container text-center" style=" display: none;">
+                            <h3>Your wishlist is empty!</h3>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
     <script>
         $(document).ready(function () {
-            // Handle wishlist toggle
             $('.toggle-wishlist').on('click', function () {
                 var productId = $(this).data('product-id');
                 var icon = $('#wishlist-icon-' + productId);
+                var itemContainer = $('#wishlist-item-' + productId);
 
                 $.ajax({
                     url: '@Url.Action("ToggleWishlist", "WishList")',
@@ -277,61 +287,27 @@
                         'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
                     },
                     success: function (response) {
-                        if (response.isInWishlist) {
-                            icon.removeClass('fa-heart-o').addClass('fa-heart');
-                            icon.css('color', '#ff6161');  // Red color for heart
-                            var currentCount = parseInt($('#wishlist-count').text());
-                            $('#wishlist-count').text(currentCount + 1);
-                        } else {
-                            icon.removeClass('fa-heart').addClass('fa-heart-o');
-                            icon.css('color', '');  // Reset to default
+                        if (!response.isInWishlist) {
+                            // Remove the item from the wishlist page if it was successfully removed from the wishlist
+                            itemContainer.remove();
                             var currentCount = parseInt($('#wishlist-count').text());
                             $('#wishlist-count').text(currentCount - 1);
-                        }
+
+                            // Check if the wishlist is now empty
+                            if ($('#wishlist-container .col-sm-3').length === 0) {
+                                // Show the empty wishlist message
+                                $('#empty-wishlist-message').show();
+                            }
+                        } 
                     },
                     error: function () {
-                        alert('Error toggling wishlist!');
+                        alert('Error removing from wishlist!');
                     }
                 });
             });
-            $(document).ready(function () {
-                // Handle the "Add to Cart" button click
-                $(document).on('click', '.add-to-cart', function () {
-                    var productId = $(this).data('product-id');
-                    var quantity = $(this).data('quantity');
-
-                    $.ajax({
-                        url: '/Cart/AddToCart',  // The correct URL for the AddToCart action
-                        type: 'POST',
-                        data: {
-                            productId: productId,
-                            quantity: quantity
-                        },
-                         headers: {
-                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-                    },
-                        success: function (response) {
-                            if (response.isInCart) {
-                                // Update the cart count badge using the value returned from the server
-                                $('#cart-count').text(response.cartCount);
-                                
-                            } else {
-                               
-                               
-                            }
-                        },
-
-                        error: function () {
-                            alert('Error while adding product to cart.');
-                        }
-                    });
-                });
-            });
-
-
         });
-    </script>
 
+    </script>
 </body>
 </html>
 

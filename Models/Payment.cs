@@ -19,7 +19,7 @@ namespace FurnitureStore.Models
         public DateTime PaymentDate { get; set; }
 
         [StringLength(50)]
-        [EnumDataType(typeof(PaymentStatus), ErrorMessage = "Invalid payment status value.")]
+        [EnumDataType(typeof(PaymentStatus), ErrorMessage = "❗Invalid payment status value.")]
         public PaymentStatus PaymentStatus { get; set; }
 
         [Required]
