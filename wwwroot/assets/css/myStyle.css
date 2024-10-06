@@ -188,7 +188,7 @@ nav {
 
 .btn-outline-dark:hover {
 	background-color: #0a5d5d !important;
-	color: white; /* Optional: Change text color to white when hovering */
+	color: white !important; /* Optional: Change text color to white when hovering */
 	border-color: #0a5d5d !important; /* Optional: Adjust border color */
 }
 

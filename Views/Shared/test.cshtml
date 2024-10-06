@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Product List";
+}@foreach (var product in Model)
+{
+    <div class="col-sm-3">
+        <div class="thumb-wrapper">
+            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+            <div class="img-box">
+                <img src="~/productImages/@product.ImageFileName" class="img-thumbnail" alt="@product.Name"> @* class="img-fluid" *@
+            </div>
+            <div class="thumb-content">
+                <h4>@product.Name</h4>
+                <div class="star-rating">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                    </ul>
+                </div>
+                <p class="item-price"><b>@product.Price</b></p>
+                <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+

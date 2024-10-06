@@ -30,12 +30,14 @@
                                     <!-- Product name-->
                                     <h4 class="fw-bolder product-name" >@item.Product.Name</h4>
                                     <!-- Product price-->
-                                    <p class="item-price"><strong>$@item.Product.Price</strong></p>
+                                    <p class="item-price"><strong>@item.Product.Price.ToString("C")</strong></p>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@item.Product.Id" data-quantity="1">Add to Cart</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,5 +89,39 @@
                 });
             });
         });
+    </script>
+
+    <script>
+                $(document).ready(function () {
+            $(document).on('click', '.add-to-cart', function () {
+                var productId = $(this).data('product-id');
+                var quantity = $(this).data('quantity');
+
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        quantity: quantity
+                    },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.isInCart) {
+                      
+
+
+                        } else {
+                            alert('Failed to add product to cart.');
+                        }
+                    },
+                    error: function () {
+                        alert('Error while adding product to cart.');
+                    }
+                });
+            });
+        });
+
     </script>
 }

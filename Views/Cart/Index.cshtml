@@ -1,0 +1,115 @@
+﻿@model IEnumerable<FurnitureStore.Models.CartProduct>
+
+@{
+    Layout = "_Layout3";
+    ViewBag.Title = "Shopping Cart";
+    var totalPrice = 0m; // Initialize totalPrice
+}
+
+<div class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2><b>SHOPPING CART</b></h2>
+
+        @if (!Model.Any())
+        {
+            <div id="empty-cart-message" class="container text-center">
+                <h3>Your cart is empty!</h3>
+            </div>
+        }
+        else
+        {
+            <!-- Cart Items -->
+            <div id="cart-container" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                @foreach (var cartProduct in Model)
+                {
+                    var product = cartProduct.Product;
+                    var totalItemPrice = product.Price * cartProduct.Quantity;
+                    totalPrice += totalItemPrice; // Accumulate total price here
+
+                    <div class="col mb-md-5" id="cart-item-@product.Id">
+                        <div class="card h-100 w-100 position-relative">
+                            <!-- Remove icon (positioned over the image) -->
+                            <a href="javascript:void(0);" class="remove-from-cart text-danger position-absolute" data-product-id="@product.Id" style="top: 10px; right: 10px; z-index: 10;">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </a>
+
+                            <!-- Product Image -->
+                            <img src="~/productImages/@cartProduct.Product.ImageFileName" class="card-img-top" alt="@product.Name" style="height:250px;">
+
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h4 class="fw-bolder product-name">@product.Name</h4>
+                                    <!-- Product price-->
+                                    <p class="item-price"><strong>@product.Price.ToString("C")</strong></p>
+                                    <!-- Quantity-->
+                                    <input type="number" min="1" value="@cartProduct.Quantity" class="form-control quantity-input text-center mt-2" data-product-id="@product.Id" style="max-width: 80px; margin: 0 auto;" />
+                                    <!-- Total price-->
+                                    <p class="item-total-price mt-2"><strong>Total: @totalItemPrice.ToString("C")</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Row for Total Price and Proceed to Checkout -->
+            <div class="row mb-4 mt-4">
+                <div class="col-md-6">
+                    <h4>Total Price: @totalPrice.ToString("C")</h4> <!-- Display after calculating totalPrice -->
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a class=" btn btn-outline-dark mt-auto " href="@Url.Action("Checkout", "Order")">Proceed to Checkout</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Handle quantity change
+            $('.quantity-input').on('change', function () {
+                var productId = $(this).data('product-id');
+                var newQuantity = $(this).val();
+
+                $.post('/Cart/UpdateQuantity', { productId: productId, quantity: newQuantity }, function (response) {
+                    if (response.success) {
+                        location.reload(); // Reload the page to reflect changes
+                    }
+                });
+            });
+
+            // Handle remove from cart
+            $(document).ready(function () {
+                $('.remove-from-cart').on('click', function () {
+                    var productId = $(this).data('product-id');
+
+                    $.post('/Cart/RemoveFromCart', { productId: productId }, function (response) {
+                        if (response.success) {
+                            $('#cart-item-' + productId).remove(); // Remove the item from the UI
+                           
+                            // Handle when the cart is empty
+                            if (response.cartCount === 0) {
+                                $('#cart-container').hide();
+                                $('#empty-cart-message').show();
+                            }
+
+                            location.reload(); // Optionally reload to update total price
+                        } else {
+                            alert('Error removing product from cart.');
+                        }
+                    });
+                });
+            });
+
+
+        });
+    </script>
+}
+
+
+
+
+

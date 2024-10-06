@@ -20,7 +20,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/assets/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    @* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans"> *@
+  
     <link href="/assets/css/myStyle.css" rel="stylesheet" />
 
 
@@ -77,18 +77,16 @@
                                 <li><a class="dropdown-item" href="#"><i class="fa fa-gear" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Settings</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="fa fa-circle-question" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
+                                <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Sign Out</a></li>
                             </ul>
                         </div>
-                        @if (!User.IsInRole("Admin"))
-                        {
-                            <!-- Icons for Wishlist and Cart -->
-                            <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge" id="wishlist-count">@Convert.ToInt32(TempData.Peek("NoOfItemsInWishlist"))</span></a>
-                            <a href="#"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i> <span class="badge">1</span></a>
 
-                        }
-                     
-                        }
+                        <!-- Icons for Wishlist and Cart -->
+                        <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i></a>
+                        <a asp-controller="Cart" asp-action="Index">
+                            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i>      
+                        </a>
+                    }
 
                     @if (!User.Identity.IsAuthenticated)
                     {

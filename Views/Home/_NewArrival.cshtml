@@ -34,12 +34,14 @@
                                 <!-- Product name-->
                                 <h4 class="fw-bolder product-name">@product.Name</h4>
                                 <!-- Product price-->
-                                <p class="item-price" ><strong> $@product.Price</strong></p>
+                                <p class="item-price"><strong> @product.Price.ToString("C")</strong></p>
                             </div>
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@product.Id" data-quantity="1">Add to Cart</a>
+                            </div>
                         </div>
                     </div>
                 </div>

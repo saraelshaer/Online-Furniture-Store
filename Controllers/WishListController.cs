@@ -58,12 +58,11 @@ namespace FurnitureStore.Controllers
                 else
                 {
                     wishlist.WishListProducts.Remove(wishlistItem);
-                    
-                  
+                     
                 }
                 _unitOfWork.ProductRepository.Update(product);
                 _unitOfWork.Save();
-                TempData["NoOfItemsInWishlist"] = wishlist.WishListProducts?.Count()??0;
+               
               
             }
             return Json(response);
