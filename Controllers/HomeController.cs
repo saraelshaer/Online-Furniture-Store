@@ -1,8 +1,11 @@
+using FurnitureStore.Consts;
 using FurnitureStore.IRepository;
 using FurnitureStore.Models;
+using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace FurnitureStore.Controllers
 {
@@ -19,7 +22,8 @@ namespace FurnitureStore.Controllers
         //[Authorize]
         public IActionResult Index()
         {
-            var products=_unitOfWork.ProductRepository.GetAll();
+            var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive, null, p => p.CreatedAt, OrderByDirection.Descending, 4);
+           
             return View(products);
         }
 

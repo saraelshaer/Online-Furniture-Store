@@ -39,7 +39,7 @@ namespace FurnitureStore.Models
         [NotMapped]
         public IFormFile ProductImage { get; set; }
 
-        public bool IsInWishlist { get; set; }=false;
+       
         public virtual ICollection<CartProduct> CartProducts { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }

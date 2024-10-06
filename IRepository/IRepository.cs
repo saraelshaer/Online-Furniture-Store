@@ -1,11 +1,12 @@
-﻿using System.Linq.Expressions;
+﻿using FurnitureStore.Consts;
+using System.Linq.Expressions;
 
 namespace FurnitureStore.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null, string[] includes = null);
-        T GetById(int id);
+        IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null, string[] includes = null, Expression<Func<T, object>> OrderBy = null, OrderByDirection OrderByDirection = OrderByDirection.Ascending, int? take = null);
+        T GetById(int? id);
         void Add(T entity);
         void Update(T entity);
         void SoftDelete(T entity);

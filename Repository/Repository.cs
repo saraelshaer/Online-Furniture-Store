@@ -1,4 +1,5 @@
-﻿using FurnitureStore.Data;
+﻿using FurnitureStore.Consts;
+using FurnitureStore.Data;
 using FurnitureStore.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -17,7 +18,12 @@ namespace FurnitureStore.Repository
         }
         public void Add(T entity) => _dbSet.Add(entity);
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> criteria = null, string[] includes = null) 
+        public IQueryable<T> GetAll(
+            Expression<Func<T, bool>> criteria = null,
+            string[] includes = null ,
+            Expression<Func<T, object>> OrderBy=null ,
+            OrderByDirection OrderByDirection = OrderByDirection.Ascending,
+            int? take=null) 
         {
             IQueryable<T> query = _dbSet.AsQueryable(); ;
             if (criteria != null) 
@@ -31,10 +37,22 @@ namespace FurnitureStore.Repository
                     query = query.Include(include);
                 }
             }
+            if(take != null)
+            {
+                query = query.Take(take.Value);
+            }
+            if(OrderBy != null)
+            {
+                if (OrderByDirection == OrderByDirection.Ascending) { query = query.OrderBy(OrderBy); }
+                else
+                {
+                    query = query.OrderByDescending(OrderBy);
+                }
+            }
             return query;
         }
 
-        public T GetById(int id) { return _dbSet.Find(id); }
+        public T GetById(int? id) { return _dbSet.Find(id); }
 
         public void Update(T entity) => _dbSet.Update(entity);
         public void HardDelete(T entity) => _dbSet.Remove(entity);

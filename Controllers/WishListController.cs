@@ -33,6 +33,7 @@ namespace FurnitureStore.Controllers
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var wishlist = _unitOfWork.WishListRepo.Find(wl => wl.UserId == userId);
             var response = new { isInWishlist = false };
+
             if (wishlist == null)
             {
                 wishlist = new WishList
@@ -42,7 +43,7 @@ namespace FurnitureStore.Controllers
                 };
                 _unitOfWork.WishListRepo.Add(wishlist);
             }
-            var wishlistItem = wishlist.WishListProducts.FirstOrDefault(wi => wi.ProductId == productId);
+            var wishlistItem = wishlist.WishListProducts.FirstOrDefault(wi => wi.ProductId == productId );
             var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
             if (product != null)
             {
@@ -52,14 +53,12 @@ namespace FurnitureStore.Controllers
 
                     wishlist.WishListProducts.Add(item);
 
-                    product.IsInWishlist = true;
-
                     response = new { isInWishlist = true };
                 }
                 else
                 {
                     wishlist.WishListProducts.Remove(wishlistItem);
-                    product.IsInWishlist = false;
+                    
                   
                 }
                 _unitOfWork.ProductRepository.Update(product);

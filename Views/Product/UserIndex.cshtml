@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model IQueryable<Product>
 @{
     ViewData["Title"] = "Product List";
 }
@@ -11,11 +11,18 @@
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     @foreach (var product in Model)
                     {
-                        <div class="col mb-md-5">
+                        <div class="col mb-md-5"> 
                             <div class="card h-100 w-100">
                                 <span class="wish-icon">
                                     <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
-                                        <i class="fa-heart @(product.IsInWishlist ? "fa-solid" : "fa-regular")" id="wishlist-icon-@product.Id"></i>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                    <i class="fa-heart @(product.WishListProducts.Any(wp=>wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular")" id="wishlist-icon-@product.Id"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-heart fa-regular" id="wishlist-icon-@product.Id"></i>
+                                    }
                                     </a>
                                 </span>
                                 <!-- Product image-->

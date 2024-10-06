@@ -35,8 +35,8 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult UserIndex()
         {
-            var products = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).Where(p => p.IsActive == true);
-            return View(products.ToList());
+            var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive, new[] { "Category" });
+            return View(products);
         }
 
         public IActionResult Details(int id)
