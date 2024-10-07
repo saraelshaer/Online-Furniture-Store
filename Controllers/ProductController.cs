@@ -39,6 +39,15 @@ namespace FurnitureStore.Controllers
             return View(products);
         }
 
+        public IActionResult View(int id)
+        {
+            var product = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
         public IActionResult Details(int id)
         {
             var product = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).FirstOrDefault(p => p.Id == id);

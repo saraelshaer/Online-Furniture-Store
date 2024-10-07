@@ -1,0 +1,114 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Product View";
+}
+<style>
+    .product-container {
+
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: #f8f9fa;
+    }
+
+    .product-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-image {
+        text-align: center;
+        margin-bottom: 0; 
+    }
+
+    #cart-message {
+        display: none; 
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+</style>
+
+<br />
+<h2 style="padding: 10px; text-align: center;">Product Details</h2>
+
+<div class="container product-container">
+
+    <div id="cart-message" class="alert alert-success" role="alert">
+        Product added to cart!
+    </div>
+
+    <div class="row product-row">
+
+        <div class="col-md-5 product-image">
+            <img src="~/productImages/@Model.ImageFileName" alt="@Model.Name" class="img-fluid img-thumbnail" style="width:400px; height:500px;" />
+        </div>
+
+        <div class="col-md-7">
+            <div class="form-group mb-3">
+                <label class="fw-bold">Name:</label>
+                <p class="form-control-static">@Model.Name</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="fw-bold">Description:</label>
+                <p class="form-control-static">@Model.Description</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="fw-bold">Price:</label>
+                <p class="form-control-static">$@Model.Price</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="fw-bold">Category:</label>
+                <p class="form-control-static">@Model.Category.Name</p>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="@Url.Action("UserIndex", "Product")" class="btn btn-outline-dark me-3">Continue Shopping</a>
+                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@Model.Id" data-quantity="1">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.add-to-cart', function () {
+                var productId = $(this).data('product-id');
+                var quantity = $(this).data('quantity');
+
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        quantity: quantity
+                    },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.isInCart) {
+                            var messageDiv = $('#cart-message');
+                            messageDiv.slideDown();  // Show the message with a slide effect
+                            setTimeout(function () {
+                                messageDiv.slideUp();  // Hide the message after 3 seconds
+                            }, 3000);
+                        } else {
+                            alert('Failed to add product to cart.');
+                        }
+                    },
+                    error: function () {
+                        alert('Error while adding product to cart.');
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
