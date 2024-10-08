@@ -4,7 +4,6 @@
 }
 <style>
     .product-container {
-
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -19,15 +18,16 @@
 
     .product-image {
         text-align: center;
-        margin-bottom: 0; 
+        margin-bottom: 0;
     }
 
     #cart-message {
-        display: none; 
+        display: none;
         width: 100%;
         text-align: center;
         margin-bottom: 15px;
     }
+
 </style>
 
 <br />
@@ -47,28 +47,29 @@
 
         <div class="col-md-7">
             <div class="form-group mb-3">
-                <label class="fw-bold">Name:</label>
-                <p class="form-control-static">@Model.Name</p>
+                <h1 class="form-control-static">@Model.Name</h1>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="fw-bold">Description:</label>
-                <p class="form-control-static">@Model.Description</p>
-            </div>
+            @* <div class="form-group mb-3"> *@
+                    <h5 class="form-control-static">$@Model.Price</h5>
+          @*   </div> *@
 
             <div class="form-group mb-3">
-                <label class="fw-bold">Price:</label>
-                <p class="form-control-static">$@Model.Price</p>
+                <p class="form-control-static" style="color: dimgray">@Model.Description</p>
             </div>
-
+@* 
             <div class="form-group mb-3">
-                <label class="fw-bold">Category:</label>
                 <p class="form-control-static">@Model.Category.Name</p>
+            </div> *@
+
+            <!-- Quantity Input -->
+            <div class="form-group mb-3">
+                <input type="number" id="quantity-input" class="form-control" min="1" value="1" />
             </div>
 
             <div class="text-center mt-4">
                 <a href="@Url.Action("UserIndex", "Product")" class="btn btn-outline-dark me-3">Continue Shopping</a>
-                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@Model.Id" data-quantity="1">Add to Cart</a>
+                <a class="btn btn-outline-dark mt-auto add-to-cart " data-product-id="@Model.Id">Add to Cart</a>
             </div>
         </div>
     </div>
@@ -79,7 +80,7 @@
         $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
                 var productId = $(this).data('product-id');
-                var quantity = $(this).data('quantity');
+                var quantity = $('#quantity-input').val();
 
                 $.ajax({
                     url: '/Cart/AddToCart',
@@ -110,5 +111,6 @@
         });
     </script>
 }
+
 
 

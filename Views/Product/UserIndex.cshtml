@@ -1,24 +1,125 @@
-﻿@model IQueryable<Product>
+﻿@model ProductIndexViewModel
 @{
     ViewData["Title"] = "Product List";
 }
 <style>
-    
+    .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        background-color: #dfe2e3;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 200px;
+    }
+
+        .sidebar a  {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #0a5d5d;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .sidebar a:hover {
+                color: black;
+            }
+
+        .sidebar p{
+            color: black;
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 30px;
+            transition: 0.5s;
+        }
+
+
+        .sidebar button {
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #0a5d5d;
+            background: none;
+            border: none;
+            display: block;
+            transition: 0.3s;
+            width: 100%;
+            text-align: left;
+        }
+
+            .sidebar button:hover {
+                color:black;
+            }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 100px;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+    .openbtn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: white;
+        color: #0a5d5d;
+        padding: 10px 15px;
+        border-color: #0a5d5d;
+    }
+
+        .openbtn:hover {
+            background-color: #0a5d5d;
+            color: white;
+        }
+
+    #main {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @@media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+    }
+
+    .filter-section {
+        margin-bottom: 20px;
+    }
+
+    select {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    .product-list .card {
+        margin-bottom: 20px;
+    }
+
     .product-card {
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
-        border-bottom:none;
+        border-bottom: none;
     }
 
-       
+
         .product-card:hover {
-            filter: brightness(0.8); 
+            filter: brightness(0.8);
         }
 
 
 
-  
+
     .icons-overlay {
         position: absolute;
         top: 50%;
@@ -31,14 +132,14 @@
         transition: opacity 0.3s ease-in-out;
     }
 
-   
-    .product-card:hover .icons-overlay , .add-to-cart-div {
+
+    .product-card:hover .icons-overlay, .add-to-cart-div {
         opacity: 1;
     }
 
 
 
-    
+
     .wishlist-icon,
     .view-icon {
         font-size: 30px;
@@ -50,7 +151,7 @@
         border-radius: 600%;
     }
 
-        
+
         .wishlist-icon:hover {
             transform: scale(1.2); /* Icon grows slightly on hover */
             color: #ff6161; /* Red color on hover */
@@ -66,8 +167,8 @@
             color: #ff6161; /* Red for active wishlist icon */
         }
 
-            #cart-message {
-        display: none; 
+    #cart-message {
+        display: none;
         width: 100%;
         text-align: center;
         margin-bottom: 15px;
@@ -78,54 +179,94 @@
 <div class="py-5">
 
     <div class="container px-4 px-lg-5 mt-5">
-        <div id="cart-message" class="alert alert-success" role="alert">
-            Product added to cart!
+        @*         <div class="filter-section">
+        <h5>Filter by Category</h5>
+        <form method="get" action="@Url.Action("UserIndex", "Product")">
+        <select name="categoryId" onchange="this.form.submit()">
+        <option value="">Select Category</option>
+
+        <option value="">All Categories</option>
+
+        @foreach (var category in Model.Categories)
+        {
+        <option value="@category.Id">@category.Name</option>
+        }
+
+        </select>
+        </form>
+        </div> *@
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <p >Product Categories</p>
+            <form method="get" action="@Url.Action("UserIndex", "Product")">
+                <button type="submit" name="categoryId" value="all">All Categories</button>
+                @foreach (var category in Model.Categories)
+                {
+                    <button type="submit" name="categoryId" value="@category.Id">@category.Name</button>
+                }
+            </form>
         </div>
-        <h2 style=" font-size: 35px;"><b>All Products</b></h2>
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
+        <div id="main">
+            <button class="openbtn" onclick="openNav()">☰ Filter</button>
 
-            @foreach (var product in Model)
+            <div id="cart-message" class="alert alert-success" role="alert">
+                Product added to cart!
+            </div>
+            @if (Model.SelectedCategoryId == null)
             {
-
-                <div class="col mb-md-5">
-                    <div class="card h-90 w-100 product-card">
-                        <div class="icons-overlay">
-                            <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <i class="fa-heart @(product.WishListProducts.Any(wp => wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular") wishlist-icon" id="wishlist-icon-@product.Id"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@product.Id"></i>
-                                }
-                            </a>
-
-                            <a href="@Url.Action("View", "Product", new { id = product.Id })">
-                                <i class="fa fa-eye view-icon"></i>
-                            </a>
-                        </div>
-
-                        <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
-
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h4 class="fw-bolder product-name">@product.Name</h4>
-                                <p class="item-price"><strong>$@product.Price</strong></p>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="text-center">
-                        <btn class="btn btn-outline-dark  add-to-cart" style="color:#0a5d5d ;background-color:#ffffff;border:1px solid #d3d3d3;width:100% ;padding:10px ;" data-product-id="@product.Id" data-quantity="1">Add to Cart</btn>
-                    </div>
-
-                </div>
+                <h2 style=" font-size: 35px;"><b>All Products</b></h2>
             }
+            else
+            {
+                <h2 style=" font-size: 35px; opacity:0">All Products</h2>
+            }
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+
+                @foreach (var product in Model.Products)
+                {
+
+                    <div class="col mb-md-5">
+                        <div class="card h-90 w-100 product-card">
+                            <div class="icons-overlay">
+                                <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <i class="fa-heart @(product.WishListProducts.Any(wp => wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular") wishlist-icon" id="wishlist-icon-@product.Id"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@product.Id"></i>
+                                    }
+                                </a>
+
+                                <a href="@Url.Action("View", "Product", new { id = product.Id })">
+                                    <i class="fa fa-eye view-icon"></i>
+                                </a>
+                            </div>
+
+                            <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
+
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h4 class="fw-bolder product-name">@product.Name</h4>
+                                    <p class="item-price"><strong>$@product.Price</strong></p>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="text-center">
+                            <btn class="btn btn-outline-dark  add-to-cart" style="color:#0a5d5d ;background-color:#ffffff;border:1px solid #d3d3d3;width:100% ;padding:10px ;" data-product-id="@product.Id" data-quantity="1">Add to Cart</btn>
+                        </div>
+
+                    </div>
+                }
+            </div>
         </div>
+
     </div>
 </div>
 
@@ -194,7 +335,18 @@
                 });
             });
         });
-    </script>
 
+    </script>
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "355px";
+            document.getElementById("main").style.marginLeft = "190px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
 }
 
