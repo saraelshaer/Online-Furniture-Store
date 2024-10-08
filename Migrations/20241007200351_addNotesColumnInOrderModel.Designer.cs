@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurnitureStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241001152523_wishlist")]
-    partial class wishlist
+    [Migration("20241007200351_addNotesColumnInOrderModel")]
+    partial class addNotesColumnInOrderModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,19 @@ namespace FurnitureStore.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -112,11 +125,21 @@ namespace FurnitureStore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
                     b.Property<int>("TotalAmount")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -126,6 +149,21 @@ namespace FurnitureStore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("FurnitureStore.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Payment", b =>
@@ -196,13 +234,10 @@ namespace FurnitureStore.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<bool>("IsInWishlist")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -446,21 +481,6 @@ namespace FurnitureStore.Migrations
                     b.ToTable("WishListProducts");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<int>("OrdersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("OrderProduct");
-                });
-
             modelBuilder.Entity("FurnitureStore.Models.Cart", b =>
                 {
                     b.HasOne("FurnitureStore.Models.User", "User")
@@ -508,6 +528,25 @@ namespace FurnitureStore.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FurnitureStore.Models.OrderProduct", b =>
+                {
+                    b.HasOne("FurnitureStore.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FurnitureStore.Models.Product", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Payment", b =>
@@ -605,21 +644,6 @@ namespace FurnitureStore.Migrations
                     b.Navigation("WishList");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.HasOne("FurnitureStore.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FurnitureStore.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FurnitureStore.Models.Cart", b =>
                 {
                     b.Navigation("CartProducts");
@@ -634,12 +658,16 @@ namespace FurnitureStore.Migrations
 
             modelBuilder.Entity("FurnitureStore.Models.Order", b =>
                 {
+                    b.Navigation("OrderProducts");
+
                     b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("FurnitureStore.Models.Product", b =>
                 {
                     b.Navigation("CartProducts");
+
+                    b.Navigation("OrderProducts");
 
                     b.Navigation("Reviews");
 

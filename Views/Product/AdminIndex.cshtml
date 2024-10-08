@@ -14,12 +14,12 @@
         <table class="table table-bordered  table-hover">
             <thead class="table-dark">
                 <tr>
+                    <th class="text-center">Product Id</th>
                     <th class="text-center">Name</th>
-                    <th class="text-center">Description</th>
                     <th class="text-center">Price</th>
                     <th class="text-center">Stock Quantity</th>
-                    <th class="text-center">Image</th>
                     <th class="text-center">Category</th>
+                    <th class="text-center">Image</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -27,19 +27,19 @@
                 @foreach (var product in Model)
                 {
                     <tr>
+                        <td class="text-center">@product.Id</td>
                         <td class="text-center">@product.Name</td>
-                        <td class="text-center">@product.Description</td>
                         <td class="text-center">@product.Price.ToString("C")</td>
                         <td class="text-center">@product.StockQuantity</td>
-                        <td class="text-center">
-                            <img src="~/productImages/@product.ImageFileName" alt="@product.Name" class="img-thumbnail" style="width: 100px ; height:100px" />
-                        </td>
                         <td class="text-center">@product.Category.Name</td>
                         <td class="text-center">
-                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-info"> <i class="fas fa-eye"></i> View</a>
-                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"> <i class="fas fa-edit"></i> Edit</a>  
+                             <img src="~/productImages/@product.ImageFileName" alt="@product.Name" class="img-thumbnail" style="width: 100px ; height:100px" />
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
+                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"> <i class="fas fa-edit"></i> </a>  
                             <a href="javascript:void(0)" class="btn btn-danger" onclick="confirmDelete('@product.Id', '@Url.Action("Delete", new { id = product.Id })')">
-                                <i class="fas fa-trash-alt"></i> Delete
+                                <i class="fas fa-trash-alt"></i> 
                             </a>
                         </td>
                     </tr>

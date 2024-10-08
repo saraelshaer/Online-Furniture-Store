@@ -7,24 +7,24 @@ namespace FurnitureStore.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "❗Name is required.")]
         [MinLength(3)]
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string Name { get; set; }
         [Required]
         [MaxLength(100)]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "❗Price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "❗Price must be a positive number.")]
         public decimal Price { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "❗StockQuantity is required.")]
         public int StockQuantity { get; set; }
 
       
-        [StringLength(255, ErrorMessage = "Image file name cannot be longer than 255 characters.")]
-        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
+        [StringLength(255, ErrorMessage = "❗Image file name cannot be longer than 255 characters.")]
+        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "❗Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
         public string ImageFileName { get; set; } 
 
         [Required]
@@ -44,7 +44,7 @@ namespace FurnitureStore.Models
 
         public virtual ICollection<Review> Reviews { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
         public virtual ICollection<WishListProduct> WishListProducts { get; set; } = new List<WishListProduct>();
 

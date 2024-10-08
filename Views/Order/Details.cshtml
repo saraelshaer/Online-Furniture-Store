@@ -1,0 +1,148 @@
+﻿@model UserOrderViewModel
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "Order Details";
+  
+}
+
+<h2 class="mb-4">Orders / Details</h2>
+<div class="container my-5">
+    <div class="row">
+        <!-- Billing Details -->
+        <div class="col-md-7">
+        @*     <h4>Order details</h4> *@
+            <div class="card">
+                <div class="card-body">
+                    
+                    <form asp-action="Details" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="FirstName" class="form-label">First name <span class="text-danger">*</span></label>
+                                <input asp-for="FirstName" class="form-control"  placeholder="">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="LastName" class="form-label">Last name <span class="text-danger">*</span></label>
+                                <input asp-for="LastName" class="form-control"  placeholder="">
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                <input asp-for="Phone" class="form-control" placeholder="">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input asp-for="Email" class="form-control" placeholder="">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Country" class="form-label">Country <span class="text-danger">*</span></label>
+                                <input asp-for="Country" class="form-control" placeholder="">
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="State" class="form-label">State / County <span class="text-danger">*</span></label>
+                                <input asp-for="State" class="form-control"  placeholder="">
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="City" class="form-label">Town / City <span class="text-danger">*</span></label>
+                                <input asp-for="City" class="form-control"  placeholder="">
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ZipCode" class="form-label">Postcode / ZIP <span class="text-danger">*</span></label>
+                                <input asp-for ="ZipCode" class="form-control"  placeholder="">
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Id" class="form-label">Order Id <span class="text-danger">*</span></label>
+                                <input asp-for="Id" class="form-control" placeholder="" class="text-danger">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="OrderDate" class="form-label">Order Date <span class="text-danger">*</span></label>
+                                <input asp-for="OrderDate" class="form-control" placeholder="">
+                                <span asp-validation-for="OrderDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="OrderStatus" class="form-label">Order Status <span class="text-danger">*</span></label>
+                            <select asp-for="OrderStatus" class="form-control"  placeholder="">
+                                
+                                @foreach (var status in ViewBag.OrderStatus)
+                                {
+
+                                    <option value="@(status.ToString())" selected="@(status == Model.OrderStatus)"> @status</option>
+
+                                }
+                            </select>
+                        </div>
+                        <input type="hidden" asp-for="OrderProducts" />
+                        <input type="hidden" asp-for="TotalAmount" />
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label">Notes about your order, e.g., special notes for delivery.</label>
+                            <textarea class="form-control" asp-for="Notes" rows="3"></textarea>
+                        </div>
+
+                        <div>
+                            <br />
+                            <button type="submit" class="btn btn-primary btn-lg m-2 ">Update</button>
+                            <a asp-action="Index" class="btn btn-danger btn-lg m-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Order</h4>
+                    <ul class="list-group mb-3">
+                        @foreach (var product in Model.OrderProducts)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center" style="margin-bottom:15px;">
+                                <div class="row">
+                                    <!-- Image Column -->
+                                    <div class="col-3">
+                                        <img src="/productImages/@product.Product?.ImageFileName" style="width:100%; height:auto;">
+                                    </div>
+                                    <!-- Product Name and Quantity Column -->
+                                    <div class="col-9 d-flex align-items-center">
+                                        <span>@product.Product?.Name &times; @product.Quantity</span>
+                                    </div>
+                                </div>
+                                <!-- Price Column -->
+                                <div>
+                                    <span>@product.Product.Price.ToString("C")</span>
+                                </div>
+                            </li>
+                        }
+
+                        <li class="list-group-item d-flex justify-content-between" style="margin-bottom:15px;">
+                            <strong>Subtotal</strong>
+                            <span>@Model.TotalAmount.ToString("C")</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between" style="margin-bottom:15px;">
+                            <strong>Total</strong>
+                            <span>@Model.TotalAmount.ToString("C")</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

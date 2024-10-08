@@ -37,10 +37,6 @@ namespace FurnitureStore.Repository
                     query = query.Include(include);
                 }
             }
-            if(take != null)
-            {
-                query = query.Take(take.Value);
-            }
             if(OrderBy != null)
             {
                 if (OrderByDirection == OrderByDirection.Ascending) { query = query.OrderBy(OrderBy); }
@@ -48,6 +44,10 @@ namespace FurnitureStore.Repository
                 {
                     query = query.OrderByDescending(OrderBy);
                 }
+            }
+            if (take != null)
+            {
+                query = query.Take(take.Value);
             }
             return query;
         }

@@ -12,6 +12,8 @@ namespace FurnitureStore.IRepository
         IRepository<Cart> CartRepository { get; }
         IRepository<Role> RoleRepository { get; }
         IRepository<WishList> WishListRepo{ get; }
+        IRepository<Order> OrderRepo { get; }
+  
         void Save();
     }
 }

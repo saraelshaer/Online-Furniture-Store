@@ -9,12 +9,12 @@ namespace FurnitureStore.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "❗First name is required.")]
-        [MaxLength(15, ErrorMessage = "❗First name cannot exceed 15 characters.")]
+        [MaxLength(30, ErrorMessage = "❗First name cannot exceed 15 characters.")]
         [MinLength(3, ErrorMessage = "❗First name  must be at least 3 characters long.")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "❗Last name is required.")]
-        [MaxLength(15, ErrorMessage = "❗Last name cannot exceed 15 characters.")]
+        [MaxLength(30, ErrorMessage = "❗Last name cannot exceed 15 characters.")]
         [MinLength(3, ErrorMessage = "❗Last name  must be at least 3 characters long.")]
         public string LastName { get; set; }
 

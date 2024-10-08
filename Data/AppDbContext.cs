@@ -12,7 +12,8 @@ namespace FurnitureStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
+            modelBuilder.Entity<OrderProduct>()
+                 .HasKey(k => new { k.ProductId, k.OrderId });
 
             modelBuilder.Entity<CartProduct>()
                 .HasKey(k => new { k.ProductId, k.CartId });
@@ -128,6 +129,7 @@ namespace FurnitureStore.Data
         public DbSet<CartProduct> CartProducts { get; set; }
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<WishListProduct> WishListProducts { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
     }
 }

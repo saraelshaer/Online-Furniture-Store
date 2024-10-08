@@ -20,6 +20,7 @@ namespace FurnitureStore.Repository
 
             RoleRepository= new Repository<Role>(_context);
             WishListRepo = new Repository<WishList>(_context);
+            OrderRepo = new Repository<Order>(_context);
         }
 
         public IRepository<Product> ProductRepository { get; }
@@ -37,6 +38,7 @@ namespace FurnitureStore.Repository
 
         public IRepository<Cart> CartRepository { get; private set; }
 
+        public IRepository<Order> OrderRepo { get; }
 
         public void Save()
         {
