@@ -2,52 +2,131 @@
 @{
     ViewData["Title"] = "Product List";
 }
+<style>
+    
+    .product-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-bottom:none;
+    }
 
+       
+        .product-card:hover {
+            filter: brightness(0.8); 
+        }
+
+
+
+  
+    .icons-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+   
+    .product-card:hover .icons-overlay , .add-to-cart-div {
+        opacity: 1;
+    }
+
+
+
+    
+    .wishlist-icon,
+    .view-icon {
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 600%;
+    }
+
+        
+        .wishlist-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #ff6161; /* Red color on hover */
+        }
+
+        .view-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #0a5d5d; /* Red color on hover */
+        }
+
+        /* Optional: Adjust icon color when active */
+        .wishlist-icon.fa-solid {
+            color: #ff6161; /* Red for active wishlist icon */
+        }
+
+            #cart-message {
+        display: none; 
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+</style>
 
 <div class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
 
+    <div class="container px-4 px-lg-5 mt-5">
+        <div id="cart-message" class="alert alert-success" role="alert">
+            Product added to cart!
+        </div>
         <h2 style=" font-size: 35px;"><b>All Products</b></h2>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    @foreach (var product in Model)
-                    {
-                        <div class="col mb-md-5"> 
-                            <div class="card h-100 w-100">
-                                <span class="wish-icon">
-                                    <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                    <i class="fa-heart @(product.WishListProducts.Any(wp=>wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular")" id="wishlist-icon-@product.Id"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="fa-heart fa-regular" id="wishlist-icon-@product.Id"></i>
-                                    }
-                                    </a>
-                                </span>
-                                <!-- Product image-->
-                                <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
-                                <!-- Product details-->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                <h4 class="fw-bolder product-name">@product.Name</h4>
-                                <!-- Product price-->
-                                <p class="item-price"><strong>@product.Price.ToString("C")</strong></p>
-                            </div>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+
+            @foreach (var product in Model)
+            {
+
+                <div class="col mb-md-5">
+                    <div class="card h-90 w-100 product-card">
+                        <div class="icons-overlay">
+                            <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <i class="fa-heart @(product.WishListProducts.Any(wp => wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular") wishlist-icon" id="wishlist-icon-@product.Id"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@product.Id"></i>
+                                }
+                            </a>
+
+                            <a href="@Url.Action("View", "Product", new { id = product.Id })">
+                                <i class="fa fa-eye view-icon"></i>
+                            </a>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+
+                        <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
+
+                        <div class="card-body p-4">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@product.Id" data-quantity="1">Add to Cart</a>
+                                <h4 class="fw-bolder product-name">@product.Name</h4>
+                                <p class="item-price"><strong>$@product.Price</strong></p>
                             </div>
                         </div>
+
+
                     </div>
+
+                    <div class="text-center">
+                        <btn class="btn btn-outline-dark  add-to-cart" style="color:#0a5d5d ;background-color:#ffffff;border:1px solid #d3d3d3;width:100% ;padding:10px ;" data-product-id="@product.Id" data-quantity="1">Add to Cart</btn>
+                    </div>
+
                 </div>
             }
         </div>
     </div>
-
 </div>
 
 @section Scripts {
@@ -69,11 +148,9 @@
                         if (response.isInWishlist) {
                             icon.removeClass('fa-regular').addClass('fa-solid');
                             icon.css('color', '#ff6161');  // Red color for heart
-                            
                         } else {
                             icon.removeClass('fa-solid').addClass('fa-regular');
                             icon.css('color', '#23533c');  // Reset to default
-                            
                         }
                     },
                     error: function () {
@@ -83,6 +160,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
@@ -101,9 +179,11 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                            
-
-                          
+                            var messageDiv = $('#cart-message');
+                            messageDiv.slideDown();  // Show the message with a slide effect
+                            setTimeout(function () {
+                                messageDiv.slideUp();  // Hide the message after 3 seconds
+                            }, 3000);
                         } else {
                             alert('Failed to add product to cart.');
                         }
@@ -114,6 +194,7 @@
                 });
             });
         });
-
     </script>
+
 }
+
