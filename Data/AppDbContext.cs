@@ -49,15 +49,6 @@ namespace FurnitureStore.Data
                 .Property(p => p.OrderStatus)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<Payment>(config =>
-            {
-                config.Property(p => p.Amount)
-                      .HasColumnType("decimal(18,2)");
-
-                config.Property(p => p.PaymentStatus)
-                      .HasConversion<string>();
-
-            });
 
             modelBuilder.Entity<Role>()
               .HasMany(r=>r.UserRoles)
@@ -124,7 +115,6 @@ namespace FurnitureStore.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<Review>Reviews { get; set; }
         public DbSet<CartProduct> CartProducts { get; set; }
         public DbSet<WishList> WishLists { get; set; }

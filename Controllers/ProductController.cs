@@ -36,7 +36,7 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult UserIndex(int? categoryId)
         {
-            var products = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).Where(p => p.IsActive == true);
+            var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive && p.StockQuantity > 0, new[] { "Category" }).Include(p => p.Category).Where(p => p.IsActive == true);
 
             if (categoryId.HasValue)
             {
@@ -53,6 +53,7 @@ namespace FurnitureStore.Controllers
             };
 
             return View(viewModel);
+            //var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive && p.StockQuantity >0, new[] { "Category" });
         }
 
         public IActionResult View(int id)
@@ -84,9 +85,10 @@ namespace FurnitureStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                string fileName = string.Empty;
+               
                 if (product.ProductImage != null)
                 {
+                    string fileName = string.Empty;
                     string productImagesPath = Path.Combine(_webHostEnvironment.WebRootPath, "productImages");
 
                     if (!Directory.Exists(productImagesPath))
@@ -101,8 +103,9 @@ namespace FurnitureStore.Controllers
                     {
                         product.ProductImage.CopyTo(fileStream);
                     }
+                    product.ImageFileName = fileName;
                 }
-                product.ImageFileName = fileName;
+               
                 _unitOfWork.ProductRepository.Add(product);
                 _unitOfWork.Save();
                 return RedirectToAction("AdminIndex");
@@ -128,15 +131,17 @@ namespace FurnitureStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                string fileName = string.Empty;
+               
                 if (product.ProductImage != null)
                 {
+                    string fileName = string.Empty;
                     string productImages = Path.Combine(_webHostEnvironment.WebRootPath, "productImages");
                     fileName = product.ProductImage.FileName;
                     string fullPath = Path.Combine(productImages, fileName);
                     product.ProductImage.CopyTo(new FileStream(fullPath, FileMode.Create));
+                    product.ImageFileName = fileName;
                 }
-                product.ImageFileName = fileName;
+               
                 _unitOfWork.ProductRepository.Update(product);
                 _unitOfWork.Save();
                 return RedirectToAction("AdminIndex");

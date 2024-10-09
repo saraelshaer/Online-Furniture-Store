@@ -68,7 +68,7 @@ nav {
 	.nav-icons a {
 		text-decoration: none;
 		position: relative;
-		margin-left: 40px;
+		/*margin-left: 40px;*/
 		border: none;
 		/*border-radius: 50%;*/
 	}
@@ -105,7 +105,7 @@ nav {
 	min-width: 200px; /* Adjust the dropdown width as needed */
 	border-radius: 4px; /* Rounded corners for a modern look */
 	border: none; /* Remove default border */
-	/*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);*/ /* Add a subtle shadow */
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 /* Dropdown items styling */
@@ -117,15 +117,13 @@ nav {
 	font-size: 16px; /* Adjust text size */
 	color: #3b3f44; /* Text color */
 	border: none; /* Remove default border */
-	transition: background-color 0.3s ease; /* Smooth background transition */
+	transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and color */
 }
 
-	/* Remove the default hover outline and add a custom hover effect */
-	.dropdown-item:focus, .dropdown-item:hover {
-		background-color: #f8f9fa; /* Light background on hover */
-		color: #0a5d5d; /* Optional: change text color on hover */
-		box-shadow: none !important; /* Prevent any outlines or focus rings */
-		outline: none !important; /* Remove default focus outline */
+	/* Hover effect for dropdown items */
+	.dropdown-item:hover {
+		background-color: #f8f9fa; /* Change background color on hover */
+		color: #0a5d5d; /* Change text color on hover */
 	}
 
 	/* Styling for icons inside the dropdown */
@@ -139,10 +137,13 @@ nav {
 		color: #0a5d5d; /* Change icon color on hover */
 	}
 
-/* Optional: Adjust dropdown positioning for better alignment */
+
+/* Align dropdown to the right */
 .dropdown-menu-end {
-	right: 0;
+	right: 0; /* Align to the right */
+	left: auto; /* Ensure it's properly aligned */
 }
+
 
 /* Remove focus outline from the user icon dropdown toggle */
 .dropdown-toggle:focus {

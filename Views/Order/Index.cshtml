@@ -24,12 +24,21 @@
         {
             @foreach (var order in Model)
             {
+
                 <tr>
                     <td class="text-center">@order.Id</td>
                     <td class="text-center">@(order.User.FirstName + " " + order.User.LastName)</td>
                     <td class="text-center">@order.OrderDate</td>
                     <td class="text-center">@order.TotalAmount.ToString("C")</td>
-                    <td class="text-center"><span class="badge bg-primary">@order.OrderStatus</span></td>
+                    <td class="text-center">
+                        <span class="badge 
+                        @(order.OrderStatus == OrderStatus.Pending ? "bg-primary"
+                        : order.OrderStatus == OrderStatus.Shipped ? "bg-secondary"
+                        : order.OrderStatus == OrderStatus.Cancelled ? "bg-danger"
+                        : order.OrderStatus == OrderStatus.Delivered ? "bg-success"
+                        : "bg-info")">@order.OrderStatus</span>
+                    </td>
+
 
                     <td class="text-center">
                         <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-info"> <i class="fas fa-eye"></i></a>

@@ -39,7 +39,10 @@ namespace FurnitureStore.Models
         
         public string Notes { get; set; }
 
-       
+        [EnumDataType(typeof(PaymentStatus), ErrorMessage = "❗Invalid payment status value.")]
+        public PaymentStatus PaymentStatus { get; set; }
+
+
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
@@ -49,9 +52,7 @@ namespace FurnitureStore.Models
         public int CartId { get; set; }
         public virtual Cart Cart { get; set; }
 
-        public virtual Payment Payment { get; set; }
-
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }= new List<OrderProduct>();
 
     }
 }

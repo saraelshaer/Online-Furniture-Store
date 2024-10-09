@@ -71,13 +71,11 @@ namespace FurnitureStore.Models
 
         public virtual WishList WishList { get; set; } 
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-        public virtual ICollection<Payment> Payments { get; set; }
-
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 
 }

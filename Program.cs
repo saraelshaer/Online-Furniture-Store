@@ -4,6 +4,8 @@ using FurnitureStore.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System;
+using FurnitureStore.Models;
+using System.Net.Http.Headers;
 
 namespace FurnitureStore
 {
@@ -28,7 +30,6 @@ namespace FurnitureStore
                     options.SlidingExpiration= true;
                 });
 
-           
 
             var app = builder.Build();
 

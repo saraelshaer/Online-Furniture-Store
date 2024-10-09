@@ -83,6 +83,7 @@
   --bs-highlight-bg: #fff3cd;
 }
 
+
 *,
 *::before,
 *::after {
@@ -10827,4 +10828,5 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
 }

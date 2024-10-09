@@ -24,7 +24,6 @@
     <link href="/assets/css/myStyle.css" rel="stylesheet" />
 
 
-
 </head>
 <body>
     <!-- Navigation-->
@@ -33,7 +32,7 @@
             <a class="navbar-brand" asp-controller="home" asp-action="index">
                 <strong>
                     <h3>
-                        <i class="fa-solid fa-couch fa-bounce" style="color: #0a5d5d;"></i>&nbsp;FunStore
+                        <i class="fa-solid fa-couch " style="color: #0a5d5d;"></i>&nbsp;FunStore
                     </h3>
                     
                 </strong>
@@ -59,7 +58,7 @@
                     {
                         <!-- Dropdown for User Icon -->
                         <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" style="color:#0a5d5d" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()" class="rounded-circle img-fluid" style="width: 40px; height: 36px;">
                             </a>
 
@@ -82,9 +81,9 @@
                         </div>
 
                         <!-- Icons for Wishlist and Cart -->
-                        <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i></a>
+                        <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;margin-left: 40px;"></i></a>
                         <a asp-controller="Cart" asp-action="Index">
-                            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i>      
+                            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;margin-left: 40px;"></i>
                         </a>
                     }
 
@@ -110,7 +109,7 @@
 
    
     <!-- Main Content Section-->
-    <div class="content">
+    <div class="content mt-5">
         @RenderBody()
     </div>
 

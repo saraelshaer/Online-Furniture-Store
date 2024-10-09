@@ -71,12 +71,12 @@ namespace FurnitureStore.Controllers
                     };
 
                     cart.CartProducts.Add(item);
-                    product.StockQuantity -= quantity;  
+                    
                 }
                 else
                 {
                     cartItem.Quantity += quantity;
-                    product.StockQuantity -= quantity;
+                  
                 }
 
                 _unitOfWork.ProductRepository.Update(product);
@@ -104,7 +104,7 @@ namespace FurnitureStore.Controllers
                 if (cartItem != null)
                 {
                     var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
-                    product.StockQuantity += cartItem.Quantity; 
+                 
                     cart.CartProducts.Remove(cartItem);
 
                     _unitOfWork.ProductRepository.Update(product);
