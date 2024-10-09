@@ -179,22 +179,6 @@
 <div class="py-5">
 
     <div class="container px-4 px-lg-5 mt-5">
-        @*         <div class="filter-section">
-        <h5>Filter by Category</h5>
-        <form method="get" action="@Url.Action("UserIndex", "Product")">
-        <select name="categoryId" onchange="this.form.submit()">
-        <option value="">Select Category</option>
-
-        <option value="">All Categories</option>
-
-        @foreach (var category in Model.Categories)
-        {
-        <option value="@category.Id">@category.Name</option>
-        }
-
-        </select>
-        </form>
-        </div> *@
         <div id="mySidebar" class="sidebar">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <p >Product Categories</p>

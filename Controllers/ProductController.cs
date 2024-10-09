@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using System.Security.Claims;
 
 
 namespace FurnitureStore.Controllers
@@ -56,7 +57,7 @@ namespace FurnitureStore.Controllers
 
         public IActionResult View(int id)
         {
-            var product = _unitOfWork.ProductRepository.GetAll().Include(p => p.Category).FirstOrDefault(p => p.Id == id);
+            var product = _unitOfWork.ProductRepository.GetAll().Include(p => p.Reviews).ThenInclude(r => r.User).FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -151,5 +152,36 @@ namespace FurnitureStore.Controllers
             _unitOfWork.Save();
             return RedirectToAction("AdminIndex");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddReview(int productId, int rating, string comment)
+        {
+            if (rating < 1 || rating > 5)
+            {
+                ModelState.AddModelError("rating", "Please select a valid rating.");
+                return View();
+            }
+            if (ModelState.IsValid)
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); 
+                var review = new Review
+                {
+                    Rating = rating,
+                    Comment = comment,
+                    ReviewDate = DateTime.Now,
+                    ProductId = productId,
+                    UserId = userId
+                };
+
+                _unitOfWork.ReviewRepository.Add(review);
+                _unitOfWork.Save();
+
+                return RedirectToAction("View", new { id = productId });
+            }
+
+            return RedirectToAction("View", new { id = productId });
+        }
+
     }
 }

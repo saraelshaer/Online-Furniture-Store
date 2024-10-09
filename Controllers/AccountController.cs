@@ -119,9 +119,9 @@ namespace FurnitureStore.Controllers
             var user = _unitOfWork.UserRepository.Find(u => u.Email == Email);
             if (user != null)
             {
-                return Json($"Email {Email} is already in use.");  // Email is already in use
+                return Json($"Email {Email} is already in use."); 
             }
-            return Json(true);  // Email is available
+            return Json(true);  
         }
 
 
