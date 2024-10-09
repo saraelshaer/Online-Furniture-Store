@@ -51,7 +51,7 @@ namespace FurnitureStore.Models
 
         public virtual Payment Payment { get; set; }
 
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }= new List<OrderProduct>();
 
     }
 }

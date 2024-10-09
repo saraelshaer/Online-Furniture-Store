@@ -3,6 +3,7 @@ using FurnitureStore.IRepository;
 using FurnitureStore.Models;
 using FurnitureStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FurnitureStore.Controllers
 {
@@ -27,13 +28,6 @@ namespace FurnitureStore.Controllers
             {
                 return NotFound();
             }
-            var orderProducts = new List<OrderProduct>();
-            var products= order.User?.Cart?.CartProducts.Select(p=> new {p.Product , p.Quantity});
-            foreach (var product in products) 
-            {
-                orderProducts.Add(new OrderProduct { ProductId= product.Product.Id ,Product=product.Product, Quantity= product.Quantity ,OrderId= id, Order=order});
-            }
-            order.TotalAmount= orderProducts.Sum(p=>p.Quantity*p.Product.Price);
             var model = new UserOrderViewModel
             {
                 Id = order.Id,
@@ -48,9 +42,10 @@ namespace FurnitureStore.Controllers
                 LastName = order.User.LastName,
                 Email = order.User.Email,
                 Phone = order.User.Phone,
-                OrderProducts= orderProducts
+                OrderProducts= order.OrderProducts
             };
-
+            ViewBag.Products = model.OrderProducts;
+            ViewBag.TotalPrice = model.TotalAmount;
             ViewBag.OrderStatus = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
             return View(model);
         }
@@ -72,13 +67,50 @@ namespace FurnitureStore.Controllers
                 order.User.LastName= model.LastName;
                 order.User.Email = model.Email;
                 order.User.Phone = model.Phone;
-                order.OrderProducts = model.OrderProducts;
                 _unitOfWork.OrderRepo.Update(order);
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             ViewBag.OrderStatus = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
             return View(model);
+        }
+
+        public IActionResult Checkout()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+            var products = cart.CartProducts.ToList();
+            decimal totalPrice = products.Sum(p=> p.Quantity * p.Product.Price);
+            ViewBag.Products= products;
+            ViewBag.TotalPrice = totalPrice;    
+            
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(Order order)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var cart = _unitOfWork.CartRepository.Find(c => c.UserId == userId);
+            var products = cart.CartProducts.ToList();
+            ViewBag.Products = products;
+            ViewBag.TotalPrice = order.TotalAmount;
+
+            if (ModelState.IsValid)
+            {
+                order.Cart = cart;
+                order.UserId = userId;
+                _unitOfWork.OrderRepo.Add(order);
+                _unitOfWork.Save();
+
+                foreach (var product in products)
+                {
+                    order.OrderProducts.Add(new OrderProduct { ProductId = product.Product.Id,  Quantity = product.Quantity, OrderId = order.Id});
+                }
+                _unitOfWork.Save();
+                return RedirectToAction("Index","Checkout");
+            }
+            return View(order);
         }
     }
 }

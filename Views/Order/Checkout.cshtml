@@ -1,0 +1,61 @@
+﻿@model Order
+@{
+    ViewBag.Title = "Checkout - FunStore";
+}
+
+<div class="container my-5 ">
+    <div class="row">
+        <!-- Billing Details -->
+        <div class="col-md-7 mt-4">
+           <h4 >Billing details</h4> 
+            <div class="card">
+                <div class="card-body">
+
+                    <form asp-action="Checkout" method="post">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                              
+                                <input asp-for="Country" class="form-control" placeholder="Country *">
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                            
+                                <input asp-for="State" class="form-control" placeholder="State / County *">
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                           
+                                <input asp-for="City" class="form-control" placeholder="Town / City *">
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                             
+                                <input asp-for="ZipCode" class="form-control" placeholder="Postcode / ZIP *">
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+            
+                            <textarea class="form-control" asp-for="Notes" rows="3" placeholder="Notes about your order, e.g., special notes for delivery."></textarea>
+                        </div>
+           
+                        <input type="hidden" asp-for="OrderStatus" value="@OrderStatus.Pending" />
+                        <input type="hidden" asp-for="TotalAmount" value="@ViewBag.TotalPrice" />
+                        <input type="hidden" asp-for="OrderDate" value="@DateTime.Now">
+                      
+                        <div class="text-center">
+                           
+                            <button type="submit" class="btn btn-outline-dark w-100 m-2 btn-lg" style="letter-spacing:1px;">Place Order @ViewBag.TotalPrice.ToString("C")</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <partial name ="_OrderItems"></partial>
+    </div>
+</div>

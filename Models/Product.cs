@@ -40,11 +40,11 @@ namespace FurnitureStore.Models
         public IFormFile ProductImage { get; set; }
 
        
-        public virtual ICollection<CartProduct> CartProducts { get; set; }
+        public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }=new List<Review>();
 
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }= new List<OrderProduct>();
 
         public virtual ICollection<WishListProduct> WishListProducts { get; set; } = new List<WishListProduct>();
 

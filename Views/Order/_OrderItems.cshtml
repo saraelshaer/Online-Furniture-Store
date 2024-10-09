@@ -1,0 +1,43 @@
+﻿
+@{
+}
+
+<!-- Order Summary -->
+<div class="col-md-5  mt-lg-3">
+    <div class="card  mt-lg-3">
+        <div class="card-body">
+            <h4>Order</h4>
+            <ul class="list-group mb-3">
+                @foreach (var product in ViewBag.Products)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center" style="margin-bottom:15px;">
+                        <div class="row">
+                            <!-- Image Column -->
+                            <div class="col-3">
+                                <img src="/productImages/@product.Product?.ImageFileName" style="width:100%; height:auto;">
+                            </div>
+                            <!-- Product Name and Quantity Column -->
+                            <div class="col-9 d-flex align-items-center">
+                                <span>@product.Product?.Name &times; @product.Quantity</span>
+                            </div>
+                        </div>
+                        <!-- Price Column -->
+                        <div>
+                            <span>@product.Product.Price.ToString("C")</span>
+                        </div>
+                    </li>
+                }
+
+                <li class="list-group-item d-flex justify-content-between" style="margin-bottom:15px;">
+                    <strong>Subtotal</strong>
+                    <span>@ViewBag.TotalPrice.ToString("C")</span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between" >
+                    <strong>Total</strong>
+                    <span> <strong>@ViewBag.TotalPrice.ToString("C") </strong></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

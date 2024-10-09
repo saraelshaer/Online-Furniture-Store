@@ -4,6 +4,8 @@ using FurnitureStore.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System;
+using FurnitureStore.Models;
+using System.Net.Http.Headers;
 
 namespace FurnitureStore
 {
@@ -27,8 +29,13 @@ namespace FurnitureStore
                     options.LoginPath = "/account/login";
                     options.SlidingExpiration= true;
                 });
+            builder.Services.AddHttpClient("PayPal", client =>
+            {
+                client.BaseAddress = new Uri("https://api.sandbox.paypal.com/"); // Use live endpoint in production
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
 
-           
+
 
             var app = builder.Build();
 
