@@ -192,16 +192,17 @@ nav {
 	border-color: #0a5d5d !important; /* Optional: Adjust border color */
 }
 
- h2 {
-        color: #000;
-        font-size: 40px;
-        font-weight: 300;
-        text-align: center;
-        text-transform: capitalize;
-        position: relative;
-        margin: 30px 40px 60px;
-        margin-top:30px;
-    }
+
+h2 {
+	color: #000;
+	font-size: 40px;
+	font-weight: 300;
+	text-align: center;
+	text-transform: capitalize;
+	position: relative;
+	margin: 30px 40px 60px;
+	margin-top: 30px;
+}
 
     h2::after {
         content: "";
@@ -246,4 +247,30 @@ nav {
 	}
 .product-name {
 	color: #0a5d5d;
+}
+
+.no-message {
+	background-color: #f8f9fa;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	margin-top: 50px;
+}
+
+	.no-message h2 {
+		font-size: 24px;
+		color: #343a40;
+	}
+
+	.no-message p {
+		font-size: 18px;
+		color: #6c757d;
+	}
+
+.status {
+	color: white;
+	border-radius: 25px;
+	padding: 3px 6px;
+	font-size: 16px;
 }

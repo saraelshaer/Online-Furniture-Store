@@ -1,0 +1,98 @@
+﻿@model IQueryable<Order>
+@{
+    
+    ViewBag.Title = "Orders -FunStore";
+    int counter = 1;
+}
+
+<style>
+    table th, table td {
+        vertical-align: middle;
+    }
+
+    .order-price {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+
+</style>
+
+<div class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2><b> Order History</b></h2>
+
+        @if (!Model.Any())
+        {
+            <div id="empty-cart-message" class="container">
+                <div class="no-message">
+                    <h2>No orders yet?</h2>
+                    <p style="font-size:20px;">Explore our collection and make your first purchase today!</p>
+                    <a asp-controller="product" asp-action="UserIndex" class="btn  btn-dark mb-1 w-50 "
+                       style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;background-color: #0a5d5d ;">
+                        <i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle text-center">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <h5>@(counter++)</h5>
+                                </td>
+                                <td>
+                                    <h5>@order.OrderDate.ToString("MM/dd/yyyy")</h5>
+                                </td>
+                                <td>
+                                    <span class="order-price">@order.TotalAmount.ToString("C")</span>
+                                </td>
+                                <td>
+
+                                    <h5>
+                                        <span class="status
+                                              @(order.OrderStatus == OrderStatus.Pending ? "bg-primary"
+                                              : order.OrderStatus == OrderStatus.Shipped ? "bg-secondary"
+                                              : order.OrderStatus == OrderStatus.Cancelled ? "bg-danger"
+                                              : order.OrderStatus == OrderStatus.Delivered ? "bg-success"
+                                              : "bg-info")">@order.OrderStatus</span>
+                                    </h5>
+                                   
+                                </td>
+                                <td>
+                                    <h5>
+                                        <span class="status
+                                              @(order.PaymentStatus == PaymentStatus.Pending ? "bg-primary"
+                                              : order.PaymentStatus == PaymentStatus.Failed ? "bg-secondary"
+                                              : order.PaymentStatus == PaymentStatus.Canceled? "bg-danger"
+                                              : order.PaymentStatus == PaymentStatus.Completed ? "bg-success"
+                                              : "bg-info")">@order.PaymentStatus</span>
+                                    </h5>
+                                </td>
+                                <td>
+                                    <a asp-action="View" asp-route-id="@order.Id" class="btn " style="background-color:#0a5d5d;"> <i class="fas fa-eye" style="color:white;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+

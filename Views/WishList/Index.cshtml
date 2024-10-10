@@ -46,8 +46,15 @@
         }
         else
         {
-            <div id="empty-wishlist-message" class="container text-center">
-                <h3>Your wishlist is empty!</h3>
+            <div id="empty-cart-message" class="container">
+                <div class="no-message">
+                    <h2>Your Wishlist is Empty</h2>
+                    <p style="font-size:22px;">Discover items you love and add them to your wishlist!</p>
+                    <a asp-controller="product" asp-action="UserIndex" class="btn  btn-dark mb-1 w-50 "
+                       style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;background-color: #0a5d5d ;">
+                        <i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now
+                    </a>
+                </div>
             </div>
         }
     </div>
@@ -78,8 +85,7 @@
 
                             // Handle when the wishlist is empty
                             if (newCount === 0) {
-                                $('#wishlist-container').hide();  // Hide the wishlist items container
-                                $('#empty-wishlist-message').show();  // Show the "wishlist is empty" message
+                                location.reload();
                             }
                         }
                     },

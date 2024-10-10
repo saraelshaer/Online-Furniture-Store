@@ -20,7 +20,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/assets/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-  
+    
+
     <link href="/assets/css/myStyle.css" rel="stylesheet" />
 
 
@@ -72,7 +73,7 @@
                                 </li>
                                 @if (!User.IsInRole("Admin"))
                                 {
-                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-truck-fast" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Orders</a></li>
+                                    <li><a class="dropdown-item" asp-controller="order" asp-action="UserIndex"><i class="fa-solid fa-truck-fast" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Orders</a></li>
                                 }
                                 <li><a class="dropdown-item" href="#"><i class="fa fa-gear" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Settings</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="fa fa-circle-question" style="color: #3b3f44;"></i>&nbsp;&nbsp;&nbsp;Help</a></li>

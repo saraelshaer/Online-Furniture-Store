@@ -21,6 +21,12 @@ namespace FurnitureStore.Controllers
             return View(orders);
         }
 
+        public IActionResult UserIndex()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var orders = _unitOfWork.OrderRepo.GetAll(o=> o.UserId == userId);
+            return View(orders);
+        }
         public IActionResult Details(int id)
         {
             var order = _unitOfWork.OrderRepo.GetById(id);
@@ -112,5 +118,15 @@ namespace FurnitureStore.Controllers
             }
             return View(order);
         }
+
+       
+        public IActionResult View(int id)
+        {
+            var order =_unitOfWork.OrderRepo.GetById(id);
+            ViewBag.Products = order.OrderProducts.ToList();
+            ViewBag.TotalPrice = order.TotalAmount;
+            return View(order);
+        }
+
     }
 }
