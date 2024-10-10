@@ -22,7 +22,7 @@ namespace FurnitureStore.Controllers
         //[Authorize]
         public IActionResult Index()
         {
-            var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive, null, p => p.CreatedAt, OrderByDirection.Descending, 4);
+            var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive && p.StockQuantity > 0, null, p => p.CreatedAt, OrderByDirection.Descending, 4);
            
             return View(products);
         }

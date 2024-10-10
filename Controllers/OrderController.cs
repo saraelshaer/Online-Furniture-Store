@@ -108,7 +108,7 @@ namespace FurnitureStore.Controllers
                     order.OrderProducts.Add(new OrderProduct { ProductId = product.Product.Id,  Quantity = product.Quantity, OrderId = order.Id});
                 }
                 _unitOfWork.Save();
-                return RedirectToAction("Index","Checkout");
+                return RedirectToAction("Index","Checkout", new {id = order.Id});
             }
             return View(order);
         }

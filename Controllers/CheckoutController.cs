@@ -1,15 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text.Encodings.Web;
-using Azure;
-using FurnitureStore.Models;
-using Newtonsoft.Json;
 using System.Text.Json.Nodes;
-using Azure.Core;
-using System.Security.Policy;
-using Microsoft.DotNet.MSIdentity.Shared;
-using PayPal.Api;
+using FurnitureStore.IRepository;
+using FurnitureStore.Enums;
 
 namespace FurnitureStore.Controllers
 {
@@ -19,17 +12,16 @@ namespace FurnitureStore.Controllers
         private string PayPalSecret { get; set; } = "";
         private string PayPalUrl { get; set; } = "";
 
-        public CheckoutController(IConfiguration configuration)
+        private readonly IUnitOfWork _unitOfWork;
+        public CheckoutController(IConfiguration configuration , IUnitOfWork unitOfWork)
         {
             PayPalClientId = configuration["PayPal:ClientId"];
             PayPalSecret = configuration["PayPal:ClientSecret"];
             PayPalUrl = configuration["PayPal:Url"];
+            _unitOfWork = unitOfWork;
         }
 
-        //public async Task<string> Token()
-        //{
-        //    return await GetPayPalAccessToken();
-        //}
+       
         private async Task<string> GetPayPalAccessToken()
         {
             string accessToken = "";
@@ -62,6 +54,7 @@ namespace FurnitureStore.Controllers
         }
 
 
+       
         [HttpPost]
         public async Task<JsonResult> CreateOrder([FromBody] JsonObject data)
         {
@@ -76,7 +69,7 @@ namespace FurnitureStore.Controllers
             JsonObject createOrderRequest = new JsonObject();
             createOrderRequest.Add("intent", "CAPTURE");
             JsonObject amount = new JsonObject();
-            amount.Add("currency_code", "USD"); 
+            amount.Add("currency_code", "USD");
             amount.Add("value", totalAmount);
             JsonObject purchaseUnit1 = new JsonObject(); purchaseUnit1.Add("amount", amount);
             JsonArray purchaseUnits = new JsonArray(); purchaseUnits.Add(purchaseUnit1);
@@ -112,6 +105,8 @@ namespace FurnitureStore.Controllers
         }
 
 
+
+
         [HttpPost]
         public async Task<IActionResult> CompleteOrder([FromBody] JsonObject data)
         {
@@ -129,7 +124,7 @@ namespace FurnitureStore.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url); 
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
                 requestMessage.Content = new StringContent("", null, "application/json");
                 var httpResponse = await client.SendAsync(requestMessage);
 
@@ -144,9 +139,11 @@ namespace FurnitureStore.Controllers
                         string paypalOrderStatus = jsonResponse["status"]?.ToString() ?? "";
                         if (paypalOrderStatus == "COMPLETED")
                         {
-                            // save the order in the database
+                            //return  RedirectToAction("PaymentSuccess");
+                            PaymentSuccess();
                             return new JsonResult("success");
                         }
+
 
                     }
                 }
@@ -154,9 +151,35 @@ namespace FurnitureStore.Controllers
             return new JsonResult("error");
 
         }
-        public IActionResult Index()
+
+        public void PaymentSuccess()
         {
+            int id = Convert.ToInt32( TempData.Peek("OrderId"));
+            var order = _unitOfWork.OrderRepo.GetById(id);
+            order.PaymentStatus = PaymentStatus.Completed;
+            foreach (var item in order.OrderProducts) 
+            {
+                if (item.Product.StockQuantity >= item.Quantity)
+                    item.Product.StockQuantity -= item.Quantity;
+                else
+                    item.Product.StockQuantity = 0;
+
+            }
+            _unitOfWork.Save();
+           
+        }
+
+
+        public IActionResult Index(int id)
+        {
+            var order = _unitOfWork.OrderRepo.GetById(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
             ViewBag.ClientId = PayPalClientId;
+            ViewBag.TotalAmount = order.TotalAmount;
+            TempData["OrderId"] = id;
             return View();
         }
     }

@@ -44,6 +44,7 @@
                         </div>
            
                         <input type="hidden" asp-for="OrderStatus" value="@OrderStatus.Pending" />
+                        <input type="hidden" asp-for="OrderStatus" value="@PaymentStatus.Pending" />
                         <input type="hidden" asp-for="TotalAmount" value="@ViewBag.TotalPrice" />
                         <input type="hidden" asp-for="OrderDate" value="@DateTime.Now">
                       
