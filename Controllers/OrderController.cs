@@ -17,7 +17,7 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult Index()
         {
-            var orders = _unitOfWork.OrderRepo.GetAll();
+            var orders = _unitOfWork.OrderRepo.GetAll(o=>o.User.IsActive);
             return View(orders);
         }
 

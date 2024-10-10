@@ -71,6 +71,7 @@ namespace FurnitureStore.Controllers
                     {
                         new Claim(ClaimTypes.Email, loginUser.Email),
                         new Claim(ClaimTypes.NameIdentifier, loginUser.Id.ToString()),
+                        new Claim(ClaimTypes.Name, loginUser.FirstName),
                     };
 
                     TempData["ImageProfile"] = loginUser.ImageFileName;

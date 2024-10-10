@@ -27,7 +27,8 @@
           position: fixed;
           background-color: #343a40;
           padding: 20px;
-          width: 250px;
+          width: 280px;
+
         }
 
         .sidebar a {
@@ -103,14 +104,25 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h4 class="text-white mb-4">Admin Dashboard</h4>
-        <a asp-action="dashboard" asp-controller="home">Dashboard</a>
-        <a asp-action="index" asp-controller="order">Orders</a>
-        <a asp-action="AdminIndex" asp-controller="product">Products</a>
-        <a asp-action="index" asp-controller="category">Categories</a>
-        <a asp-action="index" asp-controller="user">Users</a>
-        <a asp-action="index" asp-controller="role">Roles</a>
-        <a asp-action="index" asp-controller="home">Website</a>
+        <h4 class="text-white mb-4" style="	text-transform: capitalize;">Welecom  @User.FindFirst(ClaimTypes.Name)?.Value <i class="fa-regular fa-face-smile-beam  fa-lg" style="color: #ededed;"></i></h4>
+        @*      <div class="row mb-5">
+           
+           @*  <div class="col-4">
+                <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()" class="rounded-circle img-fluid" style="width: 60px; height: 36px;">
+            </div> 
+            
+            <div class="col-8 d-flex align-items-center">
+                <span style="color:white;">Welecom  @User.FindFirst(ClaimTypes.Name)?.Value  <i class="fa-regular fa-face-smile-beam  fa-lg" style="color: #ededed;"></i></span>
+            </div>
+        </div> *@
+        @* <img src="/userImages/@TempData.Peek("ImageProfile")?.ToString()" class="rounded-circle img-fluid" style="width: 40px; height: 36px;"> *@
+        <a asp-action="dashboard" asp-controller="home"><i class="fa-solid fa-chart-line fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Dashboard</a>
+        <a asp-action="index" asp-controller="order"><i class="fa-solid fa-truck-fast" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Orders</a>
+        <a asp-action="AdminIndex" asp-controller="product"><i class="fa-solid fa-box fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Products</a>
+        <a asp-action="index" asp-controller="category"><i class="fa-solid fa-boxes-stacked fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Categories</a>
+        <a asp-action="index" asp-controller="user"><i class="fa-solid fa-users fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Users</a>
+        <a asp-action="index" asp-controller="role"><i class="fa-regular fa-square-check fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Roles</a>
+        <a asp-action="index" asp-controller="home"><i class="fa-solid fa-shop fa-sm" style="color: #ededed;"></i>&nbsp;&nbsp;&nbsp;Website</a>
 
     </div>
 

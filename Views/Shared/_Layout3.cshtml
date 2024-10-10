@@ -84,9 +84,9 @@
                         @if (!User.IsInRole("Admin"))
                         {
                             <!-- Icons for Wishlist and Cart -->
-                            <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i></a>
+                            <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i> <span class="badge">0</span></a>
                             <a asp-controller="Cart" asp-action="Index">
-                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i>
+                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i><span class="badge">0</span>
                             </a>
                         }
                     

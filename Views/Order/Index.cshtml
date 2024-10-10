@@ -40,8 +40,8 @@
                         : "bg-info")">@order.OrderStatus</span>
                     </td>
                     <td class="text-center">
-                       
-                            <span class="status
+
+                        <span class="badge
                                               @(order.PaymentStatus == PaymentStatus.Pending ? "bg-primary"
                                               : order.PaymentStatus == PaymentStatus.Failed ? "bg-secondary"
                                               : order.PaymentStatus == PaymentStatus.Canceled? "bg-danger"
