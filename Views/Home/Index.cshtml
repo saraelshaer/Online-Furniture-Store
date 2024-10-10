@@ -20,11 +20,8 @@
 </section>
 
 <partial name="_NewArrival" model="Model"  />
+@section Scripts {
 
- @section Scripts {
-
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.toggle-wishlist').on('click', function () {
@@ -42,11 +39,9 @@
                         if (response.isInWishlist) {
                             icon.removeClass('fa-regular').addClass('fa-solid');
                             icon.css('color', '#ff6161');  // Red color for heart
-
                         } else {
                             icon.removeClass('fa-solid').addClass('fa-regular');
                             icon.css('color', '#23533c');  // Reset to default
-
                         }
                     },
                     error: function () {
@@ -56,8 +51,9 @@
             });
         });
     </script>
+
     <script>
-         $(document).ready(function () {
+        $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
                 var productId = $(this).data('product-id');
                 var quantity = $(this).data('quantity');
@@ -74,9 +70,11 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                           
-
-
+                            var messageDiv = $('#cart-message');
+                            messageDiv.slideDown();
+                            setTimeout(function () {
+                                messageDiv.slideUp();
+                            }, 3000);
                         } else {
                             alert('Failed to add product to cart.');
                         }
@@ -89,7 +87,8 @@
         });
 
     </script>
- }
+
+}
 
 
 
