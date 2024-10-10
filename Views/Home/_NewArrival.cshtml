@@ -75,7 +75,108 @@
         text-align: center;
         margin-bottom: 15px;
     }
+
+    footer {
+        background-color: white;
+        padding: 40px 0;
+        border-top: 1px solid #e1e1e1;
+        font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 180px;
+        margin: 0 20px;
+    }
+
+    .contact-info h3 {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-info i {
+        font-size: 15px;
+        color: #333;
+        margin-right: 0px;
+    }
+
+    .contact-info p {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+
+    h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+            .footer-section ul li a {
+                text-decoration: none;
+                color: #555;
+                font-size: 16px;
+                transition:0.3s;
+            }
+
+                .footer-section ul li a:hover {
+                    color: #004f47;
+                }
+
+    .newsletter form {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+        .newsletter form input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 70%;
+            border-radius: 2px 0 0 2px;
+        }
+
+        .newsletter form button {
+            padding: 10px 20px;
+            background-color: #004f47;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 2px 2px 0;
+        }
+
+            .newsletter form button:hover {
+                background-color: #003b35;
+            }
+
+    .social-icons a {
+        margin-right: 10px;
+        font-size: 18px;
+        color: #555;
+    }
+
+        .social-icons a:hover {
+            color: #004f47;
+        }
+
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <h2><b>New Arrival</b></h2>
@@ -83,7 +184,7 @@
             Product added to cart!
         </div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-           
+
             @foreach (var product in Model)
             {
                 <div class="col mb-md-5">
@@ -122,9 +223,9 @@
                     </div>
 
                 </div>
-                
+
             }
-    
+
         </div>
         <div class="text-center">
             <a class="btn btn-outline-dark  w-25 " asp-action="UserIndex" asp-controller="product"
@@ -133,3 +234,72 @@
     </div>
 
 </section>
+<footer>
+    <div class="footer-container">
+        <div class="d-flex flex-column footer-section contact-info">
+            <div class="d-flex align-items-center">
+                <strong>
+                    <h3>
+                        <i class="fa-solid fa-couch " style="color: #0a5d5d; font-size:24px"></i>&nbsp;FunStore
+                    </h3>
+
+                </strong>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-map-marker-alt"></i>
+                <span class="ms-2">2357 Gordon Street</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-phone"></i>
+                <span class="ms-2">0123 456 789</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-envelope"></i>
+                <span class="ms-2">demo@gmail.com</span>
+            </div>
+
+        </div>
+
+        <div class="footer-section">
+            <h4>About us</h4>
+            <ul>
+                <li><a href="#">Our story</a></li>
+                <li><a href="#">Our team</a></li>
+                <li><a href="#">Designers</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Customer service</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="#">FAQ's</a></li>
+                <li><a href="#">Shipping</a></li>
+                <li><a href="#">Return</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section newsletter">
+            <h4>Newsletters</h4>
+            <form action="#">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
