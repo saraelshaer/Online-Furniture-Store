@@ -1,20 +1,23 @@
 ﻿@model User
 @{
-    ViewData["Title"] = "Customer Details";
+    ViewData["Title"] = "User Details";
     Layout = "AdminLayout";
 }
 
-
-        <div class="card shadow-lg w-75 mx-auto mt-5">
+<h2 class="mb-4">Users / Details</h2>
+<br />
+<br />
+<br />
+<div class="card shadow-sm  w-75 justify-content-center  mt-lg-4" style="margin:auto;">
             <div class="row g-0">
                 <!-- Image Section -->
                 <div class="col-md-4 d-flex align-items-center justify-content-center bg-light">
             <img src="/userImages/@Model.ImageFileName" class="img-thumbnail" alt="Profile Image" style="width: 350px; height: 450px;">
                 </div>
-                <!-- Student Details Section -->
+           
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h2 class="card-title text-center mb-4">Customer Details</h2>
+                       
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Name:</strong> @Model.FirstName @Model.LastName</li>
                             <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
@@ -23,11 +26,22 @@
                             <li class="list-group-item"><strong>State:</strong> @Model.State</li>
                             <li class="list-group-item"><strong>City:</strong> @Model.City</li>
                             <li class="list-group-item"><strong>Zip Code:</strong> @Model.ZipCode</li>
-                        </ul>
+                            <li class="list-group-item"><strong>Role:</strong> { 
+                        @foreach (var role in Model.UserRoles.Select(u => u.Role.Name))
+                        {
+                            @(role+" , ")
+                        }
+                            }
+                    </li>
+                    @if (Model.UserRoles.All(r => r.Role.Name.ToLower() != "admin"))
+                    {
+                        <li class="list-group-item"><strong>Number of Orders:</strong> @Model.Orders.Count()</li>
+                    }
+                </ul>
                         <div class="text-center mt-4">
-                            <a asp-controller="user" asp-action="index" class="btn btn-dark">Back To List</a>
+                    <a asp-controller="user" asp-action="index" class="btn btn-primary btn-lg px-4 ms-2">Back To List</a>
 
-                            <a asp-action="edit" asp-route-id="@Model.Id" class="btn btn-danger">
+                    <a asp-action="edit" asp-route-id="@Model.Id" class="btn btn-danger btn-lg px-4 ms-2">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         </div>

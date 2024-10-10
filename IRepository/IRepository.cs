@@ -1,4 +1,5 @@
 ﻿using FurnitureStore.Consts;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace FurnitureStore.IRepository
@@ -15,5 +16,8 @@ namespace FurnitureStore.IRepository
         IQueryable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T, U>> expression, string[] includes = null);
         object GetCartByUserId(int userId);
         bool Exists(Expression<Func<T, bool>> criteria);
+
+        public int Count(Expression<Func<T, bool>> criteria = null);
+        public decimal Sum(Expression<Func<T, decimal>> criteria); 
     }
 }

@@ -13,9 +13,17 @@
 
         @if (!Model.Any())
         {
-            <div id="empty-cart-message" class="container text-center">
-                <h3>Your cart is empty!</h3>
+            <div id="empty-cart-message" class="container">
+                <div class="no-message">
+                    <h2>Your Cart is Empty</h2>
+                    <p style="font-size:22px;">Add items to your cart and complete your purchase!</p>
+                    <a asp-controller="product" asp-action="UserIndex" class="btn  btn-dark mb-1 w-50 "
+                       style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;background-color: #0a5d5d ;">
+                        <i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now
+                    </a>
+                </div>
             </div>
+         
         }
         else
         {

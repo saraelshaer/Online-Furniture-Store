@@ -6,12 +6,10 @@
 }
 
 
-<br />
-<br />
-<br />
-<h2 style="padding: 10px; text-align: center;">Product Details</h2>
 
-<div class="container p-4 border rounded shadow-sm bg-light">
+<h2 class="mb-4">Products / Details</h2>
+
+<div class="container p-4 border rounded shadow-sm bg-light mt-lg-5" style="margin-top:190px;">
     <div class="row">
         <!-- Product Image Section -->
         <div class="col-md-5 text-center">
@@ -52,7 +50,7 @@
 
             <div class="text-center mt-4">
                 <a asp-action="AdminIndex" class="btn btn-primary btn-lg px-4 ms-2">Back to List</a>
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary btn-lg px-4 ms-2">Edit</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-danger btn-lg px-4 ms-2">Edit</a>
             </div>
         </div>
     </div>

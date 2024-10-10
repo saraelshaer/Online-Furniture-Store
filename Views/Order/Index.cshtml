@@ -15,7 +15,8 @@
             <th class="text-center">Customer</th>
             <th class="text-center"> Date</th>
             <th class="text-center">Total Price</th>      
-            <th class="text-center">Status</th>
+            <th class="text-center">Order Status</th>
+            <th class="text-center">Payment Status</th>
             <th class="text-center">Action</th>
         </tr>
     </thead>
@@ -38,7 +39,16 @@
                         : order.OrderStatus == OrderStatus.Delivered ? "bg-success"
                         : "bg-info")">@order.OrderStatus</span>
                     </td>
+                    <td class="text-center">
 
+                        <span class="badge
+                                              @(order.PaymentStatus == PaymentStatus.Pending ? "bg-primary"
+                                              : order.PaymentStatus == PaymentStatus.Failed ? "bg-secondary"
+                                              : order.PaymentStatus == PaymentStatus.Canceled? "bg-danger"
+                                              : order.PaymentStatus == PaymentStatus.Completed ? "bg-success"
+                                              : "bg-info")">@order.PaymentStatus</span>
+                 
+                    </td>
 
                     <td class="text-center">
                         <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-info"> <i class="fas fa-eye"></i></a>

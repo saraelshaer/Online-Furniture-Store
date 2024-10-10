@@ -139,7 +139,6 @@ namespace FurnitureStore.Controllers
                         string paypalOrderStatus = jsonResponse["status"]?.ToString() ?? "";
                         if (paypalOrderStatus == "COMPLETED")
                         {
-                            //return  RedirectToAction("PaymentSuccess");
                             PaymentSuccess();
                             return new JsonResult("success");
                         }
@@ -165,6 +164,7 @@ namespace FurnitureStore.Controllers
                     item.Product.StockQuantity = 0;
 
             }
+            order.User.Cart.CartProducts.Clear();
             _unitOfWork.Save();
            
         }

@@ -4,41 +4,126 @@
     ViewBag.Title = "Wishlist";
 }
 
+<style>
+    .product-list .card {
+        margin-bottom: 20px;
+    }
 
+    .product-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-bottom: none;
+    }
+
+
+        .product-card:hover {
+            filter: brightness(0.8);
+        }
+
+
+
+
+    .icons-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+
+    .product-card:hover .icons-overlay, .add-to-cart-div {
+        opacity: 1;
+    }
+
+
+
+
+    .wishlist-icon,
+    .view-icon {
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 600%;
+    }
+
+
+        .wishlist-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #ff6161; /* Red color on hover */
+        }
+
+        .view-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #0a5d5d; /* Red color on hover */
+        }
+
+        /* Optional: Adjust icon color when active */
+        .wishlist-icon.fa-solid {
+            color: #ff6161; /* Red for active wishlist icon */
+        }
+
+    #cart-message {
+        display: none;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+
+</style>
 <br />
 <br />
 <div class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <h2><b>WISHLIST</b></h2>
-
+        <div id="cart-message" class="alert alert-success" role="alert" style="display:none;">
+            Product added to cart!
+        </div>
         @if (Model.Any())
         {
             <div id="wishlist-container" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @foreach (var item in Model)
+                @foreach (var product in Model)
                 {
-                    <div class="col mb-md-5" id="wishlist-item-@item.Product.Id">
-                        <div class="card h-100 w-100">
-                            <span class="wish-icon">
-                                <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@item.Product.Id">
-                                    <i class="fa-heart  fa-solid" id="wishlist-icon-@item.Product.Id"></i>
+                    <div id="wishlist-item-@product.Product.Id" class="col mb-md-5">
+                        <div class="card h-90 w-100 product-card">
+                            <div class="icons-overlay">
+                                <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Product.Id">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <i class="fa-heart @(product.Product.WishListProducts.Any(wp => wp.ProductId == product.Product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)) ? "fa-solid" : "fa-regular") wishlist-icon" id="wishlist-icon-@product.Product.Id"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@product.Product.Id"></i>
+                                    }
                                 </a>
-                            </span>
 
-                            <img src="~/productImages/@item.Product.ImageFileName" class="card-img-top" alt="@item.Product.Name" style="height:250px;">
+                                <a href="@Url.Action("View", "Product", new { id = product.Product.Id })">
+                                    <i class="fa fa-eye view-icon"></i>
+                                </a>
+                            </div>
+
+                            <img class="card-img-top" src="~/productImages/@product.Product.ImageFileName" alt="@product.Product.Name" style="height:250px;" />
+
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <!-- Product name-->
-                                    <h4 class="fw-bolder product-name" >@item.Product.Name</h4>
-                                    <!-- Product price-->
-                                    <p class="item-price"><strong>@item.Product.Price.ToString("C")</strong></p>
+                                    <h4 class="fw-bolder product-name">@product.Product.Name</h4>
+                                    <p class="item-price"><strong>$@product.Product.Price</strong></p>
                                 </div>
                             </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@item.Product.Id" data-quantity="1">Add to Cart</a>
-                                </div>
-                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-outline-dark add-to-cart" style="color:#0a5d5d; background-color:#ffffff; border:1px solid #d3d3d3; width:100%; padding:10px;" data-product-id="@product.Product.Id" data-quantity="1">Add to Cart</button>
                         </div>
                     </div>
                 }
@@ -46,8 +131,14 @@
         }
         else
         {
-            <div id="empty-wishlist-message" class="container text-center">
-                <h3>Your wishlist is empty!</h3>
+            <div id="empty-cart-message" class="container" style="display:none;">
+                <div class="no-message">
+                    <h2>Your Wishlist is Empty</h2>
+                    <p style="font-size:22px;">Discover items you love and add them to your wishlist!</p>
+                    <a asp-controller="product" asp-action="UserIndex" class="btn  btn-dark mb-1 w-50 " style="font-size:1.1em; font-weight:600; padding:0.7375em 1.1875em;letter-spacing:1px;background-color: #0a5d5d ;">
+                        <i class="fa-solid fa-shop"></i>&nbsp;&nbsp;&nbsp;Shop Now
+                    </a>
+                </div>
             </div>
         }
     </div>
@@ -78,8 +169,8 @@
 
                             // Handle when the wishlist is empty
                             if (newCount === 0) {
-                                $('#wishlist-container').hide();  // Hide the wishlist items container
-                                $('#empty-wishlist-message').show();  // Show the "wishlist is empty" message
+                                $('#wishlist-container').hide();
+                                $('#empty-cart-message').show();
                             }
                         }
                     },
@@ -88,12 +179,8 @@
                     }
                 });
             });
-        });
-    </script>
 
-    <script>
-                $(document).ready(function () {
-            $(document).on('click', '.add-to-cart', function () {
+            $('.add-to-cart').on('click', function () {
                 var productId = $(this).data('product-id');
                 var quantity = $(this).data('quantity');
 
@@ -109,9 +196,11 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                      
-
-
+                            var messageDiv = $('#cart-message');
+                            messageDiv.slideDown();
+                            setTimeout(function () {
+                                messageDiv.slideUp();
+                            }, 3000);
                         } else {
                             alert('Failed to add product to cart.');
                         }
@@ -122,6 +211,5 @@
                 });
             });
         });
-
     </script>
 }
