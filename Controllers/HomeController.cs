@@ -19,7 +19,6 @@ namespace FurnitureStore.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //[Authorize]
         public IActionResult Index()
         {
             var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive && p.StockQuantity > 0, null, p => p.CreatedAt, OrderByDirection.Descending, 4);
@@ -41,6 +40,10 @@ namespace FurnitureStore.Controllers
         [Authorize]
         public IActionResult Dashboard()
         {
+            ViewBag.NoOfCustomers = _unitOfWork.UserRepository.Count();
+            ViewBag.NoOfOrders = _unitOfWork.OrderRepo.Count();
+            ViewBag.TotalSales = _unitOfWork.OrderRepo.Sum(o => o.TotalAmount);
+            ViewBag.PendingOrders = _unitOfWork.OrderRepo.Count(o => o.OrderStatus == Enums.OrderStatus.Pending);
             return View();
         }
 

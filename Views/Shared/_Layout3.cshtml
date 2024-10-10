@@ -81,12 +81,15 @@
                                 <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-arrow-right-from-bracket" style="color:#3b3f44;"></i>&nbsp;&nbsp;&nbsp;Sign Out</a></li>
                             </ul>
                         </div>
-
-                        <!-- Icons for Wishlist and Cart -->
-                        <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i></a>
-                        <a asp-controller="Cart" asp-action="Index">
-                            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i>      
-                        </a>
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <!-- Icons for Wishlist and Cart -->
+                            <a asp-controller="WishList" asp-action="index"><i class="fa-regular fa-heart fa-lg" style="color: #1c1e21;"></i></a>
+                            <a asp-controller="Cart" asp-action="Index">
+                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #1c1e21;"></i>
+                            </a>
+                        }
+                    
                     }
 
                     @if (!User.Identity.IsAuthenticated)

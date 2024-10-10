@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace FurnitureStore.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

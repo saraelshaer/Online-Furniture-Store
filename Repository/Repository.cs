@@ -2,6 +2,7 @@
 using FurnitureStore.Data;
 using FurnitureStore.IRepository;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace FurnitureStore.Repository
@@ -99,6 +100,19 @@ namespace FurnitureStore.Repository
 
         public bool Exists(Expression<Func<T, bool>> criteria) => _dbSet.Any(criteria);
 
-        
+        public int Count(Expression<Func<T, bool>> criteria = null)
+        {
+            IQueryable<T> query = _dbSet.AsQueryable();
+            if (criteria != null)
+            {
+                query = query.Where(criteria);
+            }
+            return query.Count();
+        }
+
+
+        public decimal Sum(Expression<Func<T, decimal>> criteria) => _dbSet.Sum(criteria);
+
+
     }
 }
