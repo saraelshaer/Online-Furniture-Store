@@ -44,7 +44,7 @@ namespace FurnitureStore.Controllers
                 products = products.Where(p => p.CategoryID == categoryId.Value);
             }
 
-            var categories = _unitOfWork.CategoryRepository.GetAll();
+            var categories = _unitOfWork.CategoryRepository.GetAll(c => c.IsActive);
 
             var viewModel = new ProductIndexViewModel
             {
@@ -54,8 +54,8 @@ namespace FurnitureStore.Controllers
             };
 
             return View(viewModel);
-            //var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive && p.StockQuantity >0, new[] { "Category" });
         }
+
 
         public IActionResult View(int id)
         {
@@ -77,7 +77,9 @@ namespace FurnitureStore.Controllers
         }
         public IActionResult Create()
         {
-            ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(), "Id", "Name");
+            var categories = _unitOfWork.CategoryRepository.GetAll(c => c.IsActive);
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
             return View();
         }
 
