@@ -275,3 +275,32 @@ h2 {
 	padding: 3px 6px;
 	font-size: 16px;
 }
+.footer-section {
+	flex: 1;
+	min-width: 180px;
+	margin: 0 20px;
+}
+
+.contact-info h3 {
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+}
+
+.contact-info i {
+	font-size: 24px;
+	margin-right: 8px;
+}
+
+.contact-info p {
+	font-size: 14px;
+	margin: 8px 0;
+}
+
+h4 {
+	font-size: 16px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+

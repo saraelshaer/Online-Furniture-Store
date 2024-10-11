@@ -2,52 +2,230 @@
 @{
 }
 
+<style>
+    .product-list .card {
+        margin-bottom: 20px;
+    }
 
+    .product-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-bottom: none;
+    }
+
+
+        .product-card:hover {
+            filter: brightness(0.8);
+        }
+
+
+
+
+    .icons-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+
+    .product-card:hover .icons-overlay, .add-to-cart-div {
+        opacity: 1;
+    }
+
+
+
+
+    .wishlist-icon,
+    .view-icon {
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 600%;
+    }
+
+
+        .wishlist-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #ff6161; /* Red color on hover */
+        }
+
+        .view-icon:hover {
+            transform: scale(1.2); /* Icon grows slightly on hover */
+            color: #0a5d5d; /* Red color on hover */
+        }
+
+        /* Optional: Adjust icon color when active */
+        .wishlist-icon.fa-solid {
+            color: #ff6161; /* Red for active wishlist icon */
+        }
+
+    #cart-message {
+        display: none;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    footer {
+        background-color: white;
+        padding: 40px 0;
+        border-top: 1px solid #e1e1e1;
+        font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 180px;
+        margin: 0 20px;
+    }
+
+    .contact-info h3 {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-info i {
+        font-size: 15px;
+        color: #333;
+        margin-right: 0px;
+    }
+
+    .contact-info p {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+
+    h4 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+            .footer-section ul li a {
+                text-decoration: none;
+                color: #555;
+                font-size: 16px;
+                transition:0.3s;
+            }
+
+                .footer-section ul li a:hover {
+                    color: #004f47;
+                }
+
+    .newsletter form {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+        .newsletter form input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 70%;
+            border-radius: 2px 0 0 2px;
+        }
+
+        .newsletter form button {
+            padding: 10px 20px;
+            background-color: #004f47;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 2px 2px 0;
+        }
+
+            .newsletter form button:hover {
+                background-color: #003b35;
+            }
+
+    .social-icons a {
+        margin-right: 10px;
+        font-size: 18px;
+        color: #555;
+    }
+
+        .social-icons a:hover {
+            color: #004f47;
+        }
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <h2><b>New Arrival</b></h2>
+        <div id="cart-message" class="alert alert-success" role="alert" style="display:none;">
+            Product added to cart!
+        </div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-           
+
             @foreach (var product in Model)
             {
                 <div class="col mb-md-5">
-                    <div class="card h-100 w-100">
-
-                        <span class="wish-icon">
+                    <div class="card h-90 w-100 product-card">
+                        <div class="icons-overlay">
                             <a href="javascript:void(0);" class="toggle-wishlist" data-product-id="@product.Id">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <i class="fa-heart @(product.WishListProducts.Any(wp=>wp.ProductId == product.Id  && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)) ? " fa-solid" : "fa-regular" )" id="wishlist-icon-@product.Id"></i>
+                                    <i class="fa-heart @(product.WishListProducts.Any(wp => wp.ProductId == product.Id && wp.WishList.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))  ? "fa-solid" : "fa-regular") wishlist-icon" id="wishlist-icon-@product.Id"></i>
                                 }
                                 else
                                 {
-                                    <i class="fa-heart fa-regular" id="wishlist-icon-@product.Id"></i>
+                                    <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@product.Id"></i>
                                 }
-
                             </a>
-                        </span>
-                        <!-- Product image-->
+
+                            <a href="@Url.Action("View", "Product", new { id = product.Id })">
+                                <i class="fa fa-eye view-icon"></i>
+                            </a>
+                        </div>
+
                         <img class="card-img-top" src="~/productImages/@product.ImageFileName" alt="@product.Name" style="height:250px;" />
-                        <!-- Product details-->
+
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <!-- Product name-->
                                 <h4 class="fw-bolder product-name">@product.Name</h4>
-                                <!-- Product price-->
-                                <p class="item-price"><strong> @product.Price.ToString("C")</strong></p>
+                                <p class="item-price"><strong>$@product.Price</strong></p>
                             </div>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@product.Id" data-quantity="1">Add to Cart</a>
-                            </div>
-                        </div>
+
+
                     </div>
+
+                    <div class="text-center">
+                        <btn class="btn btn-outline-dark  add-to-cart" style="color:#0a5d5d ;background-color:#ffffff;border:1px solid #d3d3d3;width:100% ;padding:10px ;" data-product-id="@product.Id" data-quantity="1">Add to Cart</btn>
+                    </div>
+
                 </div>
-                
+
             }
-    
+
         </div>
         <div class="text-center">
             <a class="btn btn-outline-dark  w-25 " asp-action="UserIndex" asp-controller="product"
@@ -56,3 +234,72 @@
     </div>
 
 </section>
+<footer>
+    <div class="footer-container">
+        <div class="d-flex flex-column footer-section contact-info">
+            <div class="d-flex align-items-center">
+                <strong>
+                    <h3>
+                        <i class="fa-solid fa-couch " style="color: #0a5d5d; font-size:24px"></i>&nbsp;FunStore
+                    </h3>
+
+                </strong>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-map-marker-alt"></i>
+                <span class="ms-2">2357 Gordon Street</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-phone"></i>
+                <span class="ms-2">0123 456 789</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa fa-envelope"></i>
+                <span class="ms-2">demo@gmail.com</span>
+            </div>
+
+        </div>
+
+        <div class="footer-section">
+            <h4>About us</h4>
+            <ul>
+                <li><a href="#">Our story</a></li>
+                <li><a href="#">Our team</a></li>
+                <li><a href="#">Designers</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Customer service</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="#">FAQ's</a></li>
+                <li><a href="#">Shipping</a></li>
+                <li><a href="#">Return</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section newsletter">
+            <h4>Newsletters</h4>
+            <form action="#">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+

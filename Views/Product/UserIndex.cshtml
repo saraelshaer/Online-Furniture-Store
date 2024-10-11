@@ -2,6 +2,7 @@
 @{
     var selectedCategory = Model.Categories.FirstOrDefault(c => c.Id == Model.SelectedCategoryId);
     ViewData["Title"] = "Product List";
+
 }
 <style>
     .sidebar {
@@ -13,7 +14,7 @@
         left: 0;
         background-color: #dfe2e3;
         overflow-x: hidden;
-        transition: 0.3s;
+        transition: 0.5s;
         padding-top: 200px;
     }
 
@@ -35,7 +36,6 @@
             padding: 8px 32px;
             text-decoration: none;
             font-size: 30px;
-            transition: 0.5s;
         }
 
 
@@ -79,7 +79,7 @@
         }
 
     #main {
-        transition: margin-left .5s;
+        transition: all .5s;
         padding: 16px;
     }
 
@@ -182,9 +182,9 @@
     <div class="container px-4 px-lg-5 mt-5">
         <div id="mySidebar" class="sidebar">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-            <p>Product Categories</p>
+            <p>Product&nbsp;Categories</p>
             <form method="get" action="@Url.Action("UserIndex", "Product")">
-                <button type="submit" name="categoryId" value="all">All Categories</button>
+                <button type="submit" name="categoryId" value="all">All&nbsp;Categories</button>
                 @foreach (var category in Model.Categories)
                 {
                     <button type="submit" name="categoryId" value="@category.Id">@category.Name</button>
@@ -194,10 +194,6 @@
 
         <div id="main">
             <button class="openbtn" onclick="openNav()">☰ Filter</button>
-
-            <div id="cart-message" class="alert alert-success" role="alert">
-                Product added to cart!
-            </div>
             @if (Model.SelectedCategoryId == null)
             {
                 <h2 style="font-size: 35px;"><b>All Products</b></h2>
@@ -206,6 +202,10 @@
             {
                 <h2 style="font-size: 35px;"><b>@selectedCategory.Name</b></h2>
             }
+
+            <div id="cart-message" class="alert alert-success" role="alert">
+                Product added to cart!
+            </div>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
 
@@ -311,11 +311,7 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                            // var messageDiv = $('#cart-message');
-                            // messageDiv.slideDown();
-                            // setTimeout(function () {
-                            //     messageDiv.slideUp();
-                            // }, 3000);
+                          
                               var currentCount = parseInt($('#cart-count').text());
                             var newCount = currentCount + 1;
                             $('#cart-count').text(newCount);

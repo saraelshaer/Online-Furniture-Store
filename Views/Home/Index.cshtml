@@ -20,11 +20,8 @@
 </section>
 
 <partial name="_NewArrival" model="Model"  />
+@section Scripts {
 
- @section Scripts {
-
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.toggle-wishlist').on('click', function () {
@@ -61,8 +58,9 @@
             });
         });
     </script>
+
     <script>
-         $(document).ready(function () {
+        $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
                 var productId = $(this).data('product-id');
                 var quantity = $(this).data('quantity');
@@ -96,7 +94,8 @@
         });
 
     </script>
- }
+
+}
 
 
 
