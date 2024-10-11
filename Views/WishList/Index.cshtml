@@ -130,7 +130,7 @@
         }
         else
         {
-            <div id="empty-cart-message" class="container" style="display:none;">
+            <div id="empty-cart-message" class="container" >
                 <div class="no-message">
                     <h2>Your Wishlist is Empty</h2>
                     <p style="font-size:22px;">Discover items you love and add them to your wishlist!</p>
@@ -168,8 +168,7 @@
 
                             // Handle when the wishlist is empty
                             if (newCount === 0) {
-                                $('#wishlist-container').hide();
-                                $('#empty-cart-message').show();
+                                location.reload();
                             }
                         }
                     },

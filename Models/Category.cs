@@ -9,10 +9,10 @@ namespace FurnitureStore.Models
 
         [Required(ErrorMessage = "❗Name is required.")]
         [MinLength(3 , ErrorMessage = "❗Name must be at least 3 characters long.")]
-        [MaxLength(15)]
+        [MaxLength(80)]
         public string Name { get; set; }
         [Required(ErrorMessage = "❗Description is required.")]
-        [MaxLength(100)]
+  
         public string Description { get; set; }
 
         public bool IsActive { get; set; } = true;

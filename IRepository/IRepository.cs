@@ -12,8 +12,8 @@ namespace FurnitureStore.IRepository
         void Update(T entity);
         void SoftDelete(T entity);
         void HardDelete(T entity);
-        T Find(Expression<Func<T, bool>> criteria , string[] includes = null);
-        IQueryable<U> FindAll<U>( Expression<Func<T, bool>> criteria, Expression<Func<T, U>> expression, string[] includes = null);
+        T Find(Expression<Func<T, bool>> criteria, string[] includes = null);
+        IQueryable<U> FindAll<U>(Expression<Func<T, bool>> criteria, Expression<Func<T, U>> expression, string[] includes = null);
         object GetCartByUserId(int userId);
         bool Exists(Expression<Func<T, bool>> criteria);
 
