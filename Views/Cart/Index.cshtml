@@ -60,8 +60,8 @@
                                 <td>
                                     <div class="input-group quantity-group">
                                         <button class="btn btn-outline-secondary minus-btn" type="button" data-product-id="@product.Id">-</button>
-                                        <input type="number" min="1" value="@cartProduct.Quantity" class="form-control text-center quantity-input" data-product-id="@product.Id" style="max-width: 60px;" />
-                                        <button class="btn btn-outline-secondary plus-btn" type="button" data-product-id="@product.Id">+</button>
+                                        <input type="number" min="1" max="@cartProduct.Product.StockQuantity" value="@cartProduct.Quantity" class="form-control text-center quantity-input" data-product-id="@product.Id" style="max-width: 60px;" />
+                                        <button class="btn btn-outline-secondary plus-btn" type="button" data-product-id="@product.Id" >+</button>
                                     </div>
                                 </td>
                                 <td>
@@ -135,17 +135,26 @@
                 var currentQuantity = parseInt(input.val());
 
                 if (currentQuantity > 1) {
+                    var currentCount = parseInt($('#cart-count').text());
+                    var newCount = currentCount - 1;
+                    $('#cart-count').text(newCount);
                     input.val(currentQuantity - 1);
                     updateQuantity(productId, input.val());
+                  
                 }
             });
 
             // Handle quantity increase
             $('.plus-btn').on('click', function () {
+                var currentCount = parseInt($('#cart-count').text());
+                var newCount = currentCount + 1;
+                $('#cart-count').text(newCount);
+
                 var productId = $(this).data('product-id');
                 var input = $(this).siblings('.quantity-input');
                 input.val(parseInt(input.val()) + 1);
                 updateQuantity(productId, input.val());
+              
             });
 
             // Handle manual quantity change
@@ -158,6 +167,11 @@
                     $(this).val(1);
                     return;
                 }
+                else{
+                    var currentCount = parseInt($('#cart-count').text());
+                    var newCount = currentCount - 1;
+                    $('#cart-count').text(newCount);
+                }
 
                 updateQuantity(productId, newQuantity);
             });
@@ -167,6 +181,9 @@
                 var productId = $(this).data('product-id');
                 $.post('/Cart/RemoveFromCart', { productId: productId }, function (response) {
                     if (response.success) {
+                        var currentCount = parseInt($('#cart-count').text());
+                        var newCount = currentCount;
+                        $('#cart-count').text(newCount);
                         location.reload(); 
                     } else {
                         alert('Error removing product from cart.');
@@ -178,6 +195,9 @@
                 // AJAX request to update quantity
                 $.post('/Cart/UpdateQuantity', { productId: productId, quantity: newQuantity }, function (response) {
                     if (response.success) {
+                        var currentCount = parseInt($('#cart-count').text());
+                        var newCount = currentCount;
+                        $('#cart-count').text(newCount);
                         location.reload();
                     } else {
                         alert('Error updating quantity.');

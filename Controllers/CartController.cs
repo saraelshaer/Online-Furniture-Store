@@ -71,14 +71,16 @@ namespace FurnitureStore.Controllers
                     };
 
                     cart.CartProducts.Add(item);
+                   
                     
+
                 }
                 else
                 {
                     cartItem.Quantity += quantity;
                   
                 }
-
+                
                 _unitOfWork.ProductRepository.Update(product);
                 _unitOfWork.Save();
 
@@ -86,7 +88,8 @@ namespace FurnitureStore.Controllers
 
                 response = new { isInCart = true };
             }
-
+            var size = Convert.ToInt32(TempData.Peek("NoOfCart")) + quantity;
+            TempData["NoOfCart"] = size;
             return Json(response);
         }
 
@@ -110,11 +113,13 @@ namespace FurnitureStore.Controllers
                     _unitOfWork.ProductRepository.Update(product);
                     _unitOfWork.Save();
 
+                    var size = Convert.ToInt32(TempData.Peek("NoOfCart")) - cartItem.Quantity;
+                    TempData["NoOfCart"] = size;
                     response = new { success = true};
                    
                 }
             }
-
+          
             return Json(response);
         }
 
@@ -133,7 +138,18 @@ namespace FurnitureStore.Controllers
                     var product = _unitOfWork.ProductRepository.Find(p => p.Id == productId);
                     if (product != null && quantity > 0 && quantity <= product.StockQuantity)
                     {
-                        product.StockQuantity += cartItem.Quantity - quantity;  
+                        var size = 0;
+                        if (cartItem.Quantity >= quantity)
+                        {
+                             size = Convert.ToInt32(TempData.Peek("NoOfCart")) - (cartItem.Quantity - quantity);
+                        }
+                        else 
+                        {
+                            size = Convert.ToInt32(TempData.Peek("NoOfCart")) +(quantity - cartItem.Quantity );
+                         
+                        }
+
+                        TempData["NoOfCart"] = size;
                         cartItem.Quantity = quantity; 
 
                         _unitOfWork.ProductRepository.Update(product);

@@ -4,7 +4,6 @@
 }
 <style>
     .product-container {
-
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -19,15 +18,120 @@
 
     .product-image {
         text-align: center;
-        margin-bottom: 0; 
+        margin-bottom: 0;
     }
 
     #cart-message {
-        display: none; 
+        display: none;
         width: 100%;
         text-align: center;
         margin-bottom: 15px;
     }
+
+    .review-section {
+        border: 1px solid #d3d3d3;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        margin-top: 30px;
+    }
+
+        .review-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+    .review-list {
+        margin-bottom: 30px;
+    }
+
+        .review-list .review-item {
+            border-bottom: 1px solid #e6e6e6;
+            padding: 15px 0;
+        }
+
+    .review-item .review-author {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .review-author img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .review-author .author-name {
+        font-weight: bold;
+    }
+
+    .review-item .review-rating {
+        color: #f4c150; 
+        margin-bottom: 10px;
+    }
+
+    .review-item .review-comment {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .rating-stars {
+        display: flex;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+        .rating-stars i {
+            font-size: 24px;
+            color: #ddd; 
+            transition: color 0.3s ease;
+        }
+
+            .rating-stars i.active {
+                color: #f4c150; 
+            }
+
+            .rating-stars i:hover,
+            .rating-stars i:hover ~ i {
+                color: #f4c150; 
+            }
+
+    .add-review-form {
+        margin-top: 20px;
+    }
+
+        .add-review-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .add-review-form button {
+            background-color: #0a5d5d;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+            .add-review-form button:hover {
+                background-color: #084949;
+            }
+
+    .review-item .review-date {
+        font-size: 12px; 
+        color: #777; 
+    }
+
+
+
 </style>
 
 <br />
@@ -47,30 +151,86 @@
 
         <div class="col-md-7">
             <div class="form-group mb-3">
-                <label class="fw-bold">Name:</label>
-                <p class="form-control-static">@Model.Name</p>
+                <h1 class="form-control-static">@Model.Name</h1>
+            </div>
+
+            <h5 class="form-control-static">$@Model.Price</h5>
+
+            <div class="form-group mb-3">
+                <p class="form-control-static" style="color: dimgray">@Model.Description</p>
             </div>
 
             <div class="form-group mb-3">
-                <label class="fw-bold">Description:</label>
-                <p class="form-control-static">@Model.Description</p>
-            </div>
-
-            <div class="form-group mb-3">
-                <label class="fw-bold">Price:</label>
-                <p class="form-control-static">$@Model.Price</p>
-            </div>
-
-            <div class="form-group mb-3">
-                <label class="fw-bold">Category:</label>
-                <p class="form-control-static">@Model.Category.Name</p>
+                <input type="number" id="quantity-input" class="form-control" min="1" value="1" />
             </div>
 
             <div class="text-center mt-4">
                 <a href="@Url.Action("UserIndex", "Product")" class="btn btn-outline-dark me-3">Continue Shopping</a>
-                <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@Model.Id" data-quantity="1">Add to Cart</a>
+                <a class="btn btn-outline-dark mt-auto add-to-cart " data-product-id="@Model.Id">Add to Cart</a>
             </div>
         </div>
+    </div>
+    <!-- Review Section -->
+    <div class="review-section">
+        <h3>Customer Reviews</h3>
+
+        <div class="review-list">
+            @if (Model.Reviews.Any())
+            {
+                @foreach (var review in Model.Reviews)
+                {
+                    <div class="review-item">
+                        <div class="review-author">
+                            <img src="~/userImages/@review.User.ImageFileName" alt="Author" />
+                            <span class="author-name">@review.User.FirstName @review.User.LastName </span>
+                        </div>
+                        <div class="review-rating">
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+                            @for (int i = review.Rating; i < 5; i++)
+                            {
+                                <i class="fa fa-star" style="color:#ddd"></i>
+                            }
+                        </div>
+                        <div class="review-comment">@review.Comment</div>
+                        <p class="review-date">@review.ReviewDate.ToString("MMMM dd, yyyy h:mm tt")</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>There are no reviews yet. Be the first to review this product!</p>
+            }
+        </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+            <div class="add-review-form">
+                <h3>Add a Review</h3>
+
+                <form asp-action="AddReview" method="post">
+                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                    <input type="hidden" id="selected-rating" name="Rating" value="0" />
+                    <label for="rating">Your rating<span style="color:red"> * </span></label>
+                    <div class="rating-stars">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa fa-star-o" data-value="@i"></i>
+                        }
+                    </div>
+
+                    <label for="comment">Your review<span style="color:red">*</span></label>
+                    <textarea id="comment" name="comment" rows="4" required></textarea>
+
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+    }
+    else
+    {
+        <p><a href="@Url.Action("Login", "Account")">Login</a> to leave a review.</p>
+    }
     </div>
 </div>
 
@@ -79,7 +239,7 @@
         $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
                 var productId = $(this).data('product-id');
-                var quantity = $(this).data('quantity');
+                var quantity = $('#quantity-input').val();
 
                 $.ajax({
                     url: '/Cart/AddToCart',
@@ -94,9 +254,9 @@
                     success: function (response) {
                         if (response.isInCart) {
                             var messageDiv = $('#cart-message');
-                            messageDiv.slideDown();  // Show the message with a slide effect
+                            messageDiv.slideDown();  
                             setTimeout(function () {
-                                messageDiv.slideUp();  // Hide the message after 3 seconds
+                                messageDiv.slideUp();  
                             }, 3000);
                         } else {
                             alert('Failed to add product to cart.');
@@ -108,7 +268,21 @@
                 });
             });
         });
+        $(document).ready(function () {
+            $('.rating-stars i').on('click', function () {
+                var value = $(this).data('value');
+                $('#selected-rating').val(value); // Store selected rating in a hidden field
+                $('.rating-stars i').removeClass('active');
+                $('.rating-stars i').each(function (index) {
+                    if (index < value) {
+                        $(this).addClass('active');
+                    }
+                });
+            });
+        });
+
     </script>
 }
+
 
 

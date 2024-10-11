@@ -60,11 +60,13 @@ namespace FurnitureStore.Controllers
                     wishlist.WishListProducts.Remove(wishlistItem);
                      
                 }
+               
                 _unitOfWork.ProductRepository.Update(product);
                 _unitOfWork.Save();
                
               
             }
+            TempData["NoOfWishlist"] = wishlist?.WishListProducts?.Count() ?? 0;
             return Json(response);
         }
     }

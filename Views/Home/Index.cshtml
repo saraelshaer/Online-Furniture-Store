@@ -42,11 +42,16 @@
                         if (response.isInWishlist) {
                             icon.removeClass('fa-regular').addClass('fa-solid');
                             icon.css('color', '#ff6161');  // Red color for heart
+                            var currentCount = parseInt($('#wishlist-count').text());
+                            var newCount = currentCount + 1;
+                            $('#wishlist-count').text(newCount);
 
                         } else {
                             icon.removeClass('fa-solid').addClass('fa-regular');
                             icon.css('color', '#23533c');  // Reset to default
-
+                            var currentCount = parseInt($('#wishlist-count').text());
+                            var newCount = currentCount - 1;
+                            $('#wishlist-count').text(newCount);
                         }
                     },
                     error: function () {
@@ -74,7 +79,9 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                           
+                            var currentCount = parseInt($('#cart-count').text());
+                            var newCount = currentCount + 1;
+                            $('#cart-count').text(newCount);
 
 
                         } else {

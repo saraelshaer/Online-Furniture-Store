@@ -32,6 +32,12 @@
             <a class="btn btn-outline-dark mt-auto add-to-cart" data-product-id="@product.Id" data-quantity="1">Add to Cart</a>
         </div>
     </div>
+    /////////
+@*     public IActionResult UserIndex()
+    {
+        var products = _unitOfWork.ProductRepository.GetAll(p => p.IsActive, new[] { "Category" });
+        return View(products);
+    } *@
 }
 
 

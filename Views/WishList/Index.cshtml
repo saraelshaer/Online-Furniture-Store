@@ -115,7 +115,9 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                      
+                        var currentCount = parseInt($('#cart-count').text());
+                        var newCount = currentCount + 1;
+                        $('#cart-count').text(newCount);
 
 
                         } else {
