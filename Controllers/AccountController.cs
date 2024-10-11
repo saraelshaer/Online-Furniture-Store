@@ -76,7 +76,7 @@ namespace FurnitureStore.Controllers
 
                     TempData["ImageProfile"] = loginUser.ImageFileName;
                     TempData["NoOfWishlist"] = loginUser.WishList?.WishListProducts?.Count() ?? 0;
-                    TempData["NoOfCart"] = loginUser.Cart?.CartProducts?.Sum(p=>p.Quantity) ?? 0;
+                    TempData["NoOfCart"] = loginUser.Cart?.CartProducts?.Where(p=>p.Product.IsActive).Sum(p=>p.Quantity) ?? 0;
                     var roles = _unitOfWork.UserRoleRepo.FindAll<string>(ur => ur.UserId == loginUser.Id, ur => ur.Role.Name, new[] {"Role"});
 
                     foreach (var role in roles)

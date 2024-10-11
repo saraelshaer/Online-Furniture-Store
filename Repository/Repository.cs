@@ -111,7 +111,16 @@ namespace FurnitureStore.Repository
         }
 
 
-        public decimal Sum(Expression<Func<T, decimal>> criteria) => _dbSet.Sum(criteria);
+        public decimal Sum(Expression<Func<T, decimal>> expression, Expression<Func<T, bool>> criteria = null)
+        {
+            IQueryable<T> query = _dbSet.AsQueryable();
+            if (criteria != null)
+            {
+                query = query.Where(criteria);
+            }
+            return query.Sum(expression);
+
+        }
 
 
     }

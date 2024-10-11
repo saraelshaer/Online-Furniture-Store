@@ -42,7 +42,7 @@ namespace FurnitureStore.Controllers
         {
             ViewBag.NoOfCustomers = _unitOfWork.UserRepository.Count(u=>u.UserRoles.Any(r=>r.Role.Name.ToLower() != "admin") && u.IsActive);
             ViewBag.NoOfOrders = _unitOfWork.OrderRepo.Count(o=>o.User.IsActive);
-            ViewBag.TotalSales = _unitOfWork.OrderRepo.Sum(o => o.TotalAmount);
+            ViewBag.TotalSales = _unitOfWork.OrderRepo.Sum(o => o.TotalAmount , o=> o.PaymentStatus == Enums.PaymentStatus.Completed);
             ViewBag.PendingOrders = _unitOfWork.OrderRepo.Count(o => o.OrderStatus == Enums.OrderStatus.Pending && o.User.IsActive);
             return View();
         }

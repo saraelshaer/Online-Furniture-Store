@@ -165,6 +165,7 @@ namespace FurnitureStore.Controllers
 
             }
             order.User.Cart.CartProducts.Clear();
+            TempData["NoOfCart"] = 0;
             _unitOfWork.Save();
            
         }

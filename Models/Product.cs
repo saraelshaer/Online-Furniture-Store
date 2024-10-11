@@ -12,7 +12,7 @@ namespace FurnitureStore.Models
         [MaxLength(30)]
         public string Name { get; set; }
         [Required]
-        [MaxLength(100)]
+        
         public string Description { get; set; }
 
         [Required(ErrorMessage = "❗Price is required.")]
@@ -24,7 +24,7 @@ namespace FurnitureStore.Models
 
       
         [StringLength(255, ErrorMessage = "❗Image file name cannot be longer than 255 characters.")]
-        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "❗Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
+        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif|webp)$", ErrorMessage = "❗Invalid image file format. Only .jpg, .jpeg, .png, and .gif are allowed.")]
         public string ImageFileName { get; set; } 
 
         [Required]
@@ -36,6 +36,7 @@ namespace FurnitureStore.Models
         [ForeignKey("Category")]
         public int CategoryID { get; set; }
         public virtual  Category Category { get; set; }
+
         [NotMapped]
         public IFormFile ProductImage { get; set; }
 

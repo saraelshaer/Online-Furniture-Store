@@ -146,7 +146,7 @@
     <div class="row product-row">
 
         <div class="col-md-5 product-image">
-            <img src="~/productImages/@Model.ImageFileName" alt="@Model.Name" class="img-fluid img-thumbnail" style="width:400px; height:500px;" />
+            <img src="~/productImages/@Model.ImageFileName" alt="@Model.Name" class="img-fluid img-thumbnail " style="width:800px; height:500px;" />
         </div>
 
         <div class="col-md-7">
@@ -253,11 +253,14 @@
                     },
                     success: function (response) {
                         if (response.isInCart) {
-                            var messageDiv = $('#cart-message');
-                            messageDiv.slideDown();  
-                            setTimeout(function () {
-                                messageDiv.slideUp();  
-                            }, 3000);
+                            // var messageDiv = $('#cart-message');
+                            // messageDiv.slideDown();  
+                            // setTimeout(function () {
+                            //     messageDiv.slideUp();  
+                            // }, 3000);
+                            var currentCount = parseInt($('#cart-count').text());
+                            var newCount = currentCount + 1;
+                            $('#cart-count').text(newCount);
                         } else {
                             alert('Failed to add product to cart.');
                         }

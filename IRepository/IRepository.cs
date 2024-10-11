@@ -18,6 +18,6 @@ namespace FurnitureStore.IRepository
         bool Exists(Expression<Func<T, bool>> criteria);
 
         public int Count(Expression<Func<T, bool>> criteria = null);
-        public decimal Sum(Expression<Func<T, decimal>> criteria); 
+        public decimal Sum(Expression<Func<T, decimal>> expression, Expression<Func<T, bool>> criteria = null);
     }
 }

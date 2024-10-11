@@ -12,7 +12,7 @@ namespace FurnitureStore.Models
         public int Rating { get; set; }
 
         [Required]
-        [MaxLength(100)]
+  
         public string Comment { get; set; }
 
         public DateTime ReviewDate { get; set; }
