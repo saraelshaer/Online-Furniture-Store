@@ -128,5 +128,14 @@ namespace FurnitureStore.Controllers
             return View(order);
         }
 
+        public IActionResult Delete(int id)
+        {
+            var order = _unitOfWork.OrderRepo.GetById(id);
+            order.OrderProducts.Clear();
+            _unitOfWork.OrderRepo.HardDelete(order);
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
+        }
+
     }
 }

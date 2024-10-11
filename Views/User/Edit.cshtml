@@ -64,24 +64,24 @@
                         <input type="hidden" asp-for="Id" value="@Model.Id"/>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="FirstName" class="form-label">First Name</label>
+                                <label asp-for="FirstName" class="form-label">First Name <span class="text-danger">*</span></label>
                                 <input asp-for="FirstName" class="form-control" >
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="LastName" class="form-label">Last Name</label>
+                                <label asp-for="LastName" class="form-label">Last Name <span class="text-danger">*</span></label>
                                 <input asp-for="LastName" class="form-control" >
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>                              
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="Phone" class="form-label">Phone Number</label>
+                                <label asp-for="Phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
                                 <input asp-for="Phone" class="form-control" placeholder="+20 1253458971">
                                 <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="Email" class="form-label">Email</label>
+                                <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input asp-for="Email" class="form-control" placeholder="name@example.com">
                                 <span asp-validation-for="Email" class="text-danger"> </span>
 

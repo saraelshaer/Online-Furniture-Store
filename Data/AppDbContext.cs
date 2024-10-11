@@ -62,27 +62,27 @@ namespace FurnitureStore.Data
                   new User
                   {
                       Id = 1,
-                      FirstName = "Sara",
-                      LastName = "Elshaer",
-                      Email = "elshaer@gmail.com",
-                      Password = "Sara123456??",
+                      FirstName = "Admin1",
+                      LastName = "AdminLastName",
+                      Email = "admin1@gmail.com",
+                      Password = "Admin123456??",
                       Phone = "+201235444441",
                       Country = "Egypt",
-                      State = "Damietta",
-                      City = "Damietta",
+                      State = "",
+                      City = "",
                       ZipCode = "1234"
                   },
                   new User
                   {
                       Id = 2,
-                      FirstName = "Sara",
-                      LastName = "Elazb",
-                      Email = "Elazb@gmail.com",
-                      Password = "Sara123456??",
+                      FirstName = "Admin2",
+                      LastName = "AdminLastName",
+                      Email = "admin2@gmail.com",
+                      Password = "Admin123456??",
                       Phone = "+201235444441",
                       Country = "Egypt",
-                      State = "Damietta",
-                      City = "Damietta",
+                      State = "",
+                      City = "",
                       ZipCode = "1234"
                   }
 
@@ -104,6 +104,23 @@ namespace FurnitureStore.Data
                   }
                 );
 
+            modelBuilder.Entity<UserRole>()
+               .HasData
+               (
+                 new UserRole
+                 {
+                     Id = 1,
+                     UserId = 1,
+                     RoleId = 1,
+                 },
+                 new UserRole
+                 {
+                     Id = 2,
+                     UserId = 2,
+                     RoleId = 1,
+                 }
+
+               );
 
 
             base.OnModelCreating(modelBuilder);

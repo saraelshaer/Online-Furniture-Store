@@ -65,7 +65,6 @@ namespace FurnitureStore.Controllers
             }
 
 
-            // create the request body
             JsonObject createOrderRequest = new JsonObject();
             createOrderRequest.Add("intent", "CAPTURE");
             JsonObject amount = new JsonObject();
@@ -75,9 +74,9 @@ namespace FurnitureStore.Controllers
             JsonArray purchaseUnits = new JsonArray(); purchaseUnits.Add(purchaseUnit1);
             createOrderRequest.Add("purchase_units", purchaseUnits);
 
-            // get access token
+        
             string accessToken = await GetPayPalAccessToken();
-            // send request
+    
             string url = PayPalUrl + "/v2/checkout/orders";
 
 
@@ -116,7 +115,7 @@ namespace FurnitureStore.Controllers
             {
                 return new JsonResult("error");
             }
-            // get access token
+    
             string accessToken = await GetPayPalAccessToken();
             string url = PayPalUrl + "/v2/checkout/orders/" + orderId + "/capture";
 

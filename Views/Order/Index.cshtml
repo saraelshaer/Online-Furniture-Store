@@ -52,7 +52,10 @@
 
                     <td class="text-center">
                         <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-info"> <i class="fas fa-eye"></i></a>
-                       @*  <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success"> <i class="fas fa-edit"></i> </a>   *@                
+                       @*  <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success"> <i class="fas fa-edit"></i> </a>   *@
+                        <a href="javascript:void(0)" class="btn btn-danger" onclick="confirmDelete('@order.Id', '@Url.Action("Delete", new { id = order.Id })')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
                     </td>
                 </tr>
             }
@@ -68,5 +71,28 @@
 </table>
 
 
+@section Scripts
+{
+    <script>
+        // Function to handle delete confirmation with SweetAlert
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Order",
+                text: "Are you sure about deleting this Order ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to the delete action
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
 
+}
 

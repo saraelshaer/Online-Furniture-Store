@@ -46,7 +46,5 @@ namespace FurnitureStore.Controllers
             ViewBag.PendingOrders = _unitOfWork.OrderRepo.Count(o => o.OrderStatus == Enums.OrderStatus.Pending && o.User.IsActive);
             return View();
         }
-
-   
     }
 }
