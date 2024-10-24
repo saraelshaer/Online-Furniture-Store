@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace FurnitureStore.Controllers
 {
@@ -118,17 +120,39 @@ namespace FurnitureStore.Controllers
         }
 
 
-        [HttpGet]
         public JsonResult CheckEmail(string Email)
         {
             var user = _unitOfWork.UserRepository.Find(u => u.Email == Email);
             if (user != null)
             {
-                return Json($"Email {Email} is already in use."); 
+                return Json($"❗Email {Email} is already in use."); 
             }
             return Json(true);  
         }
 
-
+        public JsonResult CheckPassword(string Password)
+        {
+            if (Password.Length < 8)
+            {
+                return Json("❗Password must be at least 8 characters long.");
+            }
+            else if (!Regex.IsMatch(Password, @"[A-Z]"))
+            {
+                return Json("❗Password must contain at least one uppercase letter.");
+            }
+            else if (!Regex.IsMatch(Password, @"[a-z]"))
+            {
+                return Json("❗Password must contain at least one lowercase letter.");
+            }
+            else if (!Regex.IsMatch(Password, @"[0-9]"))
+            {
+                return Json("❗Password must contain at least one digit.");
+            }
+            else if (!Regex.IsMatch(Password, @"[_!@#$%?]"))
+            {
+                return Json("❗Password must contain at least one special character ( _ ,!, @, #, $, %, ?).");
+            }
+            return Json(true);
+        }
     }
 }

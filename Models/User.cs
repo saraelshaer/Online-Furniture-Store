@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FurnitureStore.Validators;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,13 +22,14 @@ namespace FurnitureStore.Models
 
 
         [Required(ErrorMessage = "❗Password is required")]
-        [MinLength(8, ErrorMessage = "❗Password must be at least 8 characters long.")]
         [DataType(DataType.Password)]
+        //[Password]
+        [Remote(action: "CheckPassword", controller: "Account")]
         public string Password { get; set; }
 
         [NotMapped]
         [Required(ErrorMessage = "❗Please confirm your password.")]
-        [Compare("Password")]
+        [Compare("Password",ErrorMessage = "❗Confirm Password and Password do not match.")]
         [MinLength(8, ErrorMessage = "❗Confirm password must be at least 8 characters long.")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
