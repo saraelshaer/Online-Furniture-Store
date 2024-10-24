@@ -30,6 +30,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user)
         {
             if (ModelState.IsValid)
@@ -59,6 +60,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid) 
