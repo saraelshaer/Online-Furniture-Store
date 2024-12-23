@@ -19,7 +19,7 @@ namespace FurnitureStore
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("con2"));
+                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

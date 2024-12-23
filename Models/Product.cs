@@ -11,7 +11,7 @@ namespace FurnitureStore.Models
         [MinLength(3)]
         [MaxLength(100)]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "❗Description is required.")]
         
         public string Description { get; set; }
 
@@ -32,7 +32,7 @@ namespace FurnitureStore.Models
 
         public bool IsActive { get; set; } = true;
 
-        [Required]
+        [Required(ErrorMessage = "❗Category is required.")]
         [ForeignKey("Category")]
         public int CategoryID { get; set; }
         public virtual  Category Category { get; set; }

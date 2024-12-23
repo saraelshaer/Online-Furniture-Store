@@ -83,6 +83,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
@@ -128,7 +129,9 @@ namespace FurnitureStore.Controllers
             ViewBag.Categories = new SelectList(_unitOfWork.CategoryRepository.GetAll(c=>c.IsActive), "Id", "Name");
             return View(product);
         }
+
         [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Product product)
         {
             if (ModelState.IsValid)
