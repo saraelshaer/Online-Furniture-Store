@@ -57,6 +57,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Details(UserOrderViewModel model)
         {
             if (ModelState.IsValid)
@@ -94,6 +95,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Checkout(Order order)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

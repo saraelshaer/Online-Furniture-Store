@@ -53,6 +53,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(ProfileViewModel model)
         {
             if (ModelState.IsValid) 

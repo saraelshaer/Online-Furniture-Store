@@ -36,6 +36,7 @@ namespace FurnitureStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
             if (ModelState.IsValid)
@@ -55,7 +56,9 @@ namespace FurnitureStore.Controllers
             }
             return View(category);
         }
+
         [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
