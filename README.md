@@ -1,4 +1,4 @@
-# 🛋 Online Furniture Store  
+# 🛋 FunStore  
 
 This is a Furniture Store Website built using **ASP.NET Core MVC**. It allows users to browse products, add them to their wishlist and cart, place orders, make payments using PayPal, and manage their profiles. Admins have full control over managing products, categories, users, and orders, as well as assigning roles to users.
 
